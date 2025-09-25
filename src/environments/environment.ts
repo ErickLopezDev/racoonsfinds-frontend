@@ -1,1 +1,1 @@
-export const url = 'http://localhost:8099/api/';
+export const url = 'https://lumen-api-2.onrender.com/api/';
