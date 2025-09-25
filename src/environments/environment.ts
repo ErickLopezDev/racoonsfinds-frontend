@@ -1,1 +1,1 @@
-export const url = 'https://lumen-api-1.onrender.com/api/';
+export const url = 'https://lumen-api-2.onrender.com/api/';
