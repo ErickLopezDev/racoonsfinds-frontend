@@ -16,7 +16,6 @@ export class UserStateService {
 
   constructor() {
     const token = localStorage.getItem(this.tokenNameLs);
-
     if (token) {
       this._token.set(token);
     }

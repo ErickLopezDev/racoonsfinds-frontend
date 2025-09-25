@@ -29,6 +29,7 @@ export class LoginComponent {
   private AuthService: AuthService = inject(AuthService);
   private toast: ToastStateService = inject(ToastStateService);
   private router: Router = inject(Router)
+  private userStateService: UserStateService = inject(UserStateService);
 
   form!: FormGroup;
 
@@ -52,6 +53,7 @@ export class LoginComponent {
       this.AuthService.login(req).subscribe({
         next: (response) => {
           localStorage.setItem('token', response.accessToken);
+          this.userStateService.setToken(response.accessToken);
           this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Has ingresado', life: 3000 });
           this.router.navigate(['/GBO/books']);
         },

@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { ToastStateService } from './shared/services/toast.service';
+import { UserStateService } from './shared/services/user-state.service';
 
 @Component({
   selector: 'app-root',
