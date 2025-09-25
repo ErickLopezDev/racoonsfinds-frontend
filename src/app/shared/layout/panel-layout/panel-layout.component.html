@@ -1,0 +1,52 @@
+<div class="panel-layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <!-- Logo/Brand -->
+        <div class="sidebar-header">
+            <div class="brand-container">
+                <i class="pi pi-spin pi-bitcoin text-2xl text-white"></i>
+            </div>
+        </div>
+
+        <!-- Navigation Items -->
+        <nav class="sidebar-nav">
+
+            <div class="nav-items">
+                <div *ngFor="let item of sidebarItems; trackBy: trackByItemId" class="nav-item"
+                    [class.active]="isRouteActive(item.routerLink)" (click)="onSidebarItemClick(item)"
+                    [routerLink]="item.routerLink" routerLinkActive="active" [pTooltip]="item.tooltip"
+                    tooltipPosition="right">
+
+                    <i [class]="item.icon" class="nav-icon"></i>
+
+                    <!-- Badge si existe -->
+                    <span *ngIf="item.badge" class="nav-badge">{{ item.badge }}</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Bottom Section -->
+        <div class="sidebar-footer">
+
+            <!-- Settings -->
+            <p-button [rounded]="true" icon="pi pi-sign-out" severity="danger" (click)="onLogout()"
+                class="nav-item settings" routerLinkActive="active" pTooltip="Cerrar sesión" tooltipPosition="right">
+            </p-button>
+
+            <!-- User Profile -->
+            <div class="user-profile" pTooltip="Mi Perfil" tooltipPosition="right">
+                <p-avatar label="U" [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }" shape="circle" />
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content py-5 px-6">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>

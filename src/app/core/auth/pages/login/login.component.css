@@ -1,0 +1,10 @@
+.bg-login {
+    background-color: hsla(239, 84%, 71%, 1);
+    background-image:
+        radial-gradient(at 80% 0%, hsla(257, 100%, 24%, 1) 0px, transparent 50%),
+        radial-gradient(at 0% 51%, hsla(189, 100%, 58%, 1) 0px, transparent 50%),
+        radial-gradient(at 50% 47%, hsla(258, 100%, 76%, 1) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, hsla(233, 45%, 65%, 1) 0px, transparent 50%),
+        radial-gradient(at 80% 100%, hsla(242, 100%, 70%, 1) 0px, transparent 50%),
+        radial-gradient(at 0% 0%, hsla(240, 93%, 80%, 1) 0px, transparent 50%);
+}

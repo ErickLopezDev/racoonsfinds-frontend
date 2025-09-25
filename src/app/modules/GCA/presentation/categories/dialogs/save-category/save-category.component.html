@@ -1,0 +1,15 @@
+<p-dialog header="Guardar Categoria" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <form [formGroup]="form" class="flex flex-col gap4">
+        <div class="flex flex-col items-start gap-4 mb-4">
+            <label for="name" class="font-semibold w-24">Nombre</label>
+            <input pInputText fluid formControlName="name" id="name" class="flex-auto" autocomplete="off" />
+        </div>
+        <div class="flex flex-col items-start gap-4 mb-8">
+            <label for="description" class="font-semibold w-24">Descripción</label>
+            <input pInputText fluid formControlName="description" id="description" class="flex-auto" autocomplete="off" />
+        </div>
+        <div class="flex justify-end gap-4">
+            <p-button label="Guardar" (onClick)="save()" [disabled]="form.invalid" [raised]="true" />
+        </div>
+    </form>
+</p-dialog>
