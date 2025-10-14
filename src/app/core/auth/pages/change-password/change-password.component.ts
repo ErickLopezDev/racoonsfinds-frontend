@@ -21,8 +21,8 @@ export class ChangePasswordComponent {
 
   constructor() {
     this.form = this._fb.group({
-      password: ['admin123', [Validators.required, Validators.minLength(6)]],
-      repeatPassword: ['admin123', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      repeatPassword: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
