@@ -1,0 +1,72 @@
+<div class="w-full h-full flex flex-col gap-5 justify-center items-center">
+    <div class="w-[400px] h-[100px]">
+        <p-card class="">
+
+            <div class="flex gap-4 items-center w-full h-full">
+
+                <p-avatar label="P" shape="circle" class="mr-2" size="xlarge" />
+
+                <div class="flex flex-col flex-1">
+                    <h3 class="text-xl font-bold line-clamp-1">Brayan Anthony Alaya Alaya</h3>
+                    <h2 class="text-lg text-gray-600 line-clamp-1">{{'brayan.alaya@hotmail.com'}}</h2>
+                </div>
+
+            </div>
+
+        </p-card>
+    </div>
+    <div class="w-[400px] ">
+        <p-card class="">
+
+            <div class="flex flex-col justify-between gap-3 w-full h-[220px]">
+
+                <button (click)="redirectToEdit()" class="flex justify-center items-center w-full gap-4 h-[70px]">
+                    <span class="flex justify-center items-center h-[30px] w-[30px] bg-primary-600 shadow-xl rounded-full">
+                        <i class="pi pi-user text-[10px] text-white"></i>
+                    </span>
+
+                    <div class="flex-1 flex justify-center flex-col text-left">
+                        <h3 class="text-lg font-semibold">
+                            Datos de Cuenta
+                        </h3>
+                        <p class="text-[12px] text-gray-500">Información del perfil</p>
+                    </div>
+
+                    <i class="pi pi-angle-right text-2xl text-black"></i>
+                </button>
+
+                <button class="flex justify-center items-center w-full gap-4 h-[70px]">
+                    <span class="flex justify-center items-center h-[30px] w-[30px] bg-primary-600 shadow-xl rounded-full">
+                        <i class="pi pi-key text-[10px] text-white"></i>
+                    </span>
+
+                    <div class="flex-1 flex justify-center flex-col text-left">
+                        <h3 class="text-lg font-semibold">
+                            Cambiar Contraseña
+                        </h3>
+                        <p class="text-[12px] text-gray-500">Cambiar la contraseña de la cuenta</p>
+                    </div>
+
+                    <i class="pi pi-angle-right text-2xl text-black"></i>
+                </button>
+                
+                <button class="flex justify-center items-center w-full gap-4 h-[70px]">
+                    <span class="flex justify-center items-center h-[30px] w-[30px] bg-primary-600 shadow-xl rounded-full">
+                        <i class="pi pi-trash text-[10px] text-white"></i>
+                    </span>
+
+                    <div class="flex-1 flex justify-center flex-col text-left">
+                        <h3 class="text-lg font-semibold">
+                            Cancelar cuenta
+                        </h3>
+                        <p class="text-[12px] text-gray-500">Cancela tu cuenta (No volveras a tener acceso)</p>
+                    </div>
+
+                    <i class="pi pi-angle-right text-2xl text-black"></i>
+                </button>
+
+            </div>
+
+        </p-card>
+    </div>
+</div>

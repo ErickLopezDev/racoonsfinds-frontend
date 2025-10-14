@@ -1,0 +1,27 @@
+::ng-deep .p-menubar {
+    background: transparent !important;
+    color: white !important;
+    border: none !important;
+}
+
+::ng-deep .p-menubar-item-link {
+    color: white !important;
+}
+
+::ng-deep .p-menubar-item-content:hover {
+    background: none !important;
+    color: white !important;
+}
+
+::ng-deep .p-menubar-item-content:hover {
+    background: none !important;
+    color: white !important;
+}
+
+::ng-deep .p-menubar-item-icon {
+    color: white !important;
+}
+
+::ng-deep .p-menubar-item.p-focus > .p-menubar-item-content {
+    background-color: transparent !important;
+}

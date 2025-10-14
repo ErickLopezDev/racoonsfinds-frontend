@@ -9,17 +9,15 @@ import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AuthService } from '../../config/services/auth.service';
-import { MessageService } from 'primeng/api';
-import { Toast } from 'primeng/toast';
 import { ILoginReq } from '../../config/services/auth.model';
 import { ToastStateService } from '../../../../shared/services/toast.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserStateService } from '../../../../shared/services/user-state.service';
 
 
 @Component({
   selector: 'app-login',
-  imports: [CardModule, FloatLabelModule, InputIconModule, IconFieldModule, InputTextModule, IftaLabelModule, ReactiveFormsModule, ButtonModule, PasswordModule],
+  imports: [CardModule, FloatLabelModule, InputIconModule, IconFieldModule, InputTextModule, IftaLabelModule, ReactiveFormsModule, ButtonModule, PasswordModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -35,7 +33,7 @@ export class LoginComponent {
 
   constructor() {
     this.form = this._fb.group({
-      username: ['admin@lumen.com', [Validators.required, Validators.email]],
+      username: ['admin@admin.com', [Validators.required, Validators.email]],
       password: ['admin123', [Validators.required, Validators.minLength(6)]]
     })
   }

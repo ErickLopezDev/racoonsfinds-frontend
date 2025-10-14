@@ -1,0 +1,71 @@
+<div class="w-full h-full">
+
+    <p-card>
+
+        <p-breadcrumb [model]="items" />
+
+        <div class="flex mt-6 gap-[20px]">
+
+            <section class="flex flex-col gap-3 flex-1">
+
+                <p-iftalabel>
+                    <input fluid pInputText id="username" autocomplete="off" />
+                    <label for="username">Nombres*</label>
+                </p-iftalabel>
+
+                <p-iftalabel>
+                    <p-datepicker inputId="date" fluid showIcon iconDisplay="input" />
+                    <label for="date">Date</label>
+                </p-iftalabel>
+
+                <p-iftalabel>
+                    <input fluid pInputText id="email" [value]="'brayan.alaya@hotmail.com'" [disabled]="true"
+                        autocomplete="off" />
+                    <label for="email">Correo Electronico</label>
+                </p-iftalabel>
+
+                <p-iftalabel>
+                    <input fluid pInputText id="password" [disabled]="true" [value]="'***********'"
+                        autocomplete="off" />
+                    <label for="password">Contraseña</label>
+                </p-iftalabel>
+
+                <p-button label="Cambiar Contraseña" [raised]="true" fluid severity="secondary" />
+
+            </section>
+
+
+            <section class="flex-1 flex gap-10 flex-col">
+
+                <fieldset class="flex flex-col items-center h-full justify-between">
+
+                    <span
+                        class="w-[250px] flex justify-center items-center h-[250px] border-gray-300 shadow-xl border-[5px rounded-full">
+                        @if (hasImage) {
+                        <img class="w-full h-full" [src]="srcImage" alt="">
+                        } @else {
+                        <i class="pi pi-user text-[150px] text-gray-300"></i>
+                        }
+                    </span>
+
+                    <input class="invisible" accept="image/*" #imageUserUploader type="file"
+                        (change)="uploadimage($event)">
+
+                    <div class="flex gap-4">
+                        <p-button (click)="imageUserUploader.click()" label="Subir Imagen" [raised]="true"
+                            severity="secondary" />
+                        <p-button (click)="deleteImage()" label="Subir Imagen" [raised]="true" severity="danger" />
+                    </div>
+                </fieldset>
+
+            </section>
+
+
+        </div>
+
+        <div class="mx-auto mt-10 max-w-[500px]">
+            <p-button label="Guardar Cambios" fluid [raised]="true" />
+        </div>
+    </p-card>
+
+</div>

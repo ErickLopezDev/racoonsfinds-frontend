@@ -24,34 +24,42 @@ export class SidebarService {
   private defaultItems: SidebarItem[] = [
     {
       id: 'gbo',
-      label: 'Gestión de Books',
-      icon: 'pi pi-book',
-      routerLink: '/GBO/books',
-      tooltip: 'Gestión de Libros',
+      label: 'Inicio',
+      icon: 'pi pi-home',
+      routerLink: '/dash/user',
+      tooltip: 'Inicio',
       isVisible: true
     },
     {
       id: 'dashboard',
-      label: 'Gestión de Categorias',
-      icon: 'pi pi-home',
-      routerLink: '/GCA/category',
-      tooltip: 'Panel Principal',
+      label: 'Publicaciones',
+      icon: 'pi pi-bookmark',
+      routerLink: '/dash/products',
+      tooltip: 'Publicaciones',
       isVisible: true
     },
     {
       id: 'grs',
-      label: 'Gestión de Reservas',
-      icon: 'pi pi-calendar',
-      routerLink: '/GRS/reservation',
-      tooltip: 'Gestión de Reservas',
+      label: 'Mis ventas',
+      icon: 'pi pi-shop',
+      routerLink: '/dash/sales',
+      tooltip: 'Mis ventas',
       isVisible: true
     },
     {
       id: 'gsa',
-      label: 'Gestión de Ventas',
-      icon: 'pi pi-shopping-cart',
-      routerLink: '/GSA/sales',
-      tooltip: 'Gestión de Ventas',
+      label: 'Historial',
+      icon: 'pi pi-history',
+      routerLink: '/dash/purchases',
+      tooltip: 'Historial',
+      isVisible: true
+    },
+    {
+      id: 'gsa',
+      label: 'Deseados',
+      icon: 'pi pi-star-fill',
+      routerLink: '/dash/wishlist',
+      tooltip: 'Deseados',
       isVisible: true
     }
   ];

@@ -1,0 +1,45 @@
+<p-dialog [(visible)]="display" [modal]="true" [closable]="false" ngClass="shadow-md" [style]="{ width: '820px'}"
+  [position]="'center'" [draggable]="false" [resizable]="false" [transitionOptions]="'0ms'">
+
+  <div class="flex gap-5 justify-between items-start w-full">
+    <div class="flex flex-1 flex-col gap-3">
+
+      <!-- titulo del modal -->
+      <h2 class="font-heading-05 m-0 font-bold">{{title()}}</h2>
+
+      <!-- mensaje descriptivo -->
+      <p *ngIf="message() != null" class="font-body-02">{{message()}}</p>
+
+      <!-- formulario para validar si desea hacer una accion -->
+      <form class="flex flex-col w-full gap-2" [formGroup]="form">
+        <fieldset *ngIf="validateWord() != null" class="flex flex-col gap-2">
+          <label for="validateWord" class="font-body-04 font-medium">Ingresar texto<span class="text-[--gray-70]">
+              “{{validateWord()}}”</span></label>
+          <input id="validateWord" autocomplete="off" placeholder="Ingresar texto" type="text" pInputText
+            formControlName="validateWord" />
+          <p-message *ngIf="form.get('validateWord')?.invalid && form.get('validateWord')?.touched" variant="simple"
+            severity="error" size="small">
+            <p class="flex items-center gap-1"><img class="w-4 h-4" src="assets/icons/estados/incorrect.svg" alt="">
+              Campo requerido</p>
+          </p-message>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+  <ng-template #footer>
+    <div class="px-6 py-4 bg-[var(--gray-20)] w-full flex gap-3 justify-end items-center">
+
+      <p-button *ngIf="textCancelButton() != null" severity="secondary"
+        (click)="closeDialog()">{{textCancelButton()}}</p-button>
+      <button class="rounded-md p-2 cursor-pointer h-[36px] {{tipo()}}" [ngClass]="tipo()"
+        *ngIf="validateWord() == null && textAcceptButton() != null"
+        (click)="onSubmit()">{{textAcceptButton()}}</button>
+      <button class="rounded-md disabled:cursor-not-allowed h-[36px] disabled:opacity-50 p-2 cursor-pointer {{tipo()}}"
+        [ngClass]="tipo()" *ngIf="validateWord() != null " [disabled]="form.invalid"
+        (click)="onSubmit()">{{textAcceptButton()}}</button>
+
+    </div>
+  </ng-template>
+
+</p-dialog>

@@ -1,0 +1,15 @@
+::ng-deep .p-carousel {
+    height: 100% !important;
+}
+
+::ng-deep .p-carousel-content {
+    height: calc(100% - 40px) !important;
+}
+
+::ng-deep .p-carousel-content-container {
+    height: 100% !important;
+}
+
+::ng-deep .p-carousel-item-list {
+    height: 100% !important;
+}

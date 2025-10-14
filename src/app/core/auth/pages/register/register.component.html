@@ -1,0 +1,45 @@
+<form class="flex relative z-[2] flex-col w-[250px] justify-between" [formGroup]="form">
+    <div class="flex flex-col gap-1 mb-5">
+        <h1 class="text-4xl font-bold drop-shadow-md text-white">Bienvenido a,</h1>
+        <p class="text-1xl font-medium drop-shadow-md text-white">Marketplace</p>
+    </div>
+
+    <div class="flex flex-col gap-7">
+        <div class="flex w-full flex-col gap-3">
+            <p-iftalabel>
+                <input fluid pInputText id="username" formControlName="username" autocomplete="off" />
+                <label for="username">Username</label>
+            </p-iftalabel>
+
+            <p-floatlabel variant="in">
+                <p-datepicker fluid formControlName="birthdate" [showIcon]="true" inputId="birthdate" [showOnFocus]="false" />
+                <label for="birthdate">Fecha de nacimiento</label>
+            </p-floatlabel>
+
+            <p-iftalabel>
+                <input fluid pInputText id="email" formControlName="email" autocomplete="off" />
+                <label for="email">Username</label>
+            </p-iftalabel>
+
+            <p-iftalabel>
+                <p-password fluid formControlName="password" inputId="password" [toggleMask]="true" />
+                <label for="password">Contraseña</label>
+            </p-iftalabel>
+
+            <p-iftalabel>
+                <p-password fluid formControlName="repeatPassword" inputId="repeatPassword" [toggleMask]="true" />
+                <label for="repeatPassword">Repetir Contraseña</label>
+            </p-iftalabel>
+        </div>
+        <div class="flex flex-col gap-4 w-full">
+            <p-button label="Registrar" fluid [disabled]="this.form.invalid" (onClick)="onSubmit()" />
+            <div class="flex flex-col gap-1">
+                <p class="text-gray-200 text-[13px]">Ya tienes cuenta? <a routerLink="/auth"
+                        class="underline text-indigo-500">Ingresar</a> </p>
+                <p class="text-gray-200 text-[13px]">Haz olvidado tu contraseña? <a routerLink="/auth/recover"
+                        class="underline text-indigo-500">Recuperar</a> </p>
+            </div>
+        </div>
+    </div>
+
+</form>

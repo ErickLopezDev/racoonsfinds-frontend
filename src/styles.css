@@ -15,3 +15,37 @@
 body {
     font-family: 'Roboto', sans-serif;
 }
+
+.p-card {
+    height: 100% !important;
+}
+
+.p-breadcrumb {
+    padding: 0px !important;
+}
+
+.p-tablist-tab-list {
+    width: 100% !important;
+    display: flex !important;
+}
+
+.p-tabs {
+    height: 100% !important;
+}
+
+.p-tab {
+    flex: 1 !important;
+    text-align: center !important;
+}
+
+.p-card-body {
+    height: 100% !important;
+}
+
+.p-card-content {
+    height: 100% !important;
+}
+
+.p-tabpanels {
+    height: calc(100% - 60px) !important;
+}

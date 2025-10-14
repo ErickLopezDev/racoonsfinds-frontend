@@ -1,21 +1,30 @@
-<div class="flex justify-start items-center bg-login w-full h-[100vh]">
+<form class="flex relative z-[2] flex-col w-[250px] justify-between" [formGroup]="form">
+    <div class="flex flex-col gap-1 mb-5">
+        <h1 class="text-4xl font-bold drop-shadow-md text-white">Bienvenido a,</h1>
+        <p class="text-1xl font-medium drop-shadow-md text-white">Marketplace</p>
+    </div>
 
-    <div class="w-[300px] flex items-center h-full backdrop-blur-xl bg-white/10 p-10 rounded-lg shadow-lg">
-        <div class="flex flex-col items-center gap-8" [formGroup]="form">
-            <h1 class="text-5xl font-bold drop-shadow-md text-white">Login</h1>
-
-            <p-floatlabel>
+    <div class="flex flex-col gap-7">
+        <div class="flex w-full flex-col gap-3">
+            <p-iftalabel>
                 <input fluid pInputText id="username" formControlName="username" autocomplete="off" />
-                <label for="username">Correo</label>
-            </p-floatlabel>
+                <label for="username">Username</label>
+            </p-iftalabel>
 
-            <p-floatlabel>
+            <p-iftalabel>
                 <p-password fluid formControlName="password" inputId="password" [toggleMask]="true" />
                 <label for="password">Contraseña</label>
-            </p-floatlabel>
-
-            <p-button label="Ingresar" [disabled]="this.form.invalid" (onClick)="onSubmit()" />
+            </p-iftalabel>
+        </div>
+        <div class="flex flex-col gap-4 w-full">
+            <p-button label="Ingresar" fluid [disabled]="this.form.invalid" (onClick)="onSubmit()" />
+            <div class="flex flex-col gap-1">
+                <p class="text-gray-200 text-[13px]">Aún no tienes cuenta? <a routerLink="/auth/register"
+                        class="underline text-indigo-500">Registrate</a> </p>
+                <p class="text-gray-200 text-[13px]">Haz olvidado tu contraseña? <a routerLink="/auth/recover"
+                        class="underline text-indigo-500">Recuperar</a> </p>
+            </div>
         </div>
     </div>
 
-</div>
+</form>

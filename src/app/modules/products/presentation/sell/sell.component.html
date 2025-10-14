@@ -1,0 +1,113 @@
+<div class="w-full h-full">
+    <div class="flex flex-col h-full w-full gap-3">
+        <div class="w-full h-auto">
+            <p-card>
+                <div class="w-full h-full">
+        
+                    <div class="flex w-full h-[cacl(100%-45px)] ">
+                        <div class="flex justify-between items-center w-full">
+                            <p-breadcrumb [model]="items" />
+                            <p-button fluid label="Publicar" />
+                        </div>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+        <div class="w-full h-full">
+            <p-card>
+                <div class="w-full h-[calc(100%)]">
+        
+                    <p-tabs value="0">
+                        <p-tablist>
+                            <p-tab value="0">Información</p-tab>
+                            <p-tab value="1">Elegir Imagen</p-tab>
+                        </p-tablist>
+                        <p-tabpanels>
+                            <p-tabpanel value="0">
+        
+                                <section class="w-full h-full mt-3 overflow-y-auto">
+                                    <form class="flex flex-col h-full gap-5 w-full overflow-y-auto">
+        
+                                        <fieldset class="w-full">
+                                            <p-iftalabel>
+                                                <input pInputText fluid id="username" autocomplete="off" />
+                                                <label for="username">Nombre</label>
+                                            </p-iftalabel>
+                                        </fieldset>
+        
+                                        <p-iftalabel>
+                                            <p-inputnumber fluid inputId="price_input" mode="currency" currency="USD"
+                                                locale="en-US" />
+                                            <label for="price_input">Precio</label>
+                                        </p-iftalabel>
+        
+                                        <p-iftalabel>
+                                            <p-inputnumber fluid inputId="price_input" />
+                                            <label for="price_input">Cantidad</label>
+                                        </p-iftalabel>
+        
+                                        <p-iftalabel>
+                                            <textarea fluid pTextarea id="description" autoResize rows="1" cols="30"
+                                                style="resize: none"></textarea>
+                                            <label for="description">Descripción</label>
+                                        </p-iftalabel>
+        
+                                        <p-iftalabel class="w-full">
+                                            <p-select inputId="dd-city" fluid [options]="cities" appendTo="body"
+                                                optionLabel="name" class="w-full" />
+                                            <label for="dd-city">City</label>
+                                        </p-iftalabel>
+        
+        
+        
+                                    </form>
+                                </section>
+        
+                            </p-tabpanel>
+                            <p-tabpanel value="1">
+        
+                                <section class="flex gap-3 w-full h-full">
+        
+                                    <div class="flex flex-col gap-3 flex-1">
+        
+                                        <input style="display: none;" class="form-control" accept="image/*" #imageUserUploader
+                                            type="file" multiple (change)="uploadimage($event)">
+                                        <p class="bg-yellow-100 border-l-[6px] px-3 py-2 border-l-yellow-300">
+                                            Sube como minimouna imagen y como maximo cuatro imagenes
+                                        </p>
+        
+                                        <p-button fluid label="Subir Imagen(s)" (click)="imageUserUploader.click()"
+                                            [raised]="true" severity="secondary" />
+        
+                                        <p-button fluid label="Eliminar Imagen(es)" (click)="deleteImage()" [raised]="true"
+                                            severity="danger" />
+        
+                                    </div>
+        
+                                    <div class="flex-1 h-full">
+                                        <p-carousel [value]="imagesArray" [numVisible]="1" [numScroll]="1" [circular]="false">
+                                            <ng-template let-image #item>
+                                                <div
+                                                    class="flex flex-col  gap-2 h-[calc(100%-80px)] border border-surface rounded-border m-2 p-4">
+                                                    <div class="flex-1 w-full flex justify-center items-center">
+                                                        <img src="{{ image.image }}" [alt]="image.name"
+                                                            class="contain-content" />
+                                                    </div>
+                                                    <div class="mb-4 font-medium">{{ image.name }}</div>
+                                                </div>
+                                            </ng-template>
+                                        </p-carousel>
+        
+                                    </div>
+        
+                                </section>
+        
+                            </p-tabpanel>
+                        </p-tabpanels>
+                    </p-tabs>
+        
+                </div>
+            </p-card>
+        </div>
+    </div>
+</div>

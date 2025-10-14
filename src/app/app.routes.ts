@@ -1,20 +1,29 @@
 import { Routes } from '@angular/router';
 import { AUTH_ROUTES } from './core/auth/pages/auth.routes';
 import { PanelLayoutComponent } from './shared/layout/panel-layout/panel-layout.component';
-import { GBO_ROUTES } from './modules/GBO/presentation/gbo.routes';
-import { GRS_ROUTES } from './modules/GRS/presentation/grs.routes';
-import { GSA_ROUTES } from './modules/GSA/presentation/sales.routes';
-import { GUS_ROUTES } from './modules/GUS/presentation/gus.routes';
-import { GCA_ROUTES } from './modules/GCA/presentation/gca.routes';
+import { AuthLayoutComponent } from './shared/layout/auth-layout/auth-layout.component';
+import { ClientLayoutComponent } from './shared/layout/client-layout/client-layout.component';
+import { USER_ROUTES } from './modules/user/presentation/user.routes';
+import { PRODUCTS_ROUTES } from './modules/products/presentation/products.routes';
+import { WISHLIST_ROUTES } from './modules/wishlist/presentation/wishlist.routes';
+import { PURCHASES_ROUTES } from './modules/purchases/presentation/purchases.routes';
+import { SALES_ROUTES } from './modules/sales/presentation/sales.routes';
+import { CART_ROUTES } from './modules/cart/presentation/cart.routes';
 
-export const routes: Routes = [{ path: '', pathMatch: 'full', redirectTo: 'auth' },
-{ path: 'auth', children: AUTH_ROUTES },
-{
-    path: '', component: PanelLayoutComponent, children: [
-        { path: 'GBO', children: GBO_ROUTES },
-        { path: 'GRS', children: GRS_ROUTES },
-        { path: 'GCA', children: GCA_ROUTES },
-        { path: 'GSA', children: GSA_ROUTES },
-        { path: 'GUS', children: GUS_ROUTES }
-    ]
-}];
+export const routes: Routes = [
+    { path: 'auth', component: AuthLayoutComponent, children: AUTH_ROUTES },
+    {
+        path: '', component: ClientLayoutComponent, children: [
+            {
+                path: 'dash', component: PanelLayoutComponent, children: [
+                    { path: 'user', children: USER_ROUTES },
+                    { path: 'products', children: PRODUCTS_ROUTES },
+                    { path: 'wishlist', children: WISHLIST_ROUTES },
+                    { path: 'purchases', children: PURCHASES_ROUTES },
+                    { path: 'sales', children: SALES_ROUTES },
+                ]
+            },
+            { path: 'cart', children: CART_ROUTES }
+        ]
+    }
+];

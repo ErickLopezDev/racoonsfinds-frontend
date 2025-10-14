@@ -1,0 +1,73 @@
+<div class="w-full h-full p-4">
+    <div class="flex gap-4 w-full h-full">
+        <div class="flex flex-col h-full w-[calc(100%-300px)] gap-3">
+            <div class="w-full h-auto">
+                <p-card>
+                    <div class="w-full h-full">
+
+                        <div class="flex w-full h-[cacl(100%-45px)] ">
+                            <div class="flex justify-between items-center w-full">
+                                <p-breadcrumb [model]="breadCrumb" />
+                            </div>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="w-full h-[calc(100%-64px)] overflow-y-auto flex flex-col justify-start gap-2">
+                <div class="h-[140px]">
+                    <p-card>
+                        <div class="flex w-full gap-3 h-[100px]">
+                            <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
+
+                            <div class="flex-1">
+                                <h4 class="font-medium text-xl">Product Name</h4>
+                                <p class="font-medium text-[15px] text-gray-500">Descripción</p>
+                                <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
+                                <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
+                            </div>
+
+                            <div class="flex flex-col w-[135px] justify-between">
+                                <p-inputnumber [showButtons]="true" buttonLayout="horizontal" class="text-center"
+                                    [max]="999" inputId="horizontal" spinnerMode="horizontal" fluid>
+                                    <ng-template #incrementbuttonicon>
+                                        <span class="pi pi-plus"></span>
+                                    </ng-template>
+                                    <ng-template #decrementbuttonicon>
+                                        <span class="pi pi-minus"></span>
+                                    </ng-template>
+                                </p-inputnumber>
+
+                                <p-button (click)="onDelete()" fluid label="Eliminar" severity="danger"
+                                    icon="pi pi-trash"></p-button>
+
+                            </div>
+
+                        </div>
+                    </p-card>
+                </div>
+            </div>
+        </div>
+        <div class="w-[300px] h-full flex flex-col overflow-y-auto justify-start">
+            <div>
+                <p-card>
+                    <div class="flex flex-col gap-3 w-full h-full overflow-y-auto">
+                        <h3 class="text-xl font-semibold">Resumen de compra</h3>
+                        <ul class="list-disc list-inside flex flex-col gap-1">
+                            <li>Producto 1</li>
+                            <li>Producto 1</li>
+                            <li>Producto 1</li>
+                            <li>Producto 1</li>
+                        </ul>
+
+                        <div class="flex justify-between">
+                            <p class="font-semibold">TOTAL</p>
+                            <p>S/59.99</p>
+                        </div>
+
+                        <p-button (click)="onDelete()" fluid label="Comprar" icon="pi pi-shopping-bag"></p-button>
+                    </div>
+                </p-card>
+            </div>
+        </div>
+    </div>
+</div>

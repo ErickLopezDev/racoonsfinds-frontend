@@ -16,7 +16,10 @@ export const appConfig: ApplicationConfig = {
     withFetch(),
     withInterceptors([authInterceptor, catchErrorInterceptor])
   ), provideRouter(routes), provideAnimations(), providePrimeNG({
-    theme: { preset: MyPreset, options: { darkModeSelector: '.app-dark' } },
+    theme: {
+      preset: MyPreset,
+      options: { darkModeSelector: '.app-dark' },  
+    },
     translation: {
       dayNames: [
         'Domingo',
