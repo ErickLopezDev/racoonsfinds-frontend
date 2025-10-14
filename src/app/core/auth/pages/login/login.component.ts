@@ -33,8 +33,8 @@ export class LoginComponent {
 
   constructor() {
     this.form = this._fb.group({
-      username: ['brayan.alaya@hotmail.com', [Validators.required, Validators.email]],
-      password: ['123456789', [Validators.required, Validators.minLength(6)]]
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
