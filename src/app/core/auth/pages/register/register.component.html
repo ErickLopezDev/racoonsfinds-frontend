@@ -7,18 +7,19 @@
     <div class="flex flex-col gap-7">
         <div class="flex w-full flex-col gap-3">
             <p-iftalabel>
-                <input fluid pInputText id="username" formControlName="username" autocomplete="off" />
-                <label for="username">Username</label>
+                <input fluid pInputText id="username" maxlength="255" formControlName="username" autocomplete="off" />
+                <label for="username">Nombres</label>
             </p-iftalabel>
 
             <p-floatlabel variant="in">
-                <p-datepicker fluid formControlName="birthdate" [showIcon]="true" inputId="birthdate" [showOnFocus]="false" />
+                <p-datepicker fluid formControlName="birthdate" [showIcon]="true" inputId="birthdate"
+                    [showOnFocus]="false" />
                 <label for="birthdate">Fecha de nacimiento</label>
             </p-floatlabel>
 
             <p-iftalabel>
                 <input fluid pInputText id="email" formControlName="email" autocomplete="off" />
-                <label for="email">Username</label>
+                <label for="email">Correo</label>
             </p-iftalabel>
 
             <p-iftalabel>

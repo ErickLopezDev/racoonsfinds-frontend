@@ -1,14 +1,14 @@
 import { Injectable, signal } from '@angular/core';
+import { ToastMessageOptions } from 'primeng/api';
 
-interface IToast { severity: 'success' | 'info' | 'warn' | 'danger' | 'secondary' | 'contrast', summary: string, detail: string, life: number }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToastStateService {
 
-  toast = signal<IToast | null>(null);
-  setToast(value: IToast) {
+  toast = signal<ToastMessageOptions | null>(null);
+  setToast(value: ToastMessageOptions) {
     this.toast.set(value);
   }
 

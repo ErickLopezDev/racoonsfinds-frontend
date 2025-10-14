@@ -33,8 +33,8 @@ export class LoginComponent {
 
   constructor() {
     this.form = this._fb.group({
-      username: ['admin@admin.com', [Validators.required, Validators.email]],
-      password: ['admin123', [Validators.required, Validators.minLength(6)]]
+      username: ['brayan.alaya@hotmail.com', [Validators.required, Validators.email]],
+      password: ['123456789', [Validators.required, Validators.minLength(6)]]
     })
   }
 
@@ -50,10 +50,14 @@ export class LoginComponent {
 
       this.AuthService.login(req).subscribe({
         next: (response) => {
-          localStorage.setItem('token', response.accessToken);
-          this.userStateService.setToken(response.accessToken);
-          this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Has ingresado', life: 3000 });
-          this.router.navigate(['/GBO/books']);
+          if (response.success) {
+            localStorage.setItem('token', response.data.accessToken);
+            this.userStateService.setToken(response.data.accessToken);
+            this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Has ingresado', life: 3000 });
+            this.router.navigate(['/dash']);
+          } else {
+            this.toast.setToast({ severity: 'warn', summary: 'Error', detail: response.message, life: 3000 });
+          }
         },
 
       });

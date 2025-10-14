@@ -29,9 +29,7 @@ export class UserStateService {
 
   logout(): void {
     localStorage.removeItem(this.tokenNameLs);
-
     this._token.set('');
-
     this._router.navigate(['/auth']);
   }
 

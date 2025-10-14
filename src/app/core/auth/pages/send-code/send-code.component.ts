@@ -10,6 +10,8 @@ import { AuthService } from '../../config/services/auth.service';
 import { ToastStateService } from '../../../../shared/services/toast.service';
 import { UserStateService } from '../../../../shared/services/user-state.service';
 import { InputOtp } from 'primeng/inputotp';
+import { IVerifyReq } from '../../config/services/auth.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-send-code',
@@ -23,6 +25,7 @@ export class SendCodeComponent {
   private AuthService: AuthService = inject(AuthService);
   private toast: ToastStateService = inject(ToastStateService);
   private userStateService: UserStateService = inject(UserStateService);
+  private router = inject(Router);
 
   form!: FormGroup;
   codeForm!: FormGroup;
@@ -36,20 +39,25 @@ export class SendCodeComponent {
 
   constructor() {
     this.form = this._fb.group({
-      email: ['admin@admin.com', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
     })
 
     this.codeForm = this._fb.group({
-      code: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4)]],
+      code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
     })
   }
 
   sendCode() {
     this.enviado = true;
     if (!this.isCountdownActive) {
-      console.log('Reenviando código...');
       this.startCountdown();
-      // Aquí va tu lógica de reenvío
+      this.AuthService.resendCode(this.form.value).subscribe({
+        next: (res) => {
+          if (res.success) {
+            this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Codigo reenviado', life: 3000 });
+          }
+        }
+      });
     }
   }
 
@@ -73,9 +81,26 @@ export class SendCodeComponent {
     if (this.form.valid) {
       const formValue = this.form.value;
 
+      const body: IVerifyReq = {
+        email: formValue.email,
+        code: this.codeForm.value.code
+      };
 
-    };
-  }
+      this.AuthService.verify(body).subscribe({
+        next: (res) => {
+          if (res.success) {
+            this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Codigo verificado', life: 3000 });
+            this.router.navigate(['/auth']);
+          }
+        }
+      });
+    } else {
+      this.form.markAllAsTouched();
+      this.codeForm.markAllAsTouched();
+    }
+
+
+  };
 }
 
 

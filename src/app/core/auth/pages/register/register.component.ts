@@ -4,7 +4,7 @@ import { AuthService } from '../../config/services/auth.service';
 import { ToastStateService } from '../../../../shared/services/toast.service';
 import { Router, RouterLink } from '@angular/router';
 import { UserStateService } from '../../../../shared/services/user-state.service';
-import { ILoginReq } from '../../config/services/auth.model';
+import { ILoginReq, IRegisterReq } from '../../config/services/auth.model';
 import { CardModule } from 'primeng/card';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputIconModule } from 'primeng/inputicon';
@@ -32,11 +32,11 @@ export class RegisterComponent {
 
   constructor() {
     this.form = this._fb.group({
-      username: ['admin', [Validators.required]],
+      username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(45)]],
       birthdate: ['', [Validators.required]],
-      email: ['admin@admin.com', [Validators.required, Validators.email]],
-      password: ['admin123', [Validators.required, Validators.minLength(6)]],
-      repeatPassword: ['admin123', [Validators.required, Validators.minLength(6)]]
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(45)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(70)]],
+      repeatPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(70)]],
     })
   }
 
@@ -45,19 +45,20 @@ export class RegisterComponent {
     if (this.form.valid) {
       const formValue = this.form.value;
 
-      const req: ILoginReq = {
-        email: formValue.username,
-        password: formValue.password
+      const req: IRegisterReq = {
+        username: formValue.username,
+        email: formValue.email,
+        password: formValue.password,
+        birthDate: formValue.birthdate.toISOString().split('T')[0]
       }
 
-      this.AuthService.login(req).subscribe({
-        next: (response) => {
-          localStorage.setItem('token', response.accessToken);
-          this.userStateService.setToken(response.accessToken);
-          this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Has ingresado', life: 3000 });
-          this.router.navigate(['/GBO/books']);
-        },
-
+      this.AuthService.register(req).subscribe({
+        next: (res) => {
+          if (res.success) {
+            this.toast.setToast({ severity: 'success', summary: 'Registro exitoso', detail: 'Por favor, verifica tu correo para activar tu cuenta.', life: 3000 });
+            this.router.navigate(['/auth']);
+          }
+        }
       });
     }
   }

@@ -8,7 +8,7 @@
     <div class="flex flex-col gap-7">
         @if(enviado){
             <form [formGroup]="codeForm" class="flex w-full items-center flex-col gap-3">
-                <p-inputotp formControlName="code" [integerOnly]="true" size="large" />
+                <p-inputotp formControlName="code" [length]="6" [integerOnly]="true" size="large" />
             </form>
             
         } @else {
