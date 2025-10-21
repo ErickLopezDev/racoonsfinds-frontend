@@ -10,6 +10,7 @@ import { PURCHASES_ROUTES } from './modules/purchases/presentation/purchases.rou
 import { SALES_ROUTES } from './modules/sales/presentation/sales.routes';
 import { CART_ROUTES } from './modules/cart/presentation/cart.routes';
 import { authGuard } from './core/auth/config/guards/auth.guard';
+import { PRODUCTS_PUBLIC_ROUTES } from './modules/products/presentation/products-public.routes';
 
 export const routes: Routes = [
     { path: 'auth', component: AuthLayoutComponent, children: AUTH_ROUTES },
@@ -24,7 +25,8 @@ export const routes: Routes = [
                     { path: 'sales', children: SALES_ROUTES },
                 ]
             },
-            { path: 'cart', children: CART_ROUTES, canActivate: [authGuard] }
+            { path: 'cart', children: CART_ROUTES, canActivate: [authGuard] },
+            { path: 'products', children: PRODUCTS_PUBLIC_ROUTES }
         ]
     }
 ];

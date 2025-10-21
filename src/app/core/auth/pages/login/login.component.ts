@@ -51,12 +51,21 @@ export class LoginComponent {
       this.AuthService.login(req).subscribe({
         next: (response) => {
           if (response.success) {
-            this.userStateService.setToken(response.data.accessToken);
-            this.userStateService.setUser(response.data.userId);
-            this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Has ingresado', life: 3000 });
-            this.router.navigate(['/dash/user']);
+            if (response.data.status === 5) {
+              this.router.navigate(['/auth/auth-account'], { queryParams: { email: formValue.email } });
+            } else if ((response.data.status === 2)) {
+              this.userStateService.setToken(response.data.accessToken);
+              this.userStateService.setUser(response.data.userId);
+              this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Has ingresado', life: 3000 });
+              this.router.navigate(['/dash/user']);
+            }
           } else {
             this.toast.setToast({ severity: 'warn', summary: 'Error', detail: response.message, life: 3000 });
+          }
+        }, error: (err) => {
+          console.log(err.error); 
+          if (err.err) {
+            
           }
         }
 

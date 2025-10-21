@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { Card } from 'primeng/card';
@@ -9,24 +9,29 @@ import { Select } from 'primeng/select';
 import { Button } from 'primeng/button';
 import { DialogComponent } from '@components/dialog/dialog.component';
 import { Router } from '@angular/router';
-import { IProduct } from '../../models/products.model';
+import { IProduct, IProductGetQueryRquest } from '../../models/products.model';
 import { ICategory } from '../../../categories/models/categories.model';
 import { ProductService } from '../../services/product.service';
 import { CategoriesService } from '../../../categories/services/categories.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ToastStateService } from '../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-user-products',
-  imports: [PaginatorModule, Breadcrumb, Card, IftaLabelModule, InputTextModule, Select, Button, DialogComponent],
+  imports: [PaginatorModule, Breadcrumb, Card, IftaLabelModule, InputTextModule, Select, Button, DialogComponent, ReactiveFormsModule],
   templateUrl: './user-products.component.html',
   styleUrl: './user-products.component.css'
 })
 export class UserProductsComponent {
 
+  @ViewChild(DialogComponent) dialog!: DialogComponent;
+
   // Services
   private _categoryService: CategoriesService = inject(CategoriesService);
   private _productService = inject(ProductService);
   private _Route = inject(Router);
-
+  private _toastService = inject(ToastStateService);
+  private _formBuilder = inject(FormBuilder);
 
   // Variables
   products = signal<IProduct[]>([])
@@ -38,6 +43,11 @@ export class UserProductsComponent {
   rows: number = 12;
   selectedCity: any | undefined;
 
+  form: FormGroup = this._formBuilder.group({
+    categoryId: [null],
+    search: [null],
+  });
+
   ngOnInit() {
     this._categoryService.getAll().subscribe({
       next: (categories) => {
@@ -47,20 +57,61 @@ export class UserProductsComponent {
       }
     });
 
-    this._productService
+    this.getProducts();
+  }
 
+  getProducts() {
+    const query: IProductGetQueryRquest = {
+      page: 0,
+      size: 12,
+    }
+
+    if (this.form.controls['categoryId'].valid) {
+      query.categoryId = this.form.controls['categoryId'].value;
+    }
+    if (this.form.controls['search'].valid) {
+      query.search = this.form.controls['search'].value;
+    }
+
+    this._productService.getByUser({ query }).subscribe({
+      next: (products) => {
+        if (products.success) {
+          this.products.set(products.data.content);
+        }
+      }
+    });
   }
 
   onVender() {
     this._Route.navigate(['/dash/products/sell']);
   }
 
-  onUpdateProduct() {
-
+  onUpdateProduct(id: number) {
+    this._Route.navigate([`/dash/products/sell/${id}`]);
   }
 
-  openDeleteDialog() {
-
+  openDeleteDialog(product: IProduct) {
+    this.dialog.openDialog({
+      title: 'Eliminar Producto',
+      message: `¿Estás seguro de que deseas eliminar el producto "${product.name}"? Esta acción no se puede deshacer.`,
+      textAcceptButton: 'Eliminar',
+      textCancelButton: 'Cancelar',
+      onAccept: () => {
+        this._productService.delete({ param: { id: product.id } }).subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.getProducts();
+              this._toastService.setToast({
+                severity: 'success',
+                summary: 'Éxito',
+                detail: 'Producto eliminado correctamente.',
+                life: 6000
+              });
+            }
+          }
+        });
+      }
+    });
   }
 
   onPageChange(event: PaginatorState) {

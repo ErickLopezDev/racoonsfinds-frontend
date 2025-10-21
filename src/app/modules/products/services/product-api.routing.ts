@@ -4,4 +4,5 @@ export const PRODUCT_API_ROUTES = {
     deleteById: 'products/{id}',
     create: 'products',
     getAll: 'products',
+    getByUser: 'products/user'
 }

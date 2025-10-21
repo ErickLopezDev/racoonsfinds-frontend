@@ -15,11 +15,8 @@ export class ProductService extends ApiUtilService {
   }
 
   create(value: { body: IProductCreateRequest }): Observable<IProductGetResponse> {
-    console.log(value.body);
     const body = this.transformToFormData(value.body);
-    console.log(body);
     const url = this.buildApiUrl({ endpoint: PRODUCT_API_ROUTES.create });
-    console.log(url);
     return this.http.post<IProductGetResponse>(url, body);
   }
 
@@ -28,9 +25,14 @@ export class ProductService extends ApiUtilService {
     return this.http.get<IProductGetResponse>(url);
   }
 
-  delete(value: { body: IProductDeleteByIdParamRequest }): Observable<any> {
-    const url = this.buildApiUrl({ endpoint: PRODUCT_API_ROUTES.deleteById, parameters: value.body });
+  delete(value: { param: IProductDeleteByIdParamRequest }): Observable<any> {
+    const url = this.buildApiUrl({ endpoint: PRODUCT_API_ROUTES.deleteById, parameters: value.param });
     return this.http.delete<any>(url);
+  }
+
+  getByUser(value: { query: IProductGetQueryRquest }): Observable<IProductGetResponse> {
+    const url = this.buildApiUrl({ endpoint: PRODUCT_API_ROUTES.getByUser, queryParams: value.query });
+    return this.http.get<IProductGetResponse>(url);
   }
 
 }

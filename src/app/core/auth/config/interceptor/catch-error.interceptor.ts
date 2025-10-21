@@ -19,33 +19,33 @@ export const catchErrorInterceptor: HttpInterceptorFn = (req, next) => {
       // Manejar diferentes tipos de errores
       switch (error.status) {
         case 401:
-          messageService.setToast({ severity: 'error', summary: 'Acceso denegado', detail: 'No autorizado', life: 3000 });
+          messageService.setToast({ severity: 'error', summary: 'Acceso denegado', detail: error.error.message, life: 6000 });
           setTimeout(() => _userStateService.logout(), 150);
           break;
 
         case 404:
-          messageService.setToast({ severity: 'error', summary: 'Recurso no encontrado', detail: 'El recurso solicitado no existe o no está disponible', life: 3000 });
+          messageService.setToast({ severity: 'error', summary: 'Recurso no encontrado', detail: 'El recurso solicitado no existe o no está disponible', life: 6000 });
           break;
 
         case 422:
-          messageService.setToast({ severity: 'error', summary: 'Error', detail: 'Error de validacion', life: 3000 });
+          messageService.setToast({ severity: 'error', summary: 'Error', detail: 'Error de validacion', life: 6000 });
           break;
 
         case 500:
         case 502:
         case 503:
         case 504:
-          messageService.setToast({ severity: 'error', summary: 'Error', detail: 'Error de servidor', life: 3000 });
+          messageService.setToast({ severity: 'error', summary: 'Error', detail: 'Error de servidor', life: 6000 });
           setTimeout(() => _userStateService.logout(), 150);
           break;
 
         case 0:
-          messageService.setToast({ severity: 'error', summary: 'Error', detail: 'Error de servidor', life: 3000 });
+          messageService.setToast({ severity: 'error', summary: 'Error', detail: 'Error de servidor', life: 6000 });
           setTimeout(() => _userStateService.logout(), 150);
           break;
 
         default:
-          messageService.setToast({ severity: 'error', summary: 'Error', detail: 'Error de servidor', life: 3000 });
+          messageService.setToast({ severity: 'error', summary: 'Error', detail: error.error.message, life: 6000 });
           break;
       }
 

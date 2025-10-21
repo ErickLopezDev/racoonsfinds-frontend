@@ -35,7 +35,7 @@
             </p-iftalabel>
         </div>
         <div class="flex flex-col gap-4 w-full">
-            <p-button label="Registrar" fluid [disabled]="this.form.invalid" (onClick)="onSubmit()" />
+            <p-button label="Registrar" fluid [disabled]="this.form.invalid || form.get('password')?.value != form.get('repeatPassword')?.value" (onClick)="onSubmit()" />
             <div class="flex flex-col gap-1">
                 <p class="text-gray-200 text-[13px]">Ya tienes cuenta? <a routerLink="/auth"
                         class="underline text-indigo-500">Ingresar</a> </p>

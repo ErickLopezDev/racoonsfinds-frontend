@@ -47,6 +47,7 @@ export type ILoginRes = IApiResponse<ILoginDto>
 export interface ILoginDto {
     userId: number,
     accessToken: string,
+    status: number,
     refreshToken: string,
     tokenType: string
 }

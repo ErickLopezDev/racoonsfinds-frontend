@@ -18,14 +18,21 @@ export interface IProduct {
 
 // Get All
 export interface IProductGetQueryRquest {
-    page: number,
-    size: number,
+    page?: number,
+    size?: number,
     categoryId?: number,
     search?: string,
 }
 
-export type IProductGetResponse = IApiResponse<IProduct[]>;
+export type IProductGetResponse = IApiResponse<IProductGetDto>;
 
+export interface IProductGetDto {
+    content: IProduct[],
+    currentPage: number,
+    totalPages: number,
+    totalItems: number,
+    pageSize: number
+}
 
 // Create Product
 export interface IProductCreateRequest {
