@@ -23,12 +23,14 @@
             </p-iftalabel>
 
             <p-iftalabel>
-                <p-password fluid formControlName="password" inputId="password" [toggleMask]="true" />
+                <p-password fluid formControlName="password" inputId="password" [toggleMask]="true"
+                    promptLabel="Ingresa la contraseña" weakLabel="Muy Simple" mediumLabel="Algo dificil"
+                    strongLabel="Muy Fuerte" />
                 <label for="password">Contraseña</label>
             </p-iftalabel>
 
             <p-iftalabel>
-                <p-password fluid formControlName="repeatPassword" inputId="repeatPassword" [toggleMask]="true" />
+                <p-password fluid formControlName="repeatPassword" inputId="repeatPassword" [feedback]="false" [toggleMask]="true" />
                 <label for="repeatPassword">Repetir Contraseña</label>
             </p-iftalabel>
         </div>

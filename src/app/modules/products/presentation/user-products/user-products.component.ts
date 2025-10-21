@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { Card } from 'primeng/card';
@@ -9,6 +9,10 @@ import { Select } from 'primeng/select';
 import { Button } from 'primeng/button';
 import { DialogComponent } from '@components/dialog/dialog.component';
 import { Router } from '@angular/router';
+import { IProduct } from '../../models/products.model';
+import { ICategory } from '../../../categories/models/categories.model';
+import { ProductService } from '../../services/product.service';
+import { CategoriesService } from '../../../categories/services/categories.service';
 
 @Component({
   selector: 'app-user-products',
@@ -18,27 +22,33 @@ import { Router } from '@angular/router';
 })
 export class UserProductsComponent {
 
+  // Services
+  private _categoryService: CategoriesService = inject(CategoriesService);
+  private _productService = inject(ProductService);
   private _Route = inject(Router);
 
+
+  // Variables
+  products = signal<IProduct[]>([])
+  categories = signal<ICategory[]>([]);
   first: number = 0;
   items: MenuItem[] = [
     { label: 'Publicaciones', icon: 'pi pi-bookmark' },
   ];
-
   rows: number = 12;
-
-  cities: any[] | undefined;
-
   selectedCity: any | undefined;
 
   ngOnInit() {
-    this.cities = [
-      { name: 'New York', code: 'NY' },
-      { name: 'Rome', code: 'RM' },
-      { name: 'London', code: 'LDN' },
-      { name: 'Istanbul', code: 'IST' },
-      { name: 'Paris', code: 'PRS' }
-    ];
+    this._categoryService.getAll().subscribe({
+      next: (categories) => {
+        if (categories.success) {
+          this.categories.set(categories.data);
+        }
+      }
+    });
+
+    this._productService
+
   }
 
   onVender() {

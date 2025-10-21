@@ -21,7 +21,7 @@ export class ApiUtilService {
         apiUrl = apiUrl.replace(`{${key}}`, encodeURIComponent(param));
       }
     }
-    
+
     if (value.queryParams) {
       const queryString = Object.entries(value.queryParams)
         .map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
@@ -30,6 +30,16 @@ export class ApiUtilService {
     }
 
     return apiUrl;
+  }
+
+  protected transformToFormData(obj: Object): FormData {
+    const formData = new FormData();
+
+    Object.entries(obj).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    return formData;
   }
 
 }

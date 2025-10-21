@@ -7,8 +7,12 @@ import { Router, RouterOutlet } from '@angular/router';
   styleUrls: ['./auth-layout.component.css'],
   imports: [RouterOutlet]
 })
-export class AuthLayoutComponent  {
+export class AuthLayoutComponent {
 
+  constructor(private router: Router) { }
 
+  goHome() {
+    this.router.navigate(['/']);
+  }
 
 }

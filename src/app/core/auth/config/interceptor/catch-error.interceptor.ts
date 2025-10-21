@@ -23,14 +23,6 @@ export const catchErrorInterceptor: HttpInterceptorFn = (req, next) => {
           setTimeout(() => _userStateService.logout(), 150);
           break;
 
-        case 403:
-          messageService.setToast({ severity: 'error', summary: 'Acceso denegado', detail: 'No autorizado', life: 3000 });
-          setTimeout(() => {
-            _userStateService.logout();
-            router.navigate(['/auth/recover']);
-          }, 200);
-          break;
-
         case 404:
           messageService.setToast({ severity: 'error', summary: 'Recurso no encontrado', detail: 'El recurso solicitado no existe o no está disponible', life: 3000 });
           break;

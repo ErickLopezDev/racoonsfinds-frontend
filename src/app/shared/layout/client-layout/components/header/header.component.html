@@ -2,23 +2,37 @@
 
     <section class="flex items-center gap-5 flex-[0.6]  px-5">
 
-        <img src="assets/authBgImg.png" class=" w-[40px] h-[40px]" alt="">
-
-        <p-inputgroup>
-            <input pInputText placeholder="Buscar" />
-            <p-inputgroup-addon>
-                <i class="pi pi-search"></i>
-            </p-inputgroup-addon>
-        </p-inputgroup>
-
-        <p-button severity="secondary" (onClick)="goCart()" icon="pi pi-shopping-cart" />
-
-        <p-button severity="secondary" icon="pi pi-bell" />
-
-        <div class="user-profile" pTooltip="Mi Perfil" tooltipPosition="right">
-            <p-avatar (click)="menu.toggle($event)" label="U" class="cursor-pointer" [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }" shape="circle" />
-            <p-menu #menu [model]="itemsAvatar" [popup]="true" />
+        <div class=" w-[40px] h-[40px]">
+            <a routerLink="/" class=" w-[40px] h-[40px]">
+                <img src="assets/authBgImg.png" class=" w-[40px] h-[40px]" alt="">
+            </a>
         </div>
+
+        <div class="flex-1">
+            <p-inputgroup>
+                <input fluid pInputText placeholder="Buscar" />
+                <p-inputgroup-addon>
+                    <i class="pi pi-search"></i>
+                </p-inputgroup-addon>
+            </p-inputgroup>
+        </div>
+
+        
+        <div class="flex gap-2">
+            <p-button severity="secondary" (onClick)="goCart()" icon="pi pi-shopping-cart" />
+            
+            <p-button severity="secondary" icon="pi pi-bell" />
+            @if(isAuthenticated()){
+                <div class="user-profile" pTooltip="Mi Perfil" tooltipPosition="right">
+                    <p-avatar (click)="menu.toggle($event)" label="U" class="cursor-pointer" [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }" shape="circle" />
+                    <p-menu #menu [model]="itemsAvatar" [popup]="true" />
+                </div>
+            } @else {
+                <p-button label="Iniciar Sesión" severity="success" class="text-nowrap" (onClick)="goLogin()" />
+                <p-button label="Registrarse"  (onClick)="goRegister()" />
+            }
+        </div>
+
 
     </section>
 

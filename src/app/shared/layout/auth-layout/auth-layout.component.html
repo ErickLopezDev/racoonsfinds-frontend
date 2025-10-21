@@ -3,9 +3,9 @@
     <div
         class=" flex items-center relative backdrop-blur-xl overflow-hidden ease-in-out transition-all duration-700 gap-10 bg-gray-950/70 py-16 px-12 shadow-lg drop-shadow-lg shadow-black  rounded-lg min-h-[400px] h-auto">
         <router-outlet></router-outlet>
-        <div class="w-[340px] relative z-[2] lg:flex hidden rounded-lg justify-end items-center h-full">
+        <button (dblclick)="goHome()" class="w-[340px] relative z-[2] lg:flex hidden rounded-lg justify-end items-center h-full">
             <img src="/assets/authBgImg.png" class="w-[280px] h-[280px]" alt="">
-        </div>
+        </button>
 
         <div
             class="absolute backdrop-blur-xl flex flex-col justify-end w-full z-[1] rotate-[20deg] items-end h-[900px] top-[-150px] right-[-200px] bottom-0">

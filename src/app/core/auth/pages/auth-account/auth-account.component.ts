@@ -1,51 +1,105 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { IconFieldModule } from 'primeng/iconfield';
+import { IftaLabelModule } from 'primeng/iftalabel';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
+import { AuthService } from '../../config/services/auth.service';
+import { ToastStateService } from '../../../../shared/services/toast.service';
+import { UserStateService } from '../../../../shared/services/user-state.service';
+import { InputOtp } from 'primeng/inputotp';
+import { IVerifyReq } from '../../config/services/auth.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-account',
-  imports: [ButtonModule, CommonModule, RouterLink],
+  imports: [FloatLabelModule, InputIconModule, IconFieldModule, InputTextModule, IftaLabelModule, ReactiveFormsModule, ButtonModule, InputOtp],
   templateUrl: './auth-account.component.html',
   styleUrl: './auth-account.component.css'
 })
-export class AuthAccountComponent {
+export class AuthAccountComponent implements OnInit {
 
-  private router: Router = inject(Router)
+  private _fb: FormBuilder = inject(FormBuilder);
+  private AuthService: AuthService = inject(AuthService);
+  private toast: ToastStateService = inject(ToastStateService);
+  private userStateService: UserStateService = inject(UserStateService);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
 
-  message: string = 'Verificando tu cuenta';
-  messageState: number = 0;
+  correo: string = '';
+  codeForm!: FormGroup;
+
+  enviado: boolean = false;
+
+  // Variables para el contador
+  countdown = 0;
+  isCountdownActive = false;
+  private countdownInterval: any;
 
   constructor() {
-    this.auth();
+    this.codeForm = this._fb.group({
+      code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+    })
   }
 
-  auth() {
+  sendCode() {
+    this.enviado = true;
+    if (!this.isCountdownActive && this.correo != '') {
+      this.startCountdown();
+      this.AuthService.resendCode({ email: this.correo }).subscribe({
+        next: (res) => {
+          if (res.success) {
+            this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Codigo reenviado', life: 3000 });
+          }
+        }
+      });
+    }
+  }
 
-    setTimeout(() => {
-      this.messageState = 1; // Simulando respuesta del servidor
-      switch (this.messageState) {
-        case 1:
-          this.message = 'Tu cuenta ha sido verificada exitosamente. Ahora puedes iniciar sesión.';
-          break;
-        case 2:
-          this.message = 'El enlace de verificación ha expirado. Por favor, solicita un nuevo enlace.';
-          break;
-        case 3:
-          this.message = 'El enlace de verificación es inválido. Por favor, verifica el enlace o solicita uno nuevo.';
-          break;
-        default:
-          this.message = 'Ha ocurrido un error desconocido. Por favor, intenta nuevamente más tarde.';
-          break;
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.correo = params['email'] || '';
+    });
+  }
+
+  private startCountdown() {
+    this.countdown = 60;
+    this.isCountdownActive = true;
+
+    this.countdownInterval = setInterval(() => {
+      this.countdown--;
+
+      if (this.countdown <= 0) {
+        this.isCountdownActive = false;
+        clearInterval(this.countdownInterval);
       }
-    }, 5000)
-
+    }, 1000);
   }
 
-  regresar() {
+
+  onSubmit() {
+    this.enviado = !this.enviado;
+    if (this.correo != '' && this.codeForm.valid) {
+      const body: IVerifyReq = {
+        email: this.correo,
+        code: this.codeForm.value.code
+      };
+
+      this.AuthService.verify(body).subscribe({
+        next: (res) => {
+          if (res.success) {
+            this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Codigo verificado', life: 3000 });
+            this.router.navigate(['/auth']);
+          }
+        }
+      });
+    } else {
+      this.codeForm.markAllAsTouched();
+    }
 
 
-
-  }
+  };
 }
 

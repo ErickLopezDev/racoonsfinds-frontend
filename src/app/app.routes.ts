@@ -9,13 +9,14 @@ import { WISHLIST_ROUTES } from './modules/wishlist/presentation/wishlist.routes
 import { PURCHASES_ROUTES } from './modules/purchases/presentation/purchases.routes';
 import { SALES_ROUTES } from './modules/sales/presentation/sales.routes';
 import { CART_ROUTES } from './modules/cart/presentation/cart.routes';
+import { authGuard } from './core/auth/config/guards/auth.guard';
 
 export const routes: Routes = [
     { path: 'auth', component: AuthLayoutComponent, children: AUTH_ROUTES },
     {
         path: '', component: ClientLayoutComponent, children: [
             {
-                path: 'dash', component: PanelLayoutComponent, children: [
+                path: 'dash', component: PanelLayoutComponent, canActivateChild: [authGuard], children: [
                     { path: 'user', children: USER_ROUTES },
                     { path: 'products', children: PRODUCTS_ROUTES },
                     { path: 'wishlist', children: WISHLIST_ROUTES },
@@ -23,7 +24,7 @@ export const routes: Routes = [
                     { path: 'sales', children: SALES_ROUTES },
                 ]
             },
-            { path: 'cart', children: CART_ROUTES }
+            { path: 'cart', children: CART_ROUTES, canActivate: [authGuard] }
         ]
     }
 ];

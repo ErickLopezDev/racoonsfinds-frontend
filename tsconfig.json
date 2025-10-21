@@ -30,6 +30,24 @@
       "@services/*": [
         "./src/app/shared/service/*"
       ],
+      "@cart": [
+        "./src/app/modules/cart"
+      ],
+      "@categories": [
+        "./src/app/modules/categories"
+      ],
+      "@products": [
+        "./src/app/modules/products"
+      ],
+      "@purchases": [
+        "./src/app/modules/purchases"
+      ],
+      "@sales": [
+        "./src/app/modules/sales"
+      ],
+      "@wishlist": [
+        "./src/app/modules/wishlist"
+      ]
     },
   },
   "angularCompilerOptions": {

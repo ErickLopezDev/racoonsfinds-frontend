@@ -8,7 +8,7 @@
 
                     <input type="text" pInputText placeholder="Buscar por nombre" class="flex-1" />
 
-                    <p-select [options]="cities" optionLabel="name" placeholder="Categoria" class="w-[170px]" />
+                    <p-select [options]="categories()" optionValue="id" optionLabel="name" placeholder="Categoria" class="w-[170px]" />
 
                     <div class="flex gap-2">
                         <p-button label="Buscar" icon="pi pi-search" class="p-button-outlined"></p-button>
@@ -21,249 +21,29 @@
         </div>
 
         <div class="flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-
-            <div class="flex-1 h-[140px]">
-                <p-card>
-                    <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
-
-                        <div class="flex-1">
-                            <h4 class="font-medium text-xl">Product Name</h4>
-                            <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
+            @for (product of products(); track $index) {
+                <div class="flex-1 h-[140px]">
+                    <p-card>
+                        <div class="flex w-full gap-3 h-[100px]">
+                            <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
+    
+                            <div class="flex-1">
+                                <h4 class="font-medium text-xl">{{product.name}}</h4>
+                                <p class="font-medium text-[15px] text-gray-500">{{product.description}}</p>
+                                <p class="font-medium text-[15px] text-gray-500">S/ {{product.price}}</p>
+                                <p class="font-medium text-[15px] text-gray-500">Cantidad: {{product.stock}}</p>
+                            </div>
+    
+                            <div class="flex flex-col justify-between">
+                                <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
+                                <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
+                            </div>
+    
                         </div>
-
-                        <div class="flex flex-col justify-between">
-                            <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
-                            <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
-                        </div>
-
-                    </div>
-                </p-card>
-            </div>
-            <div class="flex-1 h-[140px]">
-                <p-card>
-                    <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
-
-                        <div class="flex-1">
-                            <h4 class="font-medium text-xl">Product Name</h4>
-                            <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
-                        </div>
-
-                        <div class="flex flex-col justify-between">
-                            <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
-                            <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
-                        </div>
-
-                    </div>
-                </p-card>
-            </div>
-            <div class="flex-1 h-[140px]">
-                <p-card>
-                    <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
-
-                        <div class="flex-1">
-                            <h4 class="font-medium text-xl">Product Name</h4>
-                            <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
-                        </div>
-
-                        <div class="flex flex-col justify-between">
-                            <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
-                            <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
-                        </div>
-
-                    </div>
-                </p-card>
-            </div>
-            <div class="flex-1 h-[140px]">
-                <p-card>
-                    <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
-
-                        <div class="flex-1">
-                            <h4 class="font-medium text-xl">Product Name</h4>
-                            <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
-                        </div>
-
-                        <div class="flex flex-col justify-between">
-                            <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
-                            <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
-                        </div>
-
-                    </div>
-                </p-card>
-            </div>
-            <div class="flex-1 h-[140px]">
-                <p-card>
-                    <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
-
-                        <div class="flex-1">
-                            <h4 class="font-medium text-xl">Product Name</h4>
-                            <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
-                        </div>
-
-                        <div class="flex flex-col justify-between">
-                            <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
-                            <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
-                        </div>
-
-                    </div>
-                </p-card>
-            </div>
-            <div class="flex-1 h-[140px]">
-                <p-card>
-                    <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
-
-                        <div class="flex-1">
-                            <h4 class="font-medium text-xl">Product Name</h4>
-                            <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
-                        </div>
-
-                        <div class="flex flex-col justify-between">
-                            <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
-                            <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
-                        </div>
-
-                    </div>
-                </p-card>
-            </div>
-            <div class="flex-1 h-[140px]">
-                <p-card>
-                    <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
-
-                        <div class="flex-1">
-                            <h4 class="font-medium text-xl">Product Name</h4>
-                            <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
-                        </div>
-
-                        <div class="flex flex-col justify-between">
-                            <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
-                            <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
-                        </div>
-
-                    </div>
-                </p-card>
-            </div>
-            <div class="flex-1 h-[140px]">
-                <p-card>
-                    <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
-
-                        <div class="flex-1">
-                            <h4 class="font-medium text-xl">Product Name</h4>
-                            <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
-                        </div>
-
-                        <div class="flex flex-col justify-between">
-                            <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
-                            <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
-                        </div>
-
-                    </div>
-                </p-card>
-            </div>
-            <div class="flex-1 h-[140px]">
-                <p-card>
-                    <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
-
-                        <div class="flex-1">
-                            <h4 class="font-medium text-xl">Product Name</h4>
-                            <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
-                        </div>
-
-                        <div class="flex flex-col justify-between">
-                            <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
-                            <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
-                        </div>
-
-                    </div>
-                </p-card>
-            </div>
-            <div class="flex-1 h-[140px]">
-                <p-card>
-                    <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
-
-                        <div class="flex-1">
-                            <h4 class="font-medium text-xl">Product Name</h4>
-                            <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
-                        </div>
-
-                        <div class="flex flex-col justify-between">
-                            <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
-                            <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
-                        </div>
-
-                    </div>
-                </p-card>
-            </div>
-            <div class="flex-1 h-[140px]">
-                <p-card>
-                    <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
-
-                        <div class="flex-1">
-                            <h4 class="font-medium text-xl">Product Name</h4>
-                            <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
-                        </div>
-
-                        <div class="flex flex-col justify-between">
-                            <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
-                            <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
-                        </div>
-
-                    </div>
-                </p-card>
-            </div>
-            <div class="flex-1 h-[140px]">
-                <p-card>
-                    <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
-
-                        <div class="flex-1">
-                            <h4 class="font-medium text-xl">Product Name</h4>
-                            <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
-                        </div>
-
-                        <div class="flex flex-col justify-between">
-                            <p-button (click)="onUpdateProduct()" icon="pi pi-pencil"></p-button>
-                            <p-button (click)="openDeleteDialog()" severity="danger" icon="pi pi-trash"></p-button>
-                        </div>
-
-                    </div>
-                </p-card>
-            </div>
-
-        </div>
+                    </p-card>
+                </div>
+            }
+        </div>            
 
         <div class="w-full flex justify-end">
             <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="120"

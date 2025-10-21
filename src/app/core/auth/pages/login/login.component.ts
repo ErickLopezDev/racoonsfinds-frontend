@@ -33,7 +33,7 @@ export class LoginComponent {
 
   constructor() {
     this.form = this._fb.group({
-      username: ['', [Validators.required, Validators.email]],
+      correo: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
@@ -44,21 +44,21 @@ export class LoginComponent {
       const formValue = this.form.value;
 
       const req: ILoginReq = {
-        email: formValue.username,
+        email: formValue.correo,
         password: formValue.password
       }
 
       this.AuthService.login(req).subscribe({
         next: (response) => {
           if (response.success) {
-            localStorage.setItem('token', response.data.accessToken);
             this.userStateService.setToken(response.data.accessToken);
+            this.userStateService.setUser(response.data.userId);
             this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Has ingresado', life: 3000 });
-            this.router.navigate(['/dash']);
+            this.router.navigate(['/dash/user']);
           } else {
             this.toast.setToast({ severity: 'warn', summary: 'Error', detail: response.message, life: 3000 });
           }
-        },
+        }
 
       });
     }

@@ -7,7 +7,7 @@
                     <div class="flex w-full h-[cacl(100%-45px)] ">
                         <div class="flex justify-between items-center w-full">
                             <p-breadcrumb [model]="items" />
-                            <p-button fluid label="Publicar" />
+                            <p-button (onClick)="saveProduct()" [disabled]="form.invalid || imagesArray == null || imagesArray.length == 0" fluid label="Publicar" />
                         </div>
                     </div>
                 </div>
@@ -26,36 +26,36 @@
                             <p-tabpanel value="0">
         
                                 <section class="w-full h-full mt-3 overflow-y-auto">
-                                    <form class="flex flex-col h-full gap-5 w-full overflow-y-auto">
+                                    <form [formGroup]="form" class="flex flex-col h-full gap-5 w-full overflow-y-auto">
         
                                         <fieldset class="w-full">
                                             <p-iftalabel>
-                                                <input pInputText fluid id="username" autocomplete="off" />
-                                                <label for="username">Nombre</label>
+                                                <input pInputText formControlName="name" fluid id="name" autocomplete="off" />
+                                                <label for="name">Nombre</label>
                                             </p-iftalabel>
                                         </fieldset>
         
                                         <p-iftalabel>
-                                            <p-inputnumber fluid inputId="price_input" mode="currency" currency="USD"
+                                            <p-inputnumber fluid formControlName="price_input" inputId="price_input" prefix="S/."
                                                 locale="en-US" />
                                             <label for="price_input">Precio</label>
                                         </p-iftalabel>
         
                                         <p-iftalabel>
-                                            <p-inputnumber fluid inputId="price_input" />
-                                            <label for="price_input">Cantidad</label>
+                                            <p-inputnumber fluid formControlName="quantity" inputId="quantity" />
+                                            <label for="quantity">Cantidad</label>
                                         </p-iftalabel>
         
                                         <p-iftalabel>
-                                            <textarea fluid pTextarea id="description" autoResize rows="1" cols="30"
+                                            <textarea fluid formControlName="description" pTextarea id="description" autoResize rows="1" cols="30"
                                                 style="resize: none"></textarea>
                                             <label for="description">Descripción</label>
                                         </p-iftalabel>
         
                                         <p-iftalabel class="w-full">
-                                            <p-select inputId="dd-city" fluid [options]="cities" appendTo="body"
-                                                optionLabel="name" class="w-full" />
-                                            <label for="dd-city">City</label>
+                                            <p-select inputId="dd-city" formControlName="category" fluid [options]="categories()" appendTo="body"
+                                                optionLabel="name" optionValue="id" class="w-full" />
+                                            <label for="dd-city">Categorias</label>
                                         </p-iftalabel>
         
         
@@ -85,7 +85,7 @@
                                     </div>
         
                                     <div class="flex-1 h-full">
-                                        <p-carousel [value]="imagesArray" [numVisible]="1" [numScroll]="1" [circular]="false">
+                                        <p-carousel [value]="imagesShowArray" [numVisible]="1" [numScroll]="1" [circular]="false">
                                             <ng-template let-image #item>
                                                 <div
                                                     class="flex flex-col  gap-2 h-[calc(100%-80px)] border border-surface rounded-border m-2 p-4">
@@ -104,8 +104,7 @@
         
                             </p-tabpanel>
                         </p-tabpanels>
-                    </p-tabs>
-        
+                    </p-tabs>                    
                 </div>
             </p-card>
         </div>

@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../config/services/auth.service';
 import { ToastStateService } from '../../../../shared/services/toast.service';
 import { Router, RouterLink } from '@angular/router';
@@ -21,7 +21,7 @@ import { DatePicker } from 'primeng/datepicker';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   private _fb: FormBuilder = inject(FormBuilder);
   private AuthService: AuthService = inject(AuthService);
   private toast: ToastStateService = inject(ToastStateService);
@@ -32,12 +32,43 @@ export class RegisterComponent {
 
   constructor() {
     this.form = this._fb.group({
-      username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(45)]],
+      username: ['', [Validators.required, Validators.maxLength(45)]],
       birthdate: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(45)]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(70)]],
       repeatPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(70)]],
     })
+  }
+
+  ngOnInit(): void {
+    this.form.get('birthdate')?.valueChanges.subscribe(date => {
+      this.validDate(18, date);
+    });
+  }
+
+  protected validDate(minAge: number, date: string, maxAge: number = 0): void {
+
+    if (date == '' || date == null) {
+      return;
+    }
+
+    const selectedDate = new Date(date);
+    const today = new Date();
+    const minAgeDate = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
+    const maxAgeDate = new Date(today.getFullYear() - maxAge, today.getMonth(), today.getDate());
+
+    if (maxAge > 0) {
+      if (selectedDate > minAgeDate || selectedDate < maxAgeDate) {
+        this.form.get('birthdate')?.setErrors({ invalid: true });
+        return;
+      }
+    } else {
+      if (selectedDate > minAgeDate) {
+        this.form.get('birthdate')?.setErrors({ invalid: true });
+        return;
+      }
+    }
+    this.form.get('birthdate')?.setErrors(null);
   }
 
   onSubmit() {
@@ -55,8 +86,8 @@ export class RegisterComponent {
       this.AuthService.register(req).subscribe({
         next: (res) => {
           if (res.success) {
-            this.toast.setToast({ severity: 'success', summary: 'Registro exitoso', detail: 'Por favor, verifica tu correo para activar tu cuenta.', life: 3000 });
-            this.router.navigate(['/auth']);
+            this.toast.setToast({ severity: 'success', summary: 'Registro exitoso', detail: 'Se te ha enviado un correo con la clave de activación.', life: 10000 });
+            this.router.navigate(['/auth/auth-account'], { queryParams: { email: formValue.email } });
           }
         }
       });

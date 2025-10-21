@@ -2,7 +2,7 @@ import { IApiResponse } from "@utils/api-util"
 
 //#region Verify
 export interface IVerifyReq {
-    email: number,
+    email: string,
     code: string
 }
 export type IVerifyRes = IApiResponse<IVerifyDto>
