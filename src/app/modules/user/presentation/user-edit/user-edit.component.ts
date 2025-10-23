@@ -168,7 +168,7 @@ export class UserEditComponent implements OnInit {
     if (e.target.files.length > 0) {
       const file = e.target.files[0];
 
-      // Define allowed image MIME types
+      // Tipos MIME permitidos
       const allowedTypes = [
         'image/jpeg',
         'image/png',
@@ -176,7 +176,10 @@ export class UserEditComponent implements OnInit {
         'image/webp',
       ];
 
-      // Check if the file type is allowed
+      // Tamaño máximo en bytes (2 MB = 2 * 1024 * 1024)
+      const maxSize = 2 * 1024 * 1024;
+
+      // Validar tipo de archivo
       if (!allowedTypes.includes(file.type)) {
         this._toastService.setToast({
           severity: 'error',
@@ -187,11 +190,23 @@ export class UserEditComponent implements OnInit {
         return;
       }
 
-      var reader = new FileReader();
+      // ✅ Validar tamaño del archivo
+      if (file.size > maxSize) {
+        this._toastService.setToast({
+          severity: 'error',
+          summary: 'Archivo demasiado grande',
+          detail: 'La imagen no debe superar los 2 MB.',
+        });
+        return;
+      }
+
+      // Si pasa las validaciones, leer y mostrar la imagen
+      const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (event: any) => {
         this.srcImage = event.target.result;
       };
+
       this.imageFileNew = file;
       this.hasImage = true;
     }
