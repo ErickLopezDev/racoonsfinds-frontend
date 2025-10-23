@@ -44,8 +44,8 @@ export class UserProductsComponent {
   selectedCity: any | undefined;
 
   form: FormGroup = this._formBuilder.group({
-    categoryId: [null],
-    search: [null],
+    categoryId: [null, [Validators.required]],
+    search: [null, [Validators.minLength(3), Validators.required]],
   });
 
   ngOnInit() {
@@ -72,11 +72,19 @@ export class UserProductsComponent {
     if (this.form.controls['search'].valid) {
       query.search = this.form.controls['search'].value;
     }
-
     this._productService.getByUser({ query }).subscribe({
       next: (products) => {
         if (products.success) {
-          this.products.set(products.data.content);
+          if (products.data.content.length == 0) {
+            this._toastService.setToast({
+              severity: 'info',
+              summary: 'Información',
+              detail: 'No se encontraron productos con los criterios especificados.',
+              life: 6000
+            });
+          } else {
+            this.products.set(products.data.content);
+          }
         }
       }
     });
@@ -104,7 +112,7 @@ export class UserProductsComponent {
               this._toastService.setToast({
                 severity: 'success',
                 summary: 'Éxito',
-                detail: 'Producto eliminado correctamente.',
+                detail: `Producto ${product.name} eliminado correctamente.`,
                 life: 6000
               });
             }

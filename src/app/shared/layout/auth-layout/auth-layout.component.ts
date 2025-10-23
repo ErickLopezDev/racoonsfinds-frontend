@@ -11,6 +11,8 @@ export class AuthLayoutComponent {
 
   constructor(private router: Router) { }
 
+  
+
   goHome() {
     this.router.navigate(['/']);
   }

@@ -8,14 +8,16 @@
             </a>
         </div>
 
-        <div class="flex-1">
+        <form [formGroup]="form" class="flex-1">
             <p-inputgroup>
-                <input fluid pInputText placeholder="Buscar" />
-                <p-inputgroup-addon>
-                    <i class="pi pi-search"></i>
+                <input fluid formControlName="search" pInputText placeholder="Buscar" />
+                <p-inputgroup-addon class="p-0">
+                    <button (click)="search()" class="cursor-pointer flex items-center justify-center w-full h-full">
+                        <i class="pi pi-search"></i>
+                    </button>
                 </p-inputgroup-addon>
             </p-inputgroup>
-        </div>
+        </form>
 
         
         <div class="flex gap-2">
@@ -24,7 +26,13 @@
             <p-button severity="secondary" icon="pi pi-bell" />
             @if(isAuthenticated()){
                 <div class="user-profile" pTooltip="Mi Perfil" tooltipPosition="right">
-                    <p-avatar (click)="menu.toggle($event)" label="U" class="cursor-pointer" [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }" shape="circle" />
+                    <div class="w-[40px] h-[40px] flex justify-center items-center rounded-full overflow-hidden border-[1px] border-gray-200 cursor-pointer" (click)="menu.toggle($event)">
+                        @if (user()?.imageUrl) {
+                            <img src="{{user()?.imageUrl}}" class="object-cover" alt="user image">
+                        }@else {
+                            <i class="pi pi-user text-[24px] text-gray-300"></i>
+                        }
+                    </div>
                     <p-menu #menu [model]="itemsAvatar" [popup]="true" />
                 </div>
             } @else {

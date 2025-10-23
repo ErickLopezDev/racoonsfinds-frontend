@@ -3,21 +3,22 @@ import { inject } from '@angular/core';
 import { UserStateService } from '../../../../shared/services/user-state.service';
 import { ToastStateService } from '../../../../shared/services/toast.service';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const loginGuard: CanActivateFn = (route, state) => {
   const _userStateService = inject(UserStateService);
   const router = inject(Router);
   const _toastService = inject(ToastStateService)
+
   if (_userStateService.isAuthVerify()) {
-    return true;
-  } else {
     _toastService.setToast({
-      severity: 'error',
-      summary: 'Acceso denegado',
-      detail: 'Debes iniciar sesión para acceder a esta sección',
+      severity: 'info',
+      summary: 'Ya has iniciado sesión',
+      detail: 'No puedes acceder a la página de inicio de sesión si ya has iniciado sesión',
       life: 3000
-    })
-    router.navigate(['/auth']);
+    });
+    router.navigate(['/dash/user']);
     return false;
+  } else {
+    return true;
   }
 
 };

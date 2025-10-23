@@ -6,21 +6,20 @@
 
         <div class="flex mt-6 gap-[20px]">
 
-            <section class="flex flex-col gap-3 flex-1">
+            <form [formGroup]="form" class="flex flex-col gap-3 flex-1">
 
                 <p-iftalabel>
-                    <input fluid pInputText id="username" autocomplete="off" />
+                    <input fluid formControlName="username" pInputText id="username" autocomplete="off" />
                     <label for="username">Nombres*</label>
                 </p-iftalabel>
 
                 <p-iftalabel>
-                    <p-datepicker inputId="date" fluid showIcon iconDisplay="input" />
-                    <label for="date">Date</label>
+                    <p-datepicker   formControlName="birthdate" inputId="date" fluid showIcon iconDisplay="input" />
+                    <label for="date">Date*</label>
                 </p-iftalabel>
 
                 <p-iftalabel>
-                    <input fluid pInputText id="email" [value]="'brayan.alaya@hotmail.com'" [disabled]="true"
-                        autocomplete="off" />
+                    <input fluid pInputText id="email" formControlName="email" autocomplete="off" />
                     <label for="email">Correo Electronico</label>
                 </p-iftalabel>
 
@@ -32,7 +31,7 @@
 
                 <p-button label="Cambiar Contraseña" [raised]="true" fluid severity="secondary" />
 
-            </section>
+            </form>
 
 
             <section class="flex-1 flex gap-10 flex-col">
@@ -40,11 +39,11 @@
                 <fieldset class="flex flex-col items-center h-full justify-between">
 
                     <span
-                        class="w-[250px] flex justify-center items-center h-[250px] border-gray-300 shadow-xl border-[5px rounded-full">
+                        class="w-[250px] flex justify-center overflow-hidden items-center h-[250px] border-gray-200 shadow-xl border-[5px] rounded-full">
                         @if (hasImage) {
-                        <img class="w-full h-full" [src]="srcImage" alt="">
+                            <img class="w-full h-full object-cover" [src]="srcImage" alt="">
                         } @else {
-                        <i class="pi pi-user text-[150px] text-gray-300"></i>
+                            <i class="pi pi-user text-[150px] text-gray-300"></i>
                         }
                     </span>
 
@@ -64,7 +63,7 @@
         </div>
 
         <div class="mx-auto mt-10 max-w-[500px]">
-            <p-button label="Guardar Cambios" fluid [raised]="true" />
+            <p-button label="Guardar Cambios" (onClick)="updateUser()" fluid [raised]="true" />
         </div>
     </p-card>
 

@@ -1,16 +1,15 @@
 import { IApiResponse } from "@utils/api-util";
 
-
-export interface IPurchases {
+export interface IPurcharse {
     id: number,
     date: string,
     monto: number,
     description: string,
     userId: number,
-    details: IPurcharsesDetails[]
+    details: IPurchaseDetail[]
 }
 
-export interface IPurcharsesDetails {
+export interface IPurchaseDetail {
     id: number,
     productId: number,
     productName: string,
@@ -18,8 +17,15 @@ export interface IPurcharsesDetails {
     amount: number
 }
 
-export interface IPurcharsesGetAllRequest{
+export type IPurcharsesCreateFromCartResponse = IApiResponse<IPurcharse>;
 
-}
+export type IPurcharsesGetMyPurchasesResponse = IApiResponse<IPurcharse[]>;
 
-export type IPurcharsesGetAllResponse = IApiResponse<IPurchases[]>;
+export type IPurcharsesGetMySalesResponse = IApiResponse<IPurcharse[]>;
+
+
+
+
+
+
+

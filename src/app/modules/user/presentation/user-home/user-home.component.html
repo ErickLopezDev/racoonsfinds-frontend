@@ -4,11 +4,17 @@
 
             <div class="flex gap-4 items-center w-full h-full">
 
-                <p-avatar label="P" shape="circle" class="mr-2" size="xlarge" />
+                <div class="w-[90px] h-[90px] rounded-full overflow-hidden border-2 border-gray-200 flex justify-center items-center">
+                    @if (user()?.imageUrl) {
+                        <img src="{{user()?.imageUrl}}" class="object-cover" alt="user image">
+                    }@else {
+                        <i class="pi pi-user text-[50px] text-gray-300"></i>
+                    }
+                </div>
 
                 <div class="flex flex-col flex-1">
-                    <h3 class="text-xl font-bold line-clamp-1">Brayan Anthony Alaya Alaya</h3>
-                    <h2 class="text-lg text-gray-600 line-clamp-1">{{'brayan.alaya@hotmail.com'}}</h2>
+                    <h3 class="text-xl font-bold line-clamp-1">{{(user()?.username | titlecase ) ?? '-'}}</h3>
+                    <h2 class="text-lg text-gray-600 line-clamp-1">{{user()?.email ?? '-'}}</h2>
                 </div>
 
             </div>

@@ -8,20 +8,20 @@ import { WISHLIST_API_ROUTES } from './wishlist-api.routing';
   providedIn: 'root'
 })
 
-export class WishlistService extends ApiUtilService{
-  
+export class WishlistService extends ApiUtilService {
+
   getAll(): Observable<IWishlistGetResponse> {
-    const url = this.buildApiUrl({endpoint: WISHLIST_API_ROUTES.getAll});
+    const url = this.buildApiUrl({ endpoint: WISHLIST_API_ROUTES.getAll });
     return this.http.get<IWishlistGetResponse>(url);
   }
 
-  create(value: {body: IWishlistCreateRequest}): Observable<IWishlistCreateRequest>{
-    const url = this.buildApiUrl({endpoint: WISHLIST_API_ROUTES.create});
+  create(value: { body: IWishlistCreateRequest }): Observable<IWishlistCreateRequest> {
+    const url = this.buildApiUrl({ endpoint: WISHLIST_API_ROUTES.create });
     return this.http.post<IWishlistCreateRequest>(url, value.body);
   }
 
-  delete(value: {body: IWishlistDeleteByIdParamRequest}): Observable<any>{
-    const url = this.buildApiUrl({endpoint: WISHLIST_API_ROUTES.deleteById, parameters: value.body});
+  delete(value: { body: IWishlistDeleteByIdParamRequest }): Observable<any> {
+    const url = this.buildApiUrl({ endpoint: WISHLIST_API_ROUTES.deleteById, parameters: value.body });
     return this.http.delete<any>(url);
   }
 }

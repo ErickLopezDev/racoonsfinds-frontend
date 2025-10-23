@@ -11,8 +11,7 @@ export interface ICart{
     amount: number
 }
 
-export interface ICartGetAllRequest {
-}
+export type ICartGetAllResponse = IApiResponse<ICart[]>;
 
 export interface ICartCreateRequest {
     productId: number,
@@ -22,13 +21,9 @@ export interface ICartCreateRequest {
 export type ICartCreateResponse = IApiResponse<ICart>;
 
 
-
-export interface ICartDeleteRequest{
-}
-
-export type ICartDeleteResponse = IApiResponse<ICart>;
+export type ICartDeleteResponse = IApiResponse<any>;
 
 export interface ICartDeleteByIdParamRequest {
-    productId: number,
+    id: number,
 }
 export type ICartDeleteByIdParamResponse = IApiResponse<ICart>;

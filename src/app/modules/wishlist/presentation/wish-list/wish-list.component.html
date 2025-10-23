@@ -16,22 +16,17 @@
             @for (product of products(); track $index) {
                 <p-card>
                     <div class="flex w-full gap-3 h-[100px]">
-                        <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
+                        <img src="{{product.productImage ? product.productImage : 'assets/image-not-found.svg'}}" class="w-[160px] h-full" alt="{{product.productName}}" />
     
                         <div class="flex-1">
-                            <h4 class="font-medium text-xl">{{product.name}}</h4>
-                            <p class="font-medium text-[15px] text-gray-500">{{product.description}}</p>
-                            <p class="font-medium text-[15px] text-gray-500">S/ {{product.price}}</p>
-                            <p class="font-medium text-[15px] text-gray-500">Cantidad: {{product.stock}}</p>
+                            <h4 class="font-medium text-xl">{{product.productName}}</h4>
+                            <p class="font-medium text-[15px] text-gray-500">S/ {{product.productPrice}}</p>
                         </div>
     
-                        <div class="flex flex-col justify-between">
-                            <p-button label="Añadir al carrito" (click)="onAgregarCarrito()" icon="pi pi-shopping-cart"></p-button>
-                            @if(product.stock > 0) {
-                                <p class="flex items-center gap-2 text-green-500"><i class="pi pi-check"></i> Disponible</p>
-                            }@else {
-                                <p class="flex items-center gap-2 text-red-500"><i class="pi pi-times"></i> Disponible</p>
-                            }
+                        <div class="flex gap-2 justify-start">
+                            <p-button label="Añadir al carrito" (click)="onAgregarCarrito(product)" icon="pi pi-shopping-cart"></p-button>
+                            <p-button severity="danger" [outlined]="true" (click)="deleteWishList(product)" icon="pi pi-star"></p-button>
+                           
                         </div>
     
                     </div>

@@ -1,9 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Breadcrumb, BreadCrumbStyle } from 'primeng/breadcrumb';
 import { Button } from 'primeng/button';
 import { Card } from 'primeng/card';
 import { IProduct } from '../../../products/models/products.model';
+import { CartService } from '../../../cart/services/cart.service';
+import { ToastStateService } from '../../../../shared/services/toast.service';
+import { IWishlist } from '../../models/wishlist.model';
+import { WishlistService } from '../../services/wishlist.service';
 
 @Component({
   selector: 'app-wish-list',
@@ -15,86 +19,56 @@ export class WishListComponent {
   breadCrumb: MenuItem[] = [
     { label: 'Lista de Deseados', icon: 'pi pi-star-fill' },
   ];
+  private _cartService = inject(CartService)
+  private _toastState = inject(ToastStateService);
+  private _wishlistService = inject(WishlistService)
 
-  products = signal<IProduct[]>([
-    {
-      id: 1,
-      name: 'Laptop HP Pavilion',
-      stock: 10,
-      image: 'laptop.jpg',
-      price: 899.99,
-      description: 'Laptop HP Pavilion con procesador Intel Core i5, 8GB RAM, 512GB SSD',
-      createdDate: '2023-08-15T10:30:00',
-      eliminado: false,
-      categoryId: 1,
-      categoryName: 'Electrónicos',
-      userId: 101,
-      userName: 'TechStore',
-      imageUrl: 'https://picsum.photos/id/1/300/200'
-    },
-    {
-      id: 2,
-      name: 'Smartphone Samsung Galaxy',
-      stock: 25,
-      image: 'smartphone.jpg',
-      price: 599.99,
-      description: 'Samsung Galaxy S22 con pantalla AMOLED, 128GB almacenamiento',
-      createdDate: '2023-09-05T14:20:00',
-      eliminado: false,
-      categoryId: 1,
-      categoryName: 'Electrónicos',
-      userId: 102,
-      userName: 'MobileWorld',
-      imageUrl: 'https://picsum.photos/id/2/300/200'
-    },
-    {
-      id: 3,
-      name: 'Zapatillas Nike Air',
-      stock: 50,
-      image: 'zapatillas.jpg',
-      price: 120.50,
-      description: 'Zapatillas Nike Air Max para correr, talla 42',
-      createdDate: '2023-07-22T09:15:00',
-      eliminado: false,
-      categoryId: 2,
-      categoryName: 'Ropa y Calzado',
-      userId: 101,
-      userName: 'TechStore',
-      imageUrl: 'https://picsum.photos/id/3/300/200'
-    },
-    {
-      id: 4,
-      name: 'Monitor LG UltraWide',
-      stock: 8,
-      image: 'monitor.jpg',
-      price: 349.99,
-      description: 'Monitor LG UltraWide 29" IPS Full HD',
-      createdDate: '2023-10-01T16:45:00',
-      eliminado: false,
-      categoryId: 1,
-      categoryName: 'Electrónicos',
-      userId: 103,
-      userName: 'ComputerDeals',
-      imageUrl: 'https://picsum.photos/id/4/300/200'
-    },
-    {
-      id: 5,
-      name: 'Libro Clean Code',
-      stock: 30,
-      image: 'libro.jpg',
-      price: 35.99,
-      description: 'Clean Code: A Handbook of Agile Software Craftsmanship por Robert C. Martin',
-      createdDate: '2023-06-10T11:20:00',
-      eliminado: false,
-      categoryId: 3,
-      categoryName: 'Libros',
-      userId: 104,
-      userName: 'BookHaven',
-      imageUrl: 'https://picsum.photos/id/5/300/200'
-    },
-  ]);
+  products = signal<IWishlist[]>([]);
 
-  onAgregarCarrito() {
+  loadWIshList() {
+    this._wishlistService.getAll().subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          this.products.set(response.data);
+        }
+      }
+    });
+
+  }
+
+  constructor() {
+    this.loadWIshList();
+  }
+
+  deleteWishList(product: IWishlist) {
+    this._wishlistService.delete({ body: { productId: product.productId } }).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this._toastState.setToast({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Producto eliminado de la lista de deseados.'
+          });
+          this.loadWIshList();
+        }
+      }
+    });
+  }
+
+  onAgregarCarrito(product: IWishlist) {
+
+    this._cartService.create({ body: { productId: product.id, amount: 1 } }).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this._toastState.setToast({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Producto agregado al carrito.'
+          });
+        }
+      }
+    });
+
 
   }
 

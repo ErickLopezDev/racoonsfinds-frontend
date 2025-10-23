@@ -65,10 +65,13 @@
                             <p>S/ {{ total | number:'1.2-2' }}</p>
                         </div>
 
-                        <p-button fluid label="Comprar" icon="pi pi-shopping-bag" [disabled]="items.length === 0"></p-button>
+                        <p-button fluid label="Comprar" (onClick)="buy()" icon="pi pi-shopping-bag" [disabled]="items.length === 0"></p-button>
                     </div>
                 </p-card>
             </div>
         </div>
     </div>
 </div>
+
+
+<app-dialog></app-dialog>

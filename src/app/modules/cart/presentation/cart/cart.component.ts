@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
@@ -7,59 +7,123 @@ import { InputNumber } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ICart } from '../../models/cart.model';
-import { PRODUCT_API_ROUTES } from '../../services/cart-api.routing';
+import { CART_API_ROUTES } from '../../services/cart-api.routing';
+import { CartService } from '../../services/cart.service';
+import { ToastStateService } from '../../../../shared/services/toast.service';
+import { DialogComponent } from "@components/dialog/dialog.component";
+import { PurchasesService } from '../../../purchases/services/purchases.service';
 
 @Component({
   selector: 'app-cart',
-  imports: [Card, Breadcrumb, InputNumber, ButtonModule, FormsModule, CommonModule],
+  imports: [Card, Breadcrumb, InputNumber, ButtonModule, FormsModule, CommonModule, DialogComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
+
+  @ViewChild(DialogComponent) dialogComponent!: DialogComponent;
+
   breadCrumb: MenuItem[] = [
     { label: 'Carrito', icon: 'pi pi-shopping-cart' },
   ];
+  private _purchaseService = inject(PurchasesService);
+  private _cartService = inject(CartService);
+  items: ICart[] = [];
+  private _toastService = inject(ToastStateService);
 
-  items: ICart[] = [
-    {
-      id: 1,
-      userId: 100,
-      productId: 501,
-      productName: 'Zapatillas Urban Runner',
-      productImage: 'assets/image-not-found.svg',
-      productPrice: 159.9,
-      amount: 1,
-    },
-    {
-      id: 2,
-      userId: 100,
-      productId: 502,
-      productName: 'Mochila Travel Pro',
-      productImage: 'assets/image-not-found.svg',
-      productPrice: 89.5,
-      amount: 2,
-    },
-    {
-      id: 3,
-      userId: 100,
-      productId: 503,
-      productName: 'Gorra Classic Fit',
-      productImage: 'assets/image-not-found.svg',
-      productPrice: 39.99,
-      amount: 1,
-    },
-  ];
+  constructor() {
+    this.getCart();
+  }
+
+  getCart() {
+    this._cartService.getAll().subscribe({
+      next: (data) => {
+        if (!data.success) {
+          this._toastService.setToast({
+            severity: 'error',
+            summary: 'Error',
+            detail: data.message || 'Error al obtener el carrito'
+          })
+          return;
+        }
+        this.items = data.data;
+      }
+    });
+  }
+
+  buy() {
+    this.dialogComponent.openDialog({
+      tipo: 'success',
+      title: 'Confirmar compra',
+      message: '¿Estás seguro de que deseas realizar la compra de los productos en el carrito?',
+      textAcceptButton: 'Sí, comprar',
+      textCancelButton: 'No, cancelar',
+      onAccept: () => {
+        this._purchaseService.purchase().subscribe({
+          next: (data) => {
+            if (!data.success) {
+              this._toastService.setToast({
+                severity: 'error',
+                summary: 'Error',
+                detail: data.message || 'Error al realizar la compra'
+              })
+              return;
+            }
+            this.items = [];
+            this._toastService.setToast({
+              severity: 'success',
+              summary: 'Éxito',
+              detail: 'Compra realizada correctamente'
+            })
+          }
+        });
+
+      }
+    })
+  }
 
   onDelete(item: ICart) {
-    const url = PRODUCT_API_ROUTES.deleteById.replace('{id}', String(item.id));
-    console.log('DELETE', url, { productId: item.productId });
-    this.items = this.items.filter(i => i.id !== item.id);
+    this._cartService.deleteById({ param: { id: item.productId } }).subscribe({
+      next: (data) => {
+        if (!data.success) {
+          this._toastService.setToast({
+            severity: 'error',
+            summary: 'Error',
+            detail: data.message || 'Error al eliminar el producto del carrito'
+          })
+          return;
+        }
+        this.items = this.items.filter(it => it.productId !== item.productId);
+
+        this._toastService.setToast({
+          severity: 'success',
+          summary: 'Éxito',
+          detail: 'Producto eliminado del carrito correctamente'
+        })
+      }
+    });
+
   }
 
   onDeleteAll() {
-    const url = PRODUCT_API_ROUTES.deleteAll;
-    console.log('DELETE', url);
-    this.items = [];
+    this._cartService.deleteAll().subscribe({
+      next: (data) => {
+        if (!data.success) {
+          this._toastService.setToast({
+            severity: 'error',
+            summary: 'Error',
+            detail: data.message || 'Error al vaciar el carrito'
+          })
+          return;
+        }
+        this.items = [];
+        this._toastService.setToast({
+          severity: 'success',
+          summary: 'Éxito',
+          detail: 'Carrito vaciado correctamente'
+        })
+      }
+    });
   }
 
   get total(): number {

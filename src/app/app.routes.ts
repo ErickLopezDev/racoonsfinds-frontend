@@ -11,9 +11,11 @@ import { SALES_ROUTES } from './modules/sales/presentation/sales.routes';
 import { CART_ROUTES } from './modules/cart/presentation/cart.routes';
 import { authGuard } from './core/auth/config/guards/auth.guard';
 import { PRODUCTS_PUBLIC_ROUTES } from './modules/products/presentation/products-public.routes';
+import { LandingComponent } from './modules/landing/presentation/landing/landing.component';
+import { loginGuard } from './core/auth/config/guards/login.guard';
 
 export const routes: Routes = [
-    { path: 'auth', component: AuthLayoutComponent, children: AUTH_ROUTES },
+    { path: 'auth', component: AuthLayoutComponent, children: AUTH_ROUTES, canActivateChild: [loginGuard] },
     {
         path: '', component: ClientLayoutComponent, children: [
             {
@@ -26,7 +28,9 @@ export const routes: Routes = [
                 ]
             },
             { path: 'cart', children: CART_ROUTES, canActivate: [authGuard] },
-            { path: 'products', children: PRODUCTS_PUBLIC_ROUTES }
+            { path: 'products', children: PRODUCTS_PUBLIC_ROUTES },
+            { path: '', component: LandingComponent }
         ]
-    }
+    },
+    { path: '**', redirectTo: '' }
 ];

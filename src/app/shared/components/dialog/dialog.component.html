@@ -1,11 +1,11 @@
-<p-dialog [(visible)]="display" [modal]="true" [closable]="false" ngClass="shadow-md" [style]="{ width: '820px'}"
+<p-dialog [(visible)]="display" [showHeader]="false" [modal]="true" [closable]="false" ngClass="shadow-md" [style]="{ width: '620px'}"
   [position]="'center'" [draggable]="false" [resizable]="false" [transitionOptions]="'0ms'">
 
   <div class="flex gap-5 justify-between items-start w-full">
     <div class="flex flex-1 flex-col gap-3">
 
       <!-- titulo del modal -->
-      <h2 class="font-heading-05 m-0 font-bold">{{title()}}</h2>
+      <h2 class="font-heading-05 m-0 mt-6 font-bold">{{title()}}</h2>
 
       <!-- mensaje descriptivo -->
       <p *ngIf="message() != null" class="font-body-02">{{message()}}</p>
@@ -13,7 +13,7 @@
       <!-- formulario para validar si desea hacer una accion -->
       <form class="flex flex-col w-full gap-2" [formGroup]="form">
         <fieldset *ngIf="validateWord() != null" class="flex flex-col gap-2">
-          <label for="validateWord" class="font-body-04 font-medium">Ingresar texto<span class="text-[--gray-70]">
+          <label for="validateWord" class="font-body-04 font-medium">Ingresar texto<span class="text-gray-700">
               “{{validateWord()}}”</span></label>
           <input id="validateWord" autocomplete="off" placeholder="Ingresar texto" type="text" pInputText
             formControlName="validateWord" />
@@ -28,7 +28,7 @@
   </div>
 
   <ng-template #footer>
-    <div class="px-6 py-4 bg-[var(--gray-20)] w-full flex gap-3 justify-end items-center">
+    <div class=" w-full flex gap-3 justify-end items-center">
 
       <p-button *ngIf="textCancelButton() != null" severity="secondary"
         (click)="closeDialog()">{{textCancelButton()}}</p-button>

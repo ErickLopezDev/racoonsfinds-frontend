@@ -14,14 +14,14 @@ export interface IWishlist{
 export interface IWishlistQueryRequest {
 }
 
-export type IWishlistGetResponse = IApiResponse<IWishlist>;
+export type IWishlistGetResponse = IApiResponse<IWishlist[]>;
 
 // Create Wishlist
 
 export interface IWishlistCreateRequest{
-    productId: string
+    productId: number
 }
 
 export interface IWishlistDeleteByIdParamRequest{
-    productId: string
+    productId: number
 }

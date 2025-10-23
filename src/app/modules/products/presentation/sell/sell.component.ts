@@ -73,6 +73,26 @@ export class SellComponent implements OnInit {
       if (Number.isFinite(parsed)) {
         // opcional: forzar entero si corresponde a IDs
         this.productId = Math.trunc(parsed);
+
+        this._productService.getById({ body: { id: this.productId } }).subscribe({
+          next: (res) => {
+            if (res.success) {
+              const product = res.data;
+              this.form.patchValue({
+                name: product.name,
+                price_input: product.price,
+                quantity: product.stock,
+                description: product.description,
+                category: product.categoryId,
+              });
+              this.imagesShowArray = [{
+                image: product.imageUrl,
+                name: product.name
+              }];
+            }
+          }
+        })
+
       } else {
         this.productId = null;
       }
@@ -104,7 +124,7 @@ export class SellComponent implements OnInit {
       categoryId: this.form.get('category')?.value,
       file: this.imagesArray[0]
     }
-    
+
     this._productService.create({ body: req }).subscribe({
       next: (res) => {
         if (res.success) {
@@ -122,7 +142,8 @@ export class SellComponent implements OnInit {
   }
 
   updateProduct(): void {
-
+    if (!this.imagesArray || !this.productId) return;
+    
   }
 
   uploadimage(e: any): void {

@@ -55,7 +55,7 @@
                 <tr>
                   <td colspan="4">
                     <div class="p-4">
-                      <h5>Detalles</h5>
+                      <h5 class="font-bold">Detalles</h5>
                       <p-table [value]="purchase.details" dataKey="id">
                         <ng-template #header>
                           <tr>
@@ -92,7 +92,7 @@
             </p-table>
           </div>
 
-          <div class="w-full flex justify-center mt-6">
+          <!-- <div class="w-full flex justify-center mt-6">
             <p-button
               label="Ver más"
               variant="text"
@@ -101,7 +101,7 @@
               (onClick)="showMore()"
               [disabled]="visibleCount >= purchases.length"
             />
-          </div>
+          </div> -->
         </div>
       </p-card>
     </div>

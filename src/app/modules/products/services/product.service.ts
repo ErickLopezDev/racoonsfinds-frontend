@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiUtilService } from '@utils/api-util.service';
 import { Observable } from 'rxjs';
 import { PRODUCT_API_ROUTES } from './product-api.routing';
-import { IProductCreateRequest, IProductDeleteByIdParamRequest, IProductGetByIdParamRequest, IProductGetQueryRquest, IProductGetResponse } from '../models/products.model';
+import { IProductCreateRequest, IProductDeleteByIdParamRequest, IProductGetByIdParamRequest, IProductGetByIdResponse, IProductGetQueryRquest, IProductGetResponse } from '../models/products.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +20,15 @@ export class ProductService extends ApiUtilService {
     return this.http.post<IProductGetResponse>(url, body);
   }
 
-  getById(value: { body: IProductGetByIdParamRequest }): Observable<IProductGetResponse> {
+  getById(value: { body: IProductGetByIdParamRequest }): Observable<IProductGetByIdResponse> {
     const url = this.buildApiUrl({ endpoint: PRODUCT_API_ROUTES.getById, parameters: value.body });
-    return this.http.get<IProductGetResponse>(url);
+    return this.http.get<IProductGetByIdResponse>(url);
+  }
+
+  update(value: { body: IProductCreateRequest, param: IProductGetByIdParamRequest }): Observable<IProductGetByIdResponse> {
+    const body = this.transformToFormData(value.body);
+    const url = this.buildApiUrl({ endpoint: PRODUCT_API_ROUTES.updateById, parameters: value.param });
+    return this.http.put<IProductGetByIdResponse>(url, body);
   }
 
   delete(value: { param: IProductDeleteByIdParamRequest }): Observable<any> {

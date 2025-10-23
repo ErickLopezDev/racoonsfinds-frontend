@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
@@ -7,24 +7,8 @@ import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
-
-interface SalesDetails {
-  id: number;
-  productId: number;
-  productName: string;
-  monto: number;
-  amount: number;
-}
-
-interface Sales {
-  id: number;
-  date: string;
-  monto: number;
-  description: string;
-  userId: number;
-  details: SalesDetails[];
-}
-
+import { IPurcharse } from '../../../purchases/models/purchases.model';
+import { PurchasesService } from '../../../purchases/services/purchases.service';
 
 @Component({
   selector: 'app-sales-history',
@@ -38,41 +22,30 @@ export class SalesHistoryComponent {
   breadCrumb: MenuItem[] = [
     { label: 'Mis Ventas', icon: 'pi pi-shop' },
   ];
-
+  private _purchaseService = inject(PurchasesService);
   expandedRows: { [key: number]: boolean } = {};
 
-  sales: Sales[] = [
-    {
-      id: 1,
-      date: '2025-10-21',
-      monto: 129.99 * 2 + 9.99 * 1,
-      description: 'Compra de accesorios de seguridad',
-      userId: 101,
-      details: [
-        { id: 1, productId: 10, productName: 'Cámara de Seguridad IP', monto: 129.99, amount: 2 },
-        { id: 2, productId: 11, productName: 'Limpiaparabrisas', monto: 9.99, amount: 1 },
-      ],
-    },
-    {
-      id: 2,
-      date: '2025-10-18',
-      monto: 59.99,
-      description: 'Compra de foco LED',
-      userId: 101,
-      details: [
-        { id: 3, productId: 12, productName: 'Foco LED', monto: 59.99, amount: 1 },
-      ],
-    },
-  ];
+  sales: IPurcharse[] = [];
 
-  constructor(private messageService: MessageService) {}
+  constructor() {
+    this.loadSales();
+  }
+
+
+  loadSales() {
+    this._purchaseService.getMysales().subscribe({
+      next: (response) => {
+        this.sales = response.data;
+      }
+    });
+  }
 
   onRowExpand(event: TableRowExpandEvent) {
-    const sale = event.data as Sales;
+    const sale = event.data as IPurcharse;
   }
 
   onRowCollapse(event: TableRowCollapseEvent) {
-    const sale = event.data as Sales;
+    const sale = event.data as IPurcharse;
   }
 
   expandAll() {
@@ -84,7 +57,7 @@ export class SalesHistoryComponent {
   }
 
   visibleCount = 3;
-  get visibleSales(): Sales[] {
+  get visibleSales(): IPurcharse[] {
     return this.sales.slice(0, this.visibleCount);
   }
 

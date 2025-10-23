@@ -1,4 +1,4 @@
-export const PRODUCT_API_ROUTES = {
+export const CART_API_ROUTES = {
     getAll: 'cart',
     create: 'cart',
     deleteById: 'cart/{id}',

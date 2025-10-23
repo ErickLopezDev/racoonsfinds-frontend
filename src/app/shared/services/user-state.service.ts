@@ -1,6 +1,8 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ILoginRes } from '../../core/auth/config/services/auth.model';
+import { IUserMeDto } from '../../modules/user/models/user.model';
+import { UserService } from '../../modules/user/services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,7 @@ import { ILoginRes } from '../../core/auth/config/services/auth.model';
 export class UserStateService {
 
   private readonly _router = inject(Router);
+  private readonly _userService = inject(UserService);
 
   private tokenNameLs = 'accessToken';
   private userId = 'userId';
@@ -18,11 +21,42 @@ export class UserStateService {
   private _user = signal<number | null>(null);
   user = this._user.asReadonly();
 
+  private _userPerfil = signal<IUserMeDto | null>(null);
+  userPerfil = this._userPerfil.asReadonly();
+
+  private _isAuthenticated = signal<boolean>(false);
+  isAuthenticated = this._isAuthenticated.asReadonly();
+
+  setPerfil() {
+    if (this.isAuthenticated() === false) return
+    this._userService.getUserMe().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this._userPerfil.set(response.data)
+        }
+      }
+    })
+  }
+
   constructor() {
     const token = localStorage.getItem(this.tokenNameLs);
+    const userId = localStorage.getItem(this.userId);
+    if (userId) {
+      this._user.set(+userId);
+    }
     if (token) {
       this._token.set(token);
     }
+
+    effect(() => {
+      this._token();
+      this._user();
+      this._userPerfil();
+      this.isAuthenticatedF();
+    })
+
+
+    this.setPerfil()
 
   }
 
@@ -40,10 +74,19 @@ export class UserStateService {
     localStorage.removeItem(this.tokenNameLs);
     localStorage.removeItem(this.userId);
     this._token.set('');
-    this._router.navigate(['/auth']);
+    this._user.set(null);
+    this._isAuthenticated.set(false);
+    this._router.navigate(['/']);
+    this._userPerfil.set(null);
   }
 
-  isAuthenticated(): boolean {
+  isAuthenticatedF() {
+    const token = localStorage.getItem(this.tokenNameLs);
+    const userId = localStorage.getItem(this.userId);
+    this._isAuthenticated.set(!!token && !!userId);
+  }
+
+  isAuthVerify(): boolean {
     const token = localStorage.getItem(this.tokenNameLs);
     const userId = localStorage.getItem(this.userId);
     return !!token && !!userId;
