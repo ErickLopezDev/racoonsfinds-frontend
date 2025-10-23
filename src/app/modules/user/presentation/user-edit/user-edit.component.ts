@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
@@ -7,40 +7,56 @@ import { IftaLabelModule } from 'primeng/iftalabel';
 import { ButtonModule } from 'primeng/button';
 import { DatePicker } from 'primeng/datepicker';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ToastStateService } from '../../../../shared/services/toast.service';
 import { UserService } from '../../services/user.service';
-import { IUserMeDto, IUserPutBodyReq, IUserPutQueryReq } from '../../models/user.model';
+import {
+  IUserMeDto,
+  IUserPutBodyReq,
+  IUserPutQueryReq,
+} from '../../models/user.model';
 import { UserStateService } from '../../../../shared/services/user-state.service';
 
 @Component({
   selector: 'app-user-edit',
-  imports: [CardModule, Breadcrumb, InputTextModule, IftaLabelModule, ButtonModule, DatePicker, CommonModule, ReactiveFormsModule],
+  imports: [
+    CardModule,
+    Breadcrumb,
+    InputTextModule,
+    IftaLabelModule,
+    ButtonModule,
+    DatePicker,
+    CommonModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './user-edit.component.html',
-  styleUrl: './user-edit.component.css'
+  styleUrl: './user-edit.component.css',
 })
 export class UserEditComponent implements OnInit {
   items: MenuItem[] | undefined;
-  public srcImage: string = "../../../../../assets/userUnknow.jpg"
-  public imageFileNew: any
-  public hasImage: boolean = false
+  public srcImage: string = '../../../../../assets/userUnknow.jpg';
+  public imageFileNew: any;
+  public hasImage: boolean = false;
   private _fb: FormBuilder = inject(FormBuilder);
-  private _toastService = inject(ToastStateService)
-  private _userService = inject(UserService)
-  private _userStateService = inject(UserStateService)
+  private _toastService = inject(ToastStateService);
+  private _userService = inject(UserService);
+  private _userStateService = inject(UserStateService);
   user = this._userStateService.userPerfil;
 
   ngOnInit() {
     this.items = [
       { label: 'Perfil', icon: 'pi pi-user', routerLink: '/dash/user' },
-      { label: 'Usuarios' }
+      { label: 'Usuarios' },
     ];
-    this.form.get('birthdate')?.valueChanges.subscribe(date => {
+    this.form.get('birthdate')?.valueChanges.subscribe((date) => {
       this.validDate(18, date);
     });
-
   }
-
 
   form!: FormGroup;
 
@@ -49,18 +65,39 @@ export class UserEditComponent implements OnInit {
       username: ['', [Validators.required]],
       birthdate: ['', [Validators.required]],
       email: [{ value: '', disabled: true }],
-    })
-    this._userStateService.setPerfil()
+    });
+
+    effect(() => {
+      const userData = this.user();
+      this.setPerfil();
+    });
+  }
+
+  setPerfil() {
+    const userData = this.user();
+    if (!userData) return;
+    this.form.patchValue({
+      username: userData.username,
+      birthdate: new Date(userData.birthDate + 'T00:00:01'),
+      email: userData.email,
+    });
+    console.log(userData.birthDate + 'T00:00:01');
+    if (userData.imageUrl) {
+      this.srcImage = userData.imageUrl;
+      this.hasImage = true;
+    } else {
+      this.hasImage = false;
+    }
   }
 
   updateUser(): void {
-    console.log(this.form.value)
+    console.log(this.form.value);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    const query: IUserPutQueryReq = {}
+    const query: IUserPutQueryReq = {};
 
     if (this.form.get('username')?.value !== this.user()?.username) {
       query.username = this.form.get('username')?.value;
@@ -73,10 +110,8 @@ export class UserEditComponent implements OnInit {
     const body: IUserPutBodyReq = {};
 
     if (this.imageFileNew) {
-      body.file = this.imageFileNew
-
+      body.file = this.imageFileNew;
     }
-
 
     this._userService.updateUserMe({ query, body }).subscribe({
       next: (response) => {
@@ -84,30 +119,36 @@ export class UserEditComponent implements OnInit {
           this._toastService.setToast({
             severity: 'success',
             summary: 'Éxito',
-            detail: 'Perfil actualizado correctamente.'
+            detail: 'Perfil actualizado correctamente.',
           });
         }
-        this._userStateService.setPerfil()
-      }
-    })
-
+        this._userStateService.setPerfil();
+      },
+    });
   }
 
   deleteImage(): void {
-    this.imageFileNew = ""
+    this.imageFileNew = '';
     this.hasImage = false;
   }
 
   protected validDate(minAge: number, date: string, maxAge: number = 0): void {
-
     if (date == '' || date == null) {
       return;
     }
 
     const selectedDate = new Date(date);
     const today = new Date();
-    const minAgeDate = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
-    const maxAgeDate = new Date(today.getFullYear() - maxAge, today.getMonth(), today.getDate());
+    const minAgeDate = new Date(
+      today.getFullYear() - minAge,
+      today.getMonth(),
+      today.getDate()
+    );
+    const maxAgeDate = new Date(
+      today.getFullYear() - maxAge,
+      today.getMonth(),
+      today.getDate()
+    );
 
     if (maxAge > 0) {
       if (selectedDate > minAgeDate || selectedDate < maxAgeDate) {
@@ -128,14 +169,20 @@ export class UserEditComponent implements OnInit {
       const file = e.target.files[0];
 
       // Define allowed image MIME types
-      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      const allowedTypes = [
+        'image/jpeg',
+        'image/png',
+        'image/gif',
+        'image/webp',
+      ];
 
       // Check if the file type is allowed
       if (!allowedTypes.includes(file.type)) {
         this._toastService.setToast({
           severity: 'error',
           summary: 'Error',
-          detail: 'Tipo de archivo no válido. Solo se permiten imágenes JPG, PNG, GIF y WebP.'
+          detail:
+            'Tipo de archivo no válido. Solo se permiten imágenes JPG, PNG, GIF y WebP.',
         });
         return;
       }
@@ -144,7 +191,7 @@ export class UserEditComponent implements OnInit {
       reader.readAsDataURL(file);
       reader.onload = (event: any) => {
         this.srcImage = event.target.result;
-      }
+      };
       this.imageFileNew = file;
       this.hasImage = true;
     }

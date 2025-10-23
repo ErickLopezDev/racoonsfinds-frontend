@@ -1,53 +1,66 @@
 <header class="flex flex-col w-full h-[120px] gap-2 py-4 bg-primary-600">
+  <section class="flex items-center gap-5 flex-[0.6] px-5">
+    <div class="w-[40px] h-[40px]">
+      <a routerLink="/" class="w-[40px] h-[40px]">
+        <img src="assets/authBgImg.png" class="w-[40px] h-[40px]" alt="" />
+      </a>
+    </div>
 
-    <section class="flex items-center gap-5 flex-[0.6]  px-5">
+    <form [formGroup]="form" class="flex-1">
+      <p-inputgroup>
+        <input fluid formControlName="search" pInputText placeholder="Buscar" />
+        <p-inputgroup-addon class="p-0">
+          <button
+            (click)="search()"
+            class="cursor-pointer flex items-center justify-center w-full h-full"
+          >
+            <i class="pi pi-search"></i>
+          </button>
+        </p-inputgroup-addon>
+      </p-inputgroup>
+    </form>
 
-        <div class=" w-[40px] h-[40px]">
-            <a routerLink="/" class=" w-[40px] h-[40px]">
-                <img src="assets/authBgImg.png" class=" w-[40px] h-[40px]" alt="">
-            </a>
+    <div class="flex gap-2">
+      <p-button
+        severity="secondary"
+        (onClick)="goCart()"
+        icon="pi pi-shopping-cart"
+      />
+
+      <p-button severity="secondary" icon="pi pi-bell" />
+      @if(isAuthenticated()){
+      <div class="user-profile" pTooltip="Mi Perfil" tooltipPosition="right">
+        <div
+          class="w-[40px] h-[40px] flex justify-center items-center rounded-full overflow-hidden border-[1px] border-gray-200 cursor-pointer"
+          (click)="menu.toggle($event)"
+        >
+          @if (user()?.imageUrl) {
+          <img
+            src="{{ user()?.imageUrl }}"
+            class="object-cover"
+            alt="user image"
+          />
+          }@else {
+          <i class="pi pi-user text-[24px] text-gray-300"></i>
+          }
         </div>
+        <p-menu #menu [model]="itemsAvatar" [popup]="true" />
+      </div>
+      } @else {
+      <p-button
+        label="Iniciar Sesión"
+        severity="success"
+        class="text-nowrap"
+        (onClick)="goLogin()"
+      />
+      <p-button label="Registrarse" (onClick)="goRegister()" />
+      }
+    </div>
+  </section>
 
-        <form [formGroup]="form" class="flex-1">
-            <p-inputgroup>
-                <input fluid formControlName="search" pInputText placeholder="Buscar" />
-                <p-inputgroup-addon class="p-0">
-                    <button (click)="search()" class="cursor-pointer flex items-center justify-center w-full h-full">
-                        <i class="pi pi-search"></i>
-                    </button>
-                </p-inputgroup-addon>
-            </p-inputgroup>
-        </form>
-
-        
-        <div class="flex gap-2">
-            <p-button severity="secondary" (onClick)="goCart()" icon="pi pi-shopping-cart" />
-            
-            <p-button severity="secondary" icon="pi pi-bell" />
-            @if(isAuthenticated()){
-                <div class="user-profile" pTooltip="Mi Perfil" tooltipPosition="right">
-                    <div class="w-[40px] h-[40px] flex justify-center items-center rounded-full overflow-hidden border-[1px] border-gray-200 cursor-pointer" (click)="menu.toggle($event)">
-                        @if (user()?.imageUrl) {
-                            <img src="{{user()?.imageUrl}}" class="object-cover" alt="user image">
-                        }@else {
-                            <i class="pi pi-user text-[24px] text-gray-300"></i>
-                        }
-                    </div>
-                    <p-menu #menu [model]="itemsAvatar" [popup]="true" />
-                </div>
-            } @else {
-                <p-button label="Iniciar Sesión" severity="success" class="text-nowrap" (onClick)="goLogin()" />
-                <p-button label="Registrarse"  (onClick)="goRegister()" />
-            }
-        </div>
-
-
-    </section>
-
-    <section class="flex items-center h-full gap-5 flex-[0.4] px-5 border-t-[1px] bg-primary-500 border-t-primary-800">
-
-        <p-menubar [model]="items" />
-
-    </section>
-
+  <section
+    class="flex items-center h-full gap-5 flex-[0.4] px-5 border-t-[1px] bg-primary-500 border-t-primary-800"
+  >
+    <p-menubar [model]="items" />
+  </section>
 </header>
