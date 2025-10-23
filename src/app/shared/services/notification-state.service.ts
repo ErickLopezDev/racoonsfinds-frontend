@@ -25,7 +25,6 @@ export class NotificationStateService {
   }
 
   setNotifications() {
-    console.log(this.userStateService.isAuthenticated());
     if (!this.userStateService.isAuthenticated()) {
       this._notifications.set([]);
       return;

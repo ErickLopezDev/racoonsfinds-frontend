@@ -16,6 +16,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NotificationStateService } from '../../../../services/notification-state.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +28,7 @@ import { NotificationStateService } from '../../../../services/notification-stat
     ButtonModule,
     Menubar,
     Menu,
+    CommonModule,
     RouterModule,
     ReactiveFormsModule,
   ],
@@ -35,18 +37,21 @@ import { NotificationStateService } from '../../../../services/notification-stat
 })
 export class HeaderClientComponent {
   items: MenuItem[] = [];
-  notificationsMenuItems: MenuItem[] = [];
-
+  showMenuNotifications = false;
   private _formBuilder = inject(FormBuilder);
   private _notifcationState = inject(NotificationStateService);
+  notifications = this._notifcationState.notifications;
   private _userState = inject(UserStateService);
   private _route = inject(Router);
   private _categoryService = inject(CategoryStateService);
 
-  notifications = this._notifcationState.notifications;
   isAuthenticated = this._userState.isAuthenticated;
   user = this._userState.userPerfil;
   categorias = this._categoryService.categorias;
+
+  toogleMenuNotifications() {
+    this.showMenuNotifications = !this.showMenuNotifications;
+  }
 
   itemsAvatar: MenuItem[] = [
     { label: 'Perfil', icon: 'pi pi-user', routerLink: '/dash/user' },
@@ -83,7 +88,6 @@ export class HeaderClientComponent {
     effect(() => {
       this.categorias();
       this.loadHeader();
-      this.buildNotificationMenu();
     });
 
     // Inicializar notificaciones
@@ -140,13 +144,5 @@ export class HeaderClientComponent {
       },
       { label: 'Ayuda', icon: 'pi pi-question-circle' },
     ];
-  }
-
-  buildNotificationMenu() {
-    this.notificationsMenuItems = this.notifications().map((notif: any) => ({
-      label: notif.title || notif.message,
-      icon: notif.icon || 'pi pi-info-circle',
-      command: notif.command,
-    }));
   }
 }
