@@ -1,52 +1,94 @@
-<div class="w-full h-full">
-    <div class="flex flex-col h-full w-full gap-3">
-        <div class="w-full h-auto">
-            <p-card>
-                <div class="w-full h-full">
-
-                    <div class="flex w-full h-[cacl(100%-45px)] ">
-                        <div class="flex justify-between items-center w-full">
-                            <p-breadcrumb [model]="breadCrumb" />
-                        </div>
-                    </div>
-                </div>
-            </p-card>
-        </div>
-        <div class="w-full h-full">
-            <p-card>
-                <div class=" h-full w-full overflow-y-auto">
-                    <div class="shadow-lg border border-gray-300 rounded-lg">
-                        <p-table [value]="sales" stripedRows >
-                            <ng-template #header>
-                                <tr>
-                                    <th class="w-full">Nombre</th>
-                                    <th class="text-center">Cantidad</th>
-                                    <th>Precio</th>
-                                    <th>Monto</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template #body let-product>
-                                <tr>
-                                    <td>{{product.name}}</td>
-                                    <td>
-                                        <p class="w-[150px] text-center">{{product.quantity}}</p>
-                                    </td>
-                                    <td>
-                                        <p class="w-[150px]">S/. {{product.price}}</p>
-                                    </td>
-                                    <td>
-                                        <p class="w-[150px]"></p>S/. {{product.amount}}
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </div>
-
-                    <div class="w-full flex justify-center mt-6">
-                        <p-button label="Ver Más" variant="text" [raised]="true" severity="secondary" />
-                    </div>
-                </div>
-            </p-card>
-        </div>
-    </div>
+<div class="mb-3">
+    <p-card>
+        <p-breadcrumb [model]="breadCrumb" />
+    </p-card>
 </div>
+
+
+<p-toast></p-toast>
+
+<p-card>
+  <p-table
+    [value]="visibleSales"
+    dataKey="id"
+    [expandedRowKeys]="expandedRows"
+    (onRowExpand)="onRowExpand($event)"
+    (onRowCollapse)="onRowCollapse($event)"
+  >
+    <ng-template #caption>
+      <div class="flex flex-wrap justify-end gap-2">
+        <p-button label="Expandir todo" icon="pi pi-plus" text (onClick)="expandAll()" />
+        <p-button label="Contraer todo" icon="pi pi-minus" text (onClick)="collapseAll()" />
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th style="width: 5rem"></th>
+        <th>Fecha</th>
+        <th>Descripción</th>
+        <th class="text-right">Total</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-sale let-expanded="expanded">
+      <tr>
+        <td>
+          <p-button type="button" pRipple [pRowToggler]="sale" [text]="true" severity="secondary" [rounded]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+        </td>
+        <td>{{ sale.date }}</td>
+        <td>{{ sale.description }}</td>
+        <td class="text-right">{{ sale.monto | currency: 'S/.' }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template #expandedrow let-sale>
+      <tr>
+        <td colspan="4">
+          <div class="p-4">
+            <h5>Detalles</h5>
+            <p-table [value]="sale.details" dataKey="id">
+              <ng-template #header>
+                <tr>
+                  <th>Producto</th>
+                  <th class="text-right">Cantidad</th>
+                  <th class="text-right">Precio</th>
+                  <th class="text-right">Subtotal</th>
+                </tr>
+              </ng-template>
+              <ng-template #body let-d>
+                <tr>
+                  <td>{{ d.productName }}</td>
+                  <td class="text-right">{{ d.amount }}</td>
+                  <td class="text-right">{{ d.monto | currency: 'S/.' }}</td>
+                  <td class="text-right">{{ (d.monto * d.amount) | currency: 'S/.' }}</td>
+                </tr>
+              </ng-template>
+              <ng-template #emptymessage>
+                <tr>
+                  <td colspan="4">Sin detalles.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="4">Sin ventas.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div class="w-full flex justify-center mt-6">
+    <p-button
+      label="Ver más"
+      variant="text"
+      [raised]="true"
+      severity="secondary"
+      (onClick)="showMore()"
+      [disabled]="visibleCount >= sales.length"
+    />
+  </div>
+</p-card>

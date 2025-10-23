@@ -8,27 +8,27 @@
                         <div class="flex w-full h-[cacl(100%-45px)] ">
                             <div class="flex justify-between items-center w-full">
                                 <p-breadcrumb [model]="breadCrumb" />
+                                <p-button (click)="onDeleteAll()" label="Vaciar carrito" icon="pi pi-trash" severity="danger" [disabled]="items.length === 0"></p-button>
                             </div>
                         </div>
                     </div>
                 </p-card>
             </div>
             <div class="w-full h-[calc(100%-64px)] overflow-y-auto flex flex-col justify-start gap-2">
-                <div class="h-[140px]">
+                <div class="h-[140px]" *ngFor="let item of items">
                     <p-card>
                         <div class="flex w-full gap-3 h-[100px]">
-                            <img src="assets/image-not-found.svg" class="h-full" alt="image not found">
+                            <img [src]="item.productImage || 'assets/image-not-found.svg'" class="h-full" alt="image not found">
 
                             <div class="flex-1">
-                                <h4 class="font-medium text-xl">Product Name</h4>
-                                <p class="font-medium text-[15px] text-gray-500">Descripción</p>
-                                <p class="font-medium text-[15px] text-gray-500">S/ 15</p>
-                                <p class="font-medium text-[15px] text-gray-500">Cantidad: 15</p>
+                                <h4 class="font-medium text-xl">{{ item.productName }}</h4>
+                                <p class="font-medium text-[15px] text-gray-500">S/ {{ item.productPrice | number:'1.2-2' }}</p>
+                                <p class="font-medium text-[15px] text-gray-500">Cantidad: {{ item.amount }}</p>
                             </div>
 
                             <div class="flex flex-col w-[135px] justify-between">
-                                <p-inputnumber [showButtons]="true" buttonLayout="horizontal" class="text-center"
-                                    [max]="999" inputId="horizontal" spinnerMode="horizontal" fluid>
+                                <p-inputnumber [(ngModel)]="item.amount" [showButtons]="true" buttonLayout="horizontal" class="text-center"
+                                    [min]="1" [max]="999" [inputId]="'horizontal-' + item.id" spinnerMode="horizontal" fluid>
                                     <ng-template #incrementbuttonicon>
                                         <span class="pi pi-plus"></span>
                                     </ng-template>
@@ -37,7 +37,7 @@
                                     </ng-template>
                                 </p-inputnumber>
 
-                                <p-button (click)="onDelete()" fluid label="Eliminar" severity="danger"
+                                <p-button (click)="onDelete(item)" fluid label="Eliminar" severity="danger"
                                     icon="pi pi-trash"></p-button>
 
                             </div>
@@ -45,6 +45,7 @@
                         </div>
                     </p-card>
                 </div>
+                <div *ngIf="items.length === 0" class="opacity-70 text-center py-6">Tu carrito está vacío.</div>
             </div>
         </div>
         <div class="w-[300px] h-full flex flex-col overflow-y-auto justify-start">
@@ -52,19 +53,19 @@
                 <p-card>
                     <div class="flex flex-col gap-3 w-full h-full overflow-y-auto">
                         <h3 class="text-xl font-semibold">Resumen de compra</h3>
-                        <ul class="list-disc list-inside flex flex-col gap-1">
-                            <li>Producto 1</li>
-                            <li>Producto 1</li>
-                            <li>Producto 1</li>
-                            <li>Producto 1</li>
+                        <ul class="list-disc list-inside flex flex-col gap-1" *ngIf="items.length > 0; else emptySummary">
+                            <li *ngFor="let it of items">{{ it.productName }} x{{ it.amount }} — S/ {{ (it.productPrice * it.amount) | number:'1.2-2' }}</li>
                         </ul>
+                        <ng-template #emptySummary>
+                            <div class="opacity-70">No hay productos.</div>
+                        </ng-template>
 
                         <div class="flex justify-between">
                             <p class="font-semibold">TOTAL</p>
-                            <p>S/59.99</p>
+                            <p>S/ {{ total | number:'1.2-2' }}</p>
                         </div>
 
-                        <p-button (click)="onDelete()" fluid label="Comprar" icon="pi pi-shopping-bag"></p-button>
+                        <p-button fluid label="Comprar" icon="pi pi-shopping-bag" [disabled]="items.length === 0"></p-button>
                     </div>
                 </p-card>
             </div>
