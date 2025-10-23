@@ -16,17 +16,16 @@ import { WishlistService } from '../../../wishlist/services/wishlist.service';
   selector: 'app-public-products',
   imports: [CardModule, Button, Skeleton],
   templateUrl: './public-products.component.html',
-  styleUrl: './public-products.component.css'
+  styleUrl: './public-products.component.css',
 })
 export class PublicProductsComponent implements OnInit {
-
-  private _categoryState = inject(CategoryStateService)
+  private _categoryState = inject(CategoryStateService);
   category = this._categoryState.categorias;
 
-  private _cartService = inject(CartService)
-  private _wishlistService = inject(WishlistService)
+  private _cartService = inject(CartService);
+  private _wishlistService = inject(WishlistService);
 
-  private _userStateService = inject(UserStateService)
+  private _userStateService = inject(UserStateService);
   isAuthenticated = this._userStateService.isAuthenticated();
 
   private _activatedRoute = inject(ActivatedRoute);
@@ -40,14 +39,14 @@ export class PublicProductsComponent implements OnInit {
   loadingProducts = signal<boolean>(false);
 
   page = signal<number>(0);
-  size: number = 10
+  size: number = 10;
   count: number = 0;
 
-  private _productService = inject(ProductService)
+  private _productService = inject(ProductService);
   products = signal<IProduct[]>([]);
 
   ngOnInit() {
-    this._activatedRoute.queryParamMap.subscribe(params => {
+    this._activatedRoute.queryParamMap.subscribe((params) => {
       const name = params.get('name');
       const categoryIdStr = params.get('categoryId');
       this.namesearchQuery.set(name);
@@ -61,13 +60,11 @@ export class PublicProductsComponent implements OnInit {
 
   constructor() {
     effect(() => {
-
       this.namesearchQuery();
       this.categorysearchQuery();
       this.page();
       this.search();
-
-    })
+    });
   }
 
   showMore() {
@@ -76,51 +73,51 @@ export class PublicProductsComponent implements OnInit {
 
   onAgregarCarrito(product: IProduct) {
     if (this.isAuthenticated) {
-
-      this._cartService.create({ body: { productId: product.id, amount: 1 } }).subscribe({
-        next: (response) => {
-          if (response.success) {
-            this._toastState.setToast({
-              severity: 'success',
-              summary: 'Éxito',
-              detail: 'Producto agregado al carrito.'
-            });
-          }
-        }
-      });
-
-
+      this._cartService
+        .create({ body: { productId: product.id, amount: 1 } })
+        .subscribe({
+          next: (response) => {
+            if (response.success) {
+              this._toastState.setToast({
+                severity: 'success',
+                summary: 'Éxito',
+                detail: 'Producto agregado al carrito.',
+              });
+            }
+          },
+        });
     } else {
       this._toastState.setToast({
         severity: 'warn',
         summary: 'Advertencia',
-        detail: 'Debe iniciar sesión para agregar productos al carrito.'
+        detail: 'Debe iniciar sesión para agregar productos al carrito.',
       });
     }
   }
 
   onAgregarWishList(product: IProduct) {
     if (this.isAuthenticated) {
-      this._wishlistService.create({ body: { productId: product.id } }).subscribe({
-        next: (response) => {
-          if (response) {
-            this._toastState.setToast({
-              severity: 'success',
-              summary: 'Éxito',
-              detail: 'Producto agregado a la lista de deseos.'
-            });
-          }
-
-        }
-      });
+      this._wishlistService
+        .create({ body: { productId: product.id } })
+        .subscribe({
+          next: (response) => {
+            if (response) {
+              this._toastState.setToast({
+                severity: 'success',
+                summary: 'Éxito',
+                detail: 'Producto agregado a la lista de deseos.',
+              });
+            }
+          },
+        });
     } else {
       this._toastState.setToast({
         severity: 'warn',
         summary: 'Advertencia',
-        detail: 'Debe iniciar sesión para agregar productos a la lista de deseos.'
+        detail:
+          'Debe iniciar sesión para agregar productos a la lista de deseos.',
       });
     }
-
   }
 
   search() {
@@ -131,30 +128,35 @@ export class PublicProductsComponent implements OnInit {
       size: this.size,
     };
 
-    if (this.namesearchQuery() !== null && this.namesearchQuery() !== undefined && this.namesearchQuery() !== '') {
+    if (
+      this.namesearchQuery() !== null &&
+      this.namesearchQuery() !== undefined &&
+      this.namesearchQuery() !== ''
+    ) {
       query.search = this.namesearchQuery()!;
       console.log('search', this.namesearchQuery());
     }
-    if (this.categorysearchQuery() !== null && this.categorysearchQuery() !== undefined && this.categorysearchQuery() !== 0) {
+    if (
+      this.categorysearchQuery() !== null &&
+      this.categorysearchQuery() !== undefined &&
+      this.categorysearchQuery() !== 0
+    ) {
       query.categoryId = this.categorysearchQuery()!;
     }
 
     this.loadingProducts.set(true);
-    this._productService.getAll({ query })
-      .pipe(
-        finalize(() => this.loadingProducts.set(false))
-      )
+    this._productService
+      .getAll({ query })
+      .pipe(finalize(() => this.loadingProducts.set(false)))
       .subscribe({
         next: (response) => {
-          this.products.set(response.data.content);
+          this.products.set(response.data.content.filter((p) => !p.eliminado));
           this.count = response.data.totalItems;
-        }
-      })
-
+        },
+      });
   }
 
   selectCategory(categoryId: number) {
     this.categorysearchQuery.set(categoryId);
   }
-
 }

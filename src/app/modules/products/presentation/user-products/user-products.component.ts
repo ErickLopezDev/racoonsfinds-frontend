@@ -13,17 +13,31 @@ import { IProduct, IProductGetQueryRquest } from '../../models/products.model';
 import { ICategory } from '../../../categories/models/categories.model';
 import { ProductService } from '../../services/product.service';
 import { CategoriesService } from '../../../categories/services/categories.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ToastStateService } from '../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-user-products',
-  imports: [PaginatorModule, Breadcrumb, Card, IftaLabelModule, InputTextModule, Select, Button, DialogComponent, ReactiveFormsModule],
+  imports: [
+    PaginatorModule,
+    Breadcrumb,
+    Card,
+    IftaLabelModule,
+    InputTextModule,
+    Select,
+    Button,
+    DialogComponent,
+    ReactiveFormsModule,
+  ],
   templateUrl: './user-products.component.html',
-  styleUrl: './user-products.component.css'
+  styleUrl: './user-products.component.css',
 })
 export class UserProductsComponent {
-
   @ViewChild(DialogComponent) dialog!: DialogComponent;
 
   // Services
@@ -34,12 +48,10 @@ export class UserProductsComponent {
   private _formBuilder = inject(FormBuilder);
 
   // Variables
-  products = signal<IProduct[]>([])
+  products = signal<IProduct[]>([]);
   categories = signal<ICategory[]>([]);
   first: number = 0;
-  items: MenuItem[] = [
-    { label: 'Publicaciones', icon: 'pi pi-bookmark' },
-  ];
+  items: MenuItem[] = [{ label: 'Publicaciones', icon: 'pi pi-bookmark' }];
   rows: number = 12;
   selectedCity: any | undefined;
 
@@ -54,7 +66,7 @@ export class UserProductsComponent {
         if (categories.success) {
           this.categories.set(categories.data);
         }
-      }
+      },
     });
 
     this.getProducts();
@@ -64,7 +76,7 @@ export class UserProductsComponent {
     const query: IProductGetQueryRquest = {
       page: 0,
       size: 12,
-    }
+    };
 
     if (this.form.controls['categoryId'].valid) {
       query.categoryId = this.form.controls['categoryId'].value;
@@ -79,14 +91,17 @@ export class UserProductsComponent {
             this._toastService.setToast({
               severity: 'info',
               summary: 'Información',
-              detail: 'No se encontraron productos con los criterios especificados.',
-              life: 6000
+              detail:
+                'No se encontraron productos con los criterios especificados.',
+              life: 6000,
             });
           } else {
-            this.products.set(products.data.content);
+            this.products.set(
+              products.data.content.filter((p) => !p.eliminado)
+            );
           }
         }
-      }
+      },
     });
   }
 
@@ -113,12 +128,12 @@ export class UserProductsComponent {
                 severity: 'success',
                 summary: 'Éxito',
                 detail: `Producto ${product.name} eliminado correctamente.`,
-                life: 6000
+                life: 6000,
               });
             }
-          }
+          },
         });
-      }
+      },
     });
   }
 

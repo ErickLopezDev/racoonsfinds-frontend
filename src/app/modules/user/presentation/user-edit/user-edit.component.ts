@@ -190,7 +190,7 @@ export class UserEditComponent implements OnInit {
         return;
       }
 
-      // ✅ Validar tamaño del archivo
+      // validar tamaño del archivo
       if (file.size > maxSize) {
         this._toastService.setToast({
           severity: 'error',
