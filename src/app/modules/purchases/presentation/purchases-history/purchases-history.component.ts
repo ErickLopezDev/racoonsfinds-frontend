@@ -20,7 +20,7 @@ export class PurchasesHistoryComponent {
     { label: 'Historial de Compras', icon: 'pi pi-history' },
   ];
 
-  private _purchasesServices = inject(PurchasesService)
+  private readonly _purchasesServices = inject(PurchasesService)
 
   expandedRows: { [key: number]: boolean } = {};
 

@@ -75,12 +75,20 @@ export class PanelLayoutComponent implements OnInit, OnDestroy {
     this.router.navigate([item.routerLink]);
   }
 
+  onProfileClick() {
+    this.router.navigate(['/dash/user']);
+  }
+
   onLogout() {
     // Implementar lógica de logout
     this.UserStateService.logout();
   }
 
   isRouteActive(routerLink: string): boolean {
+    if (routerLink === '/') {
+      return this.router.url === '/';
+    }
+
     return this.router.url.startsWith(routerLink);
   }
 

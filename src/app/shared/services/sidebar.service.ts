@@ -18,18 +18,10 @@ export interface SidebarItem {
 })
 export class SidebarService {
 
-  private sidebarItemsSubject = new BehaviorSubject<SidebarItem[]>([]);
+  private readonly sidebarItemsSubject = new BehaviorSubject<SidebarItem[]>([]);
   public sidebarItems$ = this.sidebarItemsSubject.asObservable();
 
-  private defaultItems: SidebarItem[] = [
-    {
-      id: 'gbo',
-      label: 'Inicio',
-      icon: 'pi pi-home',
-      routerLink: '/dash/user',
-      tooltip: 'Inicio',
-      isVisible: true
-    },
+  private readonly defaultItems: SidebarItem[] = [
     {
       id: 'dashboard',
       label: 'Publicaciones',

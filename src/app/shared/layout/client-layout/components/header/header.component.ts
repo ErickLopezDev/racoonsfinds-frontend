@@ -38,12 +38,12 @@ import { CommonModule } from '@angular/common';
 export class HeaderClientComponent {
   items: MenuItem[] = [];
   showMenuNotifications = false;
-  private _formBuilder = inject(FormBuilder);
-  private _notifcationState = inject(NotificationStateService);
+  private readonly _formBuilder = inject(FormBuilder);
+  private readonly _notifcationState = inject(NotificationStateService);
   notifications = this._notifcationState.notifications;
-  private _userState = inject(UserStateService);
-  private _route = inject(Router);
-  private _categoryService = inject(CategoryStateService);
+  private readonly _userState = inject(UserStateService);
+  private readonly _route = inject(Router);
+  private readonly _categoryService = inject(CategoryStateService);
 
   isAuthenticated = this._userState.isAuthenticated;
   user = this._userState.userPerfil;

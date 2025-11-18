@@ -21,12 +21,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AuthAccountComponent implements OnInit {
 
-  private _fb: FormBuilder = inject(FormBuilder);
-  private AuthService: AuthService = inject(AuthService);
-  private toast: ToastStateService = inject(ToastStateService);
-  private userStateService: UserStateService = inject(UserStateService);
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
+  private readonly _fb: FormBuilder = inject(FormBuilder);
+  private readonly AuthService: AuthService = inject(AuthService);
+  private readonly toast: ToastStateService = inject(ToastStateService);
+  private readonly userStateService: UserStateService = inject(UserStateService);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
 
   correo: string = '';
   codeForm!: FormGroup;

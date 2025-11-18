@@ -7,7 +7,6 @@ import { InputNumber } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ICart } from '../../models/cart.model';
-import { CART_API_ROUTES } from '../../services/cart-api.routing';
 import { CartService } from '../../services/cart.service';
 import { ToastStateService } from '../../../../shared/services/toast.service';
 import { DialogComponent } from "@components/dialog/dialog.component";
@@ -26,10 +25,10 @@ export class CartComponent {
   breadCrumb: MenuItem[] = [
     { label: 'Carrito', icon: 'pi pi-shopping-cart' },
   ];
-  private _purchaseService = inject(PurchasesService);
-  private _cartService = inject(CartService);
+  private readonly _purchaseService = inject(PurchasesService);
+  private readonly _cartService = inject(CartService);
   items: ICart[] = [];
-  private _toastService = inject(ToastStateService);
+  private readonly _toastService = inject(ToastStateService);
 
   constructor() {
     this.getCart();

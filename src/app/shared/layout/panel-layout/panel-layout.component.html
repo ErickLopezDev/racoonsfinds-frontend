@@ -8,8 +8,7 @@
             <div class="nav-items">
                 <div *ngFor="let item of sidebarItems; trackBy: trackByItemId" class="nav-item"
                     [class.active]="isRouteActive(item.routerLink)" (click)="onSidebarItemClick(item)"
-                    [routerLink]="item.routerLink" routerLinkActive="active" [pTooltip]="item.tooltip"
-                    tooltipPosition="right">
+                    [routerLink]="item.routerLink" [pTooltip]="item.tooltip" tooltipPosition="right">
 
                     <i [class]="item.icon" class="nav-icon"></i>
 
@@ -28,7 +27,7 @@
             </p-button>
 
             <!-- User Profile -->
-            <div class="user-profile" pTooltip="Mi Perfil" tooltipPosition="right">
+            <div class="user-profile" pTooltip="Mi Perfil" tooltipPosition="right" (click)="onProfileClick()">
                 <p-avatar label="U" [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }" shape="circle" />
             </div>
 

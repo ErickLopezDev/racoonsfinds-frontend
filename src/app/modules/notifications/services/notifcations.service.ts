@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ApiUtilService } from '@utils/api-util.service';
 import { Observable } from 'rxjs';
 import {
-  INotification,
   INotificationResponse,
 } from '../models/notifications.model';
 import { NOTIFICATIONS_API_ROUTES } from './notifications.routing';

@@ -1,6 +1,5 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { ILoginRes } from '../../core/auth/config/services/auth.model';
 import { IUserMeDto } from '../../modules/user/models/user.model';
 import { UserService } from '../../modules/user/services/user.service';
 
@@ -12,19 +11,19 @@ export class UserStateService {
   private readonly _router = inject(Router);
   private readonly _userService = inject(UserService);
 
-  private tokenNameLs = 'accessToken';
-  private userId = 'userId';
+  private readonly tokenNameLs = 'accessToken';
+  private readonly userId = 'userId';
 
-  private _token = signal<string>('');
+  private readonly _token = signal<string>('');
   token = this._token.asReadonly();
 
-  private _user = signal<number | null>(null);
+  private readonly _user = signal<number | null>(null);
   user = this._user.asReadonly();
 
-  private _userPerfil = signal<IUserMeDto | null>(null);
+  private readonly _userPerfil = signal<IUserMeDto | null>(null);
   userPerfil = this._userPerfil.asReadonly();
 
-  private _isAuthenticated = signal<boolean>(false);
+  private readonly _isAuthenticated = signal<boolean>(false);
   isAuthenticated = this._isAuthenticated.asReadonly();
 
   setPerfil() {

@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component} from '@angular/core';
 import { HeaderClientComponent } from "./components/header/header.component";
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { CategoryStateService } from '../../services/category.service';
 
 @Component({

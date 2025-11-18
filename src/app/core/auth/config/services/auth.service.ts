@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { ApiUtilService } from '../../../../shared/utils/api-util.service';
 import { ILoginReq, ILoginRes, IRegisterReq, IRegisterRes, IResendCodeReq, IResendCodeRes, IVerifyReq, IVerifyRes } from './auth.model';

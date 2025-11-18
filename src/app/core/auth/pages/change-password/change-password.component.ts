@@ -14,7 +14,7 @@ import { PasswordModule } from 'primeng/password';
 })
 export class ChangePasswordComponent {
 
-  private _fb: FormBuilder = inject(FormBuilder);
+  private readonly _fb: FormBuilder = inject(FormBuilder);
 
 
   form!: FormGroup;
@@ -31,7 +31,6 @@ export class ChangePasswordComponent {
 
     if (this.form.valid) {
       const formValue = this.form.value;
-
     }
   }
 

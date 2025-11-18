@@ -42,10 +42,10 @@ export class UserEditComponent implements OnInit {
   public srcImage: string = '../../../../../assets/userUnknow.jpg';
   public imageFileNew: any;
   public hasImage: boolean = false;
-  private _fb: FormBuilder = inject(FormBuilder);
-  private _toastService = inject(ToastStateService);
-  private _userService = inject(UserService);
-  private _userStateService = inject(UserStateService);
+  private readonly _fb: FormBuilder = inject(FormBuilder);
+  private readonly _toastService = inject(ToastStateService);
+  private readonly _userService = inject(UserService);
+  private readonly _userStateService = inject(UserStateService);
   user = this._userStateService.userPerfil;
 
   ngOnInit() {

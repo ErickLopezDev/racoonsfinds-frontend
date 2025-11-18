@@ -13,10 +13,10 @@ import { ToastStateService } from './shared/services/toast.service';
 })
 export class AppComponent {
 
-  private toastStateService: ToastStateService = inject(ToastStateService);
+  private readonly toastStateService: ToastStateService = inject(ToastStateService);
   toast = this.toastStateService.toast;
 
-  private messageService: MessageService = inject(MessageService);
+  private readonly messageService: MessageService = inject(MessageService);
 
   constructor() {
     effect(() => {

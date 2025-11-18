@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { UserService } from '../../services/user.service';
-import { IUserMeDto } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { UserStateService } from '../../../../shared/services/user-state.service';
 
@@ -14,9 +13,9 @@ import { UserStateService } from '../../../../shared/services/user-state.service
 })
 export class UserHomeComponent implements OnInit {
 
-  private _userService = inject(UserService)
-  private _Router = inject(Router)
-  private _userStateService = inject(UserStateService)
+  private readonly _userService = inject(UserService)
+  private readonly _Router = inject(Router)
+  private readonly _userStateService = inject(UserStateService)
   user = this._userStateService.userPerfil;
 
   redirectToEdit() {

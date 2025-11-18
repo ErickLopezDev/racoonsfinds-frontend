@@ -41,11 +41,11 @@ export class UserProductsComponent {
   @ViewChild(DialogComponent) dialog!: DialogComponent;
 
   // Services
-  private _categoryService: CategoriesService = inject(CategoriesService);
-  private _productService = inject(ProductService);
-  private _Route = inject(Router);
-  private _toastService = inject(ToastStateService);
-  private _formBuilder = inject(FormBuilder);
+  private readonly _categoryService: CategoriesService = inject(CategoriesService);
+  private readonly _productService = inject(ProductService);
+  private readonly _Route = inject(Router);
+  private readonly _toastService = inject(ToastStateService);
+  private readonly _formBuilder = inject(FormBuilder);
 
   // Variables
   products = signal<IProduct[]>([]);

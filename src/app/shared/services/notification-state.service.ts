@@ -7,10 +7,10 @@ import { UserStateService } from './user-state.service';
   providedIn: 'root',
 })
 export class NotificationStateService {
-  private notificationService = inject(NotifcationsService);
-  private userStateService = inject(UserStateService);
+  private readonly notificationService = inject(NotifcationsService);
+  private readonly userStateService = inject(UserStateService);
 
-  private _notifications = signal<INotification[]>([]);
+  private readonly _notifications = signal<INotification[]>([]);
   notifications = this._notifications.asReadonly();
 
   constructor() {

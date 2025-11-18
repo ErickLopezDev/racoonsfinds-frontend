@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiUtilService } from '@utils/api-util.service';
 import { Observable } from 'rxjs';
-import { IWishlist, IWishlistCreateRequest, IWishlistDeleteByIdParamRequest, IWishlistGetResponse } from '../models/wishlist.model';
+import { IWishlistCreateRequest, IWishlistDeleteByIdParamRequest, IWishlistGetResponse } from '../models/wishlist.model';
 import { WISHLIST_API_ROUTES } from './wishlist-api.routing';
 
 @Injectable({

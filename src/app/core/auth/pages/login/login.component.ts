@@ -23,11 +23,11 @@ import { UserStateService } from '../../../../shared/services/user-state.service
 })
 export class LoginComponent {
 
-  private _fb: FormBuilder = inject(FormBuilder);
-  private AuthService: AuthService = inject(AuthService);
-  private toast: ToastStateService = inject(ToastStateService);
-  private router: Router = inject(Router)
-  private userStateService: UserStateService = inject(UserStateService);
+  private readonly _fb: FormBuilder = inject(FormBuilder);
+  private readonly AuthService: AuthService = inject(AuthService);
+  private readonly toast: ToastStateService = inject(ToastStateService);
+  private readonly router: Router = inject(Router)
+  private readonly userStateService: UserStateService = inject(UserStateService);
 
   form!: FormGroup;
 
@@ -64,9 +64,6 @@ export class LoginComponent {
           }
         }, error: (err) => {
           console.log(err.error); 
-          if (err.err) {
-            
-          }
         }
 
       });

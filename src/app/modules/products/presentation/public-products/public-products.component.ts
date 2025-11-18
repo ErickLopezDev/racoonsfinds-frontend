@@ -19,21 +19,21 @@ import { WishlistService } from '../../../wishlist/services/wishlist.service';
   styleUrl: './public-products.component.css',
 })
 export class PublicProductsComponent implements OnInit {
-  private _categoryState = inject(CategoryStateService);
+  private readonly _categoryState = inject(CategoryStateService);
   category = this._categoryState.categorias;
 
-  private _cartService = inject(CartService);
-  private _wishlistService = inject(WishlistService);
+  private readonly _cartService = inject(CartService);
+  private readonly _wishlistService = inject(WishlistService);
 
-  private _userStateService = inject(UserStateService);
+  private readonly _userStateService = inject(UserStateService);
   isAuthenticated = this._userStateService.isAuthenticated();
 
-  private _activatedRoute = inject(ActivatedRoute);
-  private _toastState = inject(ToastStateService);
+  private readonly _activatedRoute = inject(ActivatedRoute);
+  private readonly _toastState = inject(ToastStateService);
 
-  private namesearchQuery = signal<string | null>(null);
+  private readonly namesearchQuery = signal<string | null>(null);
   searchName = this.namesearchQuery.asReadonly();
-  private categorysearchQuery = signal<number | null>(null);
+  private readonly categorysearchQuery = signal<number | null>(null);
   categorySelected = this.categorysearchQuery.asReadonly();
 
   loadingProducts = signal<boolean>(false);
@@ -42,7 +42,7 @@ export class PublicProductsComponent implements OnInit {
   size: number = 10;
   count: number = 0;
 
-  private _productService = inject(ProductService);
+  private readonly _productService = inject(ProductService);
   products = signal<IProduct[]>([]);
 
   ngOnInit() {

@@ -1,14 +1,13 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { ToastMessageOptions } from 'primeng/api';
 import { ICategory } from '../../modules/categories/models/categories.model';
 import { CategoriesService } from '../../modules/categories/services/categories.service';
 
 
 @Injectable()
 export class CategoryStateService {
-  private _categoryService = inject(CategoriesService);
+  private readonly _categoryService = inject(CategoriesService);
 
-  private _categorias = signal<ICategory[]>([{
+  private readonly _categorias = signal<ICategory[]>([{
     id: 0,
     name: '',
   }]);

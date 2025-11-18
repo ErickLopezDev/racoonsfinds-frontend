@@ -1,10 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder,  FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../config/services/auth.service';
 import { ToastStateService } from '../../../../shared/services/toast.service';
 import { Router, RouterLink } from '@angular/router';
 import { UserStateService } from '../../../../shared/services/user-state.service';
-import { ILoginReq, IRegisterReq } from '../../config/services/auth.model';
+import { IRegisterReq } from '../../config/services/auth.model';
 import { CardModule } from 'primeng/card';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputIconModule } from 'primeng/inputicon';
@@ -22,11 +22,11 @@ import { DatePicker } from 'primeng/datepicker';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent implements OnInit {
-  private _fb: FormBuilder = inject(FormBuilder);
-  private AuthService: AuthService = inject(AuthService);
-  private toast: ToastStateService = inject(ToastStateService);
-  private router: Router = inject(Router)
-  private userStateService: UserStateService = inject(UserStateService);
+  private readonly _fb: FormBuilder = inject(FormBuilder);
+  private readonly AuthService: AuthService = inject(AuthService);
+  private readonly toast: ToastStateService = inject(ToastStateService);
+  private readonly router: Router = inject(Router)
+  private readonly userStateService: UserStateService = inject(UserStateService);
 
   form!: FormGroup;
 
