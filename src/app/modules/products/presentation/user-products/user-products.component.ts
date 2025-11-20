@@ -1,4 +1,4 @@
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { Card } from 'primeng/card';
@@ -37,7 +37,7 @@ import { ToastStateService } from '../../../../shared/services/toast.service';
   templateUrl: './user-products.component.html',
   styleUrl: './user-products.component.css',
 })
-export class UserProductsComponent {
+export class UserProductsComponent implements OnInit {
   @ViewChild(DialogComponent) dialog!: DialogComponent;
 
   // Services
@@ -53,7 +53,6 @@ export class UserProductsComponent {
   first: number = 0;
   items: MenuItem[] = [{ label: 'Publicaciones', icon: 'pi pi-bookmark' }];
   rows: number = 12;
-  selectedCity: any | undefined;
 
   form: FormGroup = this._formBuilder.group({
     categoryId: [null, [Validators.required]],

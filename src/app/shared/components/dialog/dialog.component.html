@@ -31,7 +31,7 @@
     <div class=" w-full flex gap-3 justify-end items-center">
 
       <p-button *ngIf="textCancelButton() != null" severity="secondary"
-        (click)="closeDialog()">{{textCancelButton()}}</p-button>
+        (click)="closeDialog()" (keydown.enter)="closeDialog()">{{textCancelButton()}}</p-button>
       <button class="rounded-md p-2 cursor-pointer h-[36px] {{tipo()}}" [ngClass]="tipo()"
         *ngIf="validateWord() == null && textAcceptButton() != null"
         (click)="onSubmit()">{{textAcceptButton()}}</button>

@@ -8,7 +8,13 @@
                         <div class="flex w-full h-[cacl(100%-45px)] ">
                             <div class="flex justify-between items-center w-full">
                                 <p-breadcrumb [model]="breadCrumb" />
-                                <p-button (click)="onDeleteAll()" label="Vaciar carrito" icon="pi pi-trash" severity="danger" [disabled]="items.length === 0"></p-button>
+                                <p-button
+                                    (click)="onDeleteAll()"
+                                    (keydown.enter)="onDeleteAll()"
+                                    label="Vaciar carrito"
+                                    icon="pi pi-trash"
+                                    severity="danger"
+                                    [disabled]="items.length === 0"></p-button>
                             </div>
                         </div>
                     </div>
@@ -18,7 +24,7 @@
                 <div class="h-[140px]" *ngFor="let item of items">
                     <p-card>
                         <div class="flex w-full gap-3 h-[100px]">
-                            <img [src]="item.productImage || 'assets/image-not-found.svg'" class="h-full" alt="image not found">
+                            <img [src]="item.productImage || 'assets/image-not-found.svg'" class="h-full" alt="Not found">
 
                             <div class="flex-1">
                                 <h4 class="font-medium text-xl">{{ item.productName }}</h4>
@@ -37,7 +43,12 @@
                                     </ng-template>
                                 </p-inputnumber>
 
-                                <p-button (click)="onDelete(item)" fluid label="Eliminar" severity="danger"
+                                <p-button
+                                    (click)="onDelete(item)"
+                                    (keydown.enter)="onDelete(item)"
+                                    fluid
+                                    label="Eliminar"
+                                    severity="danger"
                                     icon="pi pi-trash"></p-button>
 
                             </div>
@@ -65,7 +76,13 @@
                             <p>S/ {{ total | number:'1.2-2' }}</p>
                         </div>
 
-                        <p-button fluid label="Comprar" (onClick)="buy()" icon="pi pi-shopping-bag" [disabled]="items.length === 0"></p-button>
+                        <p-button
+                            fluid
+                            label="Comprar"
+                            (onClick)="buy()"
+                            (keydown.enter)="buy()"
+                            icon="pi pi-shopping-bag"
+                            [disabled]="items.length === 0"></p-button>
                     </div>
                 </p-card>
             </div>

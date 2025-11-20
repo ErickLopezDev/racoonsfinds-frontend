@@ -28,15 +28,11 @@ export const catchErrorInterceptor: HttpInterceptorFn = (req, next) => {
           messageService.setToast({ severity: 'error', summary: 'Error', detail: 'Error de validacion', life: 6000 });
           break;
 
+        case 0:
         case 500:
         case 502:
         case 503:
         case 504:
-          messageService.setToast({ severity: 'error', summary: 'Error', detail: 'Error de servidor', life: 6000 });
-          setTimeout(() => _userStateService.logout(), 150);
-          break;
-
-        case 0:
           messageService.setToast({ severity: 'error', summary: 'Error', detail: 'Error de servidor', life: 6000 });
           setTimeout(() => _userStateService.logout(), 150);
           break;

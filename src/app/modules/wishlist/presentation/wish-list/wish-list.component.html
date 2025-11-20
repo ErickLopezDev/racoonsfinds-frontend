@@ -24,11 +24,9 @@
                         </div>
     
                         <div class="flex gap-2 justify-start">
-                            <p-button label="Añadir al carrito" (click)="onAgregarCarrito(product)" icon="pi pi-shopping-cart"></p-button>
-                            <p-button severity="danger" [outlined]="true" (click)="deleteWishList(product)" icon="pi pi-star"></p-button>
-                           
+                            <p-button label="Añadir al carrito" (click)="onAgregarCarrito(product)" (keydown.enter)="onAgregarCarrito(product)" icon="pi pi-shopping-cart"></p-button>
+                            <p-button severity="danger" [outlined]="true" (click)="deleteWishList(product)" (keydown.enter)="deleteWishList(product)" icon="pi pi-star"></p-button>
                         </div>
-    
                     </div>
                 </p-card>
             }

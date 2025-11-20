@@ -4,9 +4,8 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { TableModule } from 'primeng/table';
+import { TableModule, TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
-import { TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
 import { IPurcharse } from '../../../purchases/models/purchases.model';
 import { PurchasesService } from '../../../purchases/services/purchases.service';
 
@@ -22,7 +21,7 @@ export class SalesHistoryComponent {
   breadCrumb: MenuItem[] = [
     { label: 'Mis Ventas', icon: 'pi pi-shop' },
   ];
-  private _purchaseService = inject(PurchasesService);
+  private readonly _purchaseService = inject(PurchasesService);
   expandedRows: { [key: number]: boolean } = {};
 
   sales: IPurcharse[] = [];
@@ -40,16 +39,18 @@ export class SalesHistoryComponent {
     });
   }
 
-  onRowExpand(event: TableRowExpandEvent) {
-    const sale = event.data as IPurcharse;
-  }
+  onRowExpand(_event: TableRowExpandEvent) {}
 
-  onRowCollapse(event: TableRowCollapseEvent) {
-    const sale = event.data as IPurcharse;
-  }
+  onRowCollapse(_event: TableRowCollapseEvent) {}
 
   expandAll() {
-    this.expandedRows = this.visibleSales.reduce((acc, s) => ((acc[s.id] = true), acc), {} as { [key: number]: boolean });
+    this.expandedRows = this.visibleSales.reduce(
+      (acc, s) => {
+        acc[s.id] = true;
+        return acc;
+      },
+      {} as { [key: number]: boolean }
+    );
   }
 
   collapseAll() {
@@ -63,6 +64,6 @@ export class SalesHistoryComponent {
 
   showMore() {
     const next = this.visibleCount + 3;
-    this.visibleCount = next > this.sales.length ? this.sales.length : next;
+    this.visibleCount = Math.min(next, this.sales.length);
   }
 }

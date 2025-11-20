@@ -13,11 +13,6 @@
     color: white !important;
 }
 
-::ng-deep .p-menubar-item-content:hover {
-    background: none !important;
-    color: white !important;
-}
-
 ::ng-deep .p-menubar-item-icon {
     color: white !important;
 }

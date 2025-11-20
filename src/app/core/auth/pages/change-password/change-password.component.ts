@@ -29,9 +29,10 @@ export class ChangePasswordComponent {
 
   onSubmit() {
 
-    if (this.form.valid) {
-      const formValue = this.form.value;
+    if (!this.form.valid) {
+      return;
     }
+
   }
 
 }

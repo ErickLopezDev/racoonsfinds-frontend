@@ -28,19 +28,18 @@ import { ToastStateService } from '../../../../shared/services/toast.service';
 export class SellComponent implements OnInit {
 
   // Services
-  private _categoryService: CategoriesService = inject(CategoriesService);
-  private _productService = inject(ProductService);
-  private _formBuilder = inject(FormBuilder);
-  private _activatedRoute = inject(ActivatedRoute);
-  private _router = inject(Router);
-  private _toast = inject(ToastStateService);
+  private readonly _categoryService: CategoriesService = inject(CategoriesService);
+  private readonly _productService = inject(ProductService);
+  private readonly _formBuilder = inject(FormBuilder);
+  private readonly _activatedRoute = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
+  private readonly _toast = inject(ToastStateService);
 
   // Variables
   categories = signal<ICategory[]>([]);
   items: MenuItem[] = [
     { label: 'Vender', icon: 'pi pi-pen-to-square' },
   ];
-  selectedCity: any | undefined;
   srcIndex: number = 0
   imagesShowArray: any = [{
     image: 'assets/image-not-found.svg',
@@ -146,26 +145,27 @@ export class SellComponent implements OnInit {
     
   }
 
-  uploadimage(e: any): void {
-    let images = e.target.files
+  uploadimage(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const images = input?.files;
 
-    if (images.length > 0 && images.length < 5) {
+    if (images && images.length > 0 && images.length < 5) {
       this.imagesShowArray = []
       this.srcIndex = 0
       this.updateUpload = true
       this.imagesArray = images
 
       // Array temporal para almacenar las imágenes procesadas
-      let processedImages: any[] = []
-      let processedCount = 0
+        let processedImages: any[] = []
+        let processedCount = 0
 
-      for (let i = 0; i < images.length; i++) {
-        var reader = new FileReader();
-        reader.readAsDataURL(images[i])
-        reader.onload = (event: any) => {
-          processedImages.push({
-            image: event.target.result,
-            name: images[i].name
+        for (const file of Array.from(images)) {
+          const reader = new FileReader();
+          reader.readAsDataURL(file)
+          reader.onload = (event: any) => {
+            processedImages.push({
+              image: event.target.result,
+            name: file.name
           });
           processedCount++
 

@@ -9,10 +9,7 @@ import { Router, RouterOutlet } from '@angular/router';
 })
 export class AuthLayoutComponent {
 
-  constructor(private router: Router) { }
-
-  
-
+  constructor(private readonly router: Router) { }
   goHome() {
     this.router.navigate(['/']);
   }

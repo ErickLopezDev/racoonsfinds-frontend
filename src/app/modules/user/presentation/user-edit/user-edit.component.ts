@@ -16,7 +16,6 @@ import {
 import { ToastStateService } from '../../../../shared/services/toast.service';
 import { UserService } from '../../services/user.service';
 import {
-  IUserMeDto,
   IUserPutBodyReq,
   IUserPutQueryReq,
 } from '../../models/user.model';
@@ -68,7 +67,6 @@ export class UserEditComponent implements OnInit {
     });
 
     effect(() => {
-      const userData = this.user();
       this.setPerfil();
     });
   }
@@ -150,16 +148,13 @@ export class UserEditComponent implements OnInit {
       today.getDate()
     );
 
-    if (maxAge > 0) {
-      if (selectedDate > minAgeDate || selectedDate < maxAgeDate) {
-        this.form.get('birthdate')?.setErrors({ invalid: true });
-        return;
-      }
-    } else {
-      if (selectedDate > minAgeDate) {
-        this.form.get('birthdate')?.setErrors({ invalid: true });
-        return;
-      }
+    if (
+      (maxAge > 0 &&
+        (selectedDate > minAgeDate || selectedDate < maxAgeDate)) ||
+      (maxAge === 0 && selectedDate > minAgeDate)
+    ) {
+      this.form.get('birthdate')?.setErrors({ invalid: true });
+      return;
     }
     this.form.get('birthdate')?.setErrors(null);
   }

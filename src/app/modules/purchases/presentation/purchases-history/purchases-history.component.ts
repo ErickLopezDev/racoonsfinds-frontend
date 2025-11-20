@@ -61,7 +61,6 @@ export class PurchasesHistoryComponent {
 
   showMore() {
     const next = this.visibleCount + 3;
-    this.visibleCount = next > this.purchases.length ? this.purchases.length : next;
+    this.visibleCount = Math.min(next, this.purchases.length);
   }
 }
-

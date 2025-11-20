@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
+import { Component, Output, EventEmitter, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
@@ -16,8 +16,8 @@ import { TextareaModule } from 'primeng/textarea';
 
 export class DialogComponent {
 
-  @Output() onAccept: EventEmitter<any> = new EventEmitter<any>();
-  @Output() onClose: EventEmitter<any> = new EventEmitter<any>();
+  @Output() accepted: EventEmitter<void> = new EventEmitter<void>();
+  @Output() closed: EventEmitter<void> = new EventEmitter<void>();
 
 
   // Usar signals para el estado del dialog
@@ -47,7 +47,7 @@ export class DialogComponent {
     if (this.onCloseCallback) {
       this.onCloseCallback();
     }
-    this.onClose.emit()
+    this.closed.emit();
     this.onCloseCallback = () => { }
   }
 
@@ -56,7 +56,7 @@ export class DialogComponent {
     if (this.onAcceptCallback) {
       this.onAcceptCallback();
     }
-    this.onAccept.emit();
+    this.accepted.emit();
     this.onAcceptCallback = () => { }
     this.form.reset();
 

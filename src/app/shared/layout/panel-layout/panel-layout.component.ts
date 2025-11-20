@@ -31,10 +31,10 @@ import { UserStateService } from '../../services/user-state.service';
 })
 export class PanelLayoutComponent implements OnInit, OnDestroy {
 
-  private router = inject(Router);
-  private sidebarService = inject(SidebarService);
-  private destroy$ = new Subject<void>();
-  private UserStateService = inject(UserStateService);
+  private readonly router = inject(Router);
+  private readonly sidebarService = inject(SidebarService);
+  private readonly destroy$ = new Subject<void>();
+  private readonly UserStateService = inject(UserStateService);
 
   sidebarItems: SidebarItem[] = [];
 

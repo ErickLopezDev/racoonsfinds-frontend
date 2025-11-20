@@ -11,6 +11,7 @@
               <p-button
                 class="text-left"
                 (onClick)="selectCategory(cat.id)"
+                (keydown.enter)="selectCategory(cat.id)"
                 [variant]="cat.id == categorySelected() ? 'outlined' : 'text'"
                 [label]="cat.name"
                 [severity]="
@@ -66,12 +67,12 @@
                 <div class="flex gap-2">
                   <p-button
                     label="Añadir al carrito"
-                    (click)="onAgregarCarrito(product)"
+                    (click)="onAgregarCarrito(product)" (keydown.enter)="onAgregarCarrito(product)"
                     icon="pi pi-shopping-cart"
                   ></p-button>
                   <p-button
                     [outlined]="true"
-                    (click)="onAgregarWishList(product)"
+                    (click)="onAgregarWishList(product)" (keydown.enter)="onAgregarWishList(product)"
                     icon="pi pi-star"
                   ></p-button>
                 </div>
@@ -93,7 +94,7 @@
               label="Ver más"
               [raised]="true"
               severity="secondary"
-              (onClick)="showMore()"
+              (onClick)="showMore()" (keydown.enter)="showMore()"
             />
           </div>
           }

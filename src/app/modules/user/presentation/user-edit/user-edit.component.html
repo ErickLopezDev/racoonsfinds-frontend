@@ -51,9 +51,10 @@
                         (change)="uploadimage($event)">
 
                     <div class="flex gap-4">
-                        <p-button (click)="imageUserUploader.click()" label="Subir Imagen" [raised]="true"
-                            severity="secondary" />
-                        <p-button (click)="deleteImage()" label="Eliminar Imagen" [raised]="true" severity="danger" />
+                        <p-button (click)="imageUserUploader.click()" (keydown.enter)="imageUserUploader.click()"
+                            label="Subir Imagen" [raised]="true" severity="secondary" />
+                        <p-button (click)="deleteImage()" (keydown.enter)="deleteImage()" label="Eliminar Imagen"
+                            [raised]="true" severity="danger" />
                     </div>
                 </fieldset>
 
@@ -63,7 +64,8 @@
         </div>
 
         <div class="mx-auto mt-10 max-w-[500px]">
-            <p-button label="Guardar Cambios" (onClick)="updateUser()" fluid [raised]="true" />
+            <p-button label="Guardar Cambios" (onClick)="updateUser()" (keydown.enter)="updateUser()" fluid
+                [raised]="true" />
         </div>
     </p-card>
 

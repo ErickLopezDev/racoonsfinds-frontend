@@ -33,10 +33,10 @@
 
               <ng-template #header>
                 <tr>
-                  <th style="width: 5rem"></th>
-                  <th>Fecha</th>
-                  <th>Descripción</th>
-                  <th class="text-right">Total</th>
+                  <th scope="col" style="width: 5rem"></th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Descripciónn</th>
+                  <th scope="col" class="text-right">Total</th>
                 </tr>
               </ng-template>
 
@@ -59,10 +59,10 @@
                       <p-table [value]="purchase.details" dataKey="id">
                         <ng-template #header>
                           <tr>
-                            <th>Producto</th>
-                            <th class="text-right">Cantidad</th>
-                            <th class="text-right">Precio</th>
-                            <th class="text-right">Subtotal</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col" class="text-right">Cantidad</th>
+                            <th scope="col" class="text-right">Precio</th>
+                            <th scope="col" class="text-right">Subtotal</th>
                           </tr>
                         </ng-template>
                         <ng-template #body let-d>
@@ -91,17 +91,6 @@
               </ng-template>
             </p-table>
           </div>
-
-          <!-- <div class="w-full flex justify-center mt-6">
-            <p-button
-              label="Ver más"
-              variant="text"
-              [raised]="true"
-              severity="secondary"
-              (onClick)="showMore()"
-              [disabled]="visibleCount >= purchases.length"
-            />
-          </div> -->
         </div>
       </p-card>
     </div>

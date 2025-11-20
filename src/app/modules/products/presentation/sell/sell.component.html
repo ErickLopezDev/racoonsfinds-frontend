@@ -7,7 +7,12 @@
                     <div class="flex w-full h-[cacl(100%-45px)] ">
                         <div class="flex justify-between items-center w-full">
                             <p-breadcrumb [model]="items" />
-                            <p-button (onClick)="saveProduct()" [disabled]="form.invalid || imagesArray == null || imagesArray.length == 0" fluid label="Publicar" />
+                            <p-button
+                                (onClick)="saveProduct()"
+                                (keydown.enter)="saveProduct()"
+                                [disabled]="form.invalid || imagesArray == null || imagesArray.length == 0"
+                                fluid
+                                label="Publicar" />
                         </div>
                     </div>
                 </div>
@@ -76,24 +81,34 @@
                                             Sube como minimouna imagen y como maximo cuatro imagenes
                                         </p>
         
-                                        <p-button fluid label="Subir Imagen(s)" (click)="imageUserUploader.click()"
-                                            [raised]="true" severity="secondary" />
+                                        <p-button
+                                            fluid
+                                            label="Subir Imagen(s)"
+                                            (click)="imageUserUploader.click()"
+                                            (keydown.enter)="imageUserUploader.click()"
+                                            [raised]="true"
+                                            severity="secondary" />
         
-                                        <p-button fluid label="Eliminar Imagen(es)" (click)="deleteImage()" [raised]="true"
+                                        <p-button
+                                            fluid
+                                            label="Eliminar Imagen(es)"
+                                            (click)="deleteImage()"
+                                            (keydown.enter)="deleteImage()"
+                                            [raised]="true"
                                             severity="danger" />
         
                                     </div>
         
                                     <div class="flex-1 h-full">
                                         <p-carousel [value]="imagesShowArray" [numVisible]="1" [numScroll]="1" [circular]="false">
-                                            <ng-template let-image #item>
+                                            <ng-template let-img #item>
                                                 <div
                                                     class="flex flex-col  gap-2 h-[calc(100%-80px)] border border-surface rounded-border m-2 p-4">
                                                     <div class="flex-1 w-full flex justify-center items-center">
-                                                        <img src="{{ image.image }}" [alt]="image.name"
+                                                        <img src="{{ img.image }}" [alt]="img.name"
                                                             class="contain-content" />
                                                     </div>
-                                                    <div class="mb-4 font-medium">{{ image.name }}</div>
+                                                    <div class="mb-4 font-medium">{{ img.name }}</div>
                                                 </div>
                                             </ng-template>
                                         </p-carousel>

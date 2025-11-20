@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, OnInit, effect, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -35,7 +35,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
-export class HeaderClientComponent {
+export class HeaderClientComponent implements OnInit {
   items: MenuItem[] = [];
   showMenuNotifications = false;
   private readonly _formBuilder = inject(FormBuilder);

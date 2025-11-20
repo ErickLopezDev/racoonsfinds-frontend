@@ -53,7 +53,8 @@
 
       @if(isAuthenticated()){
       <div class="user-profile" pTooltip="Mi Perfil" tooltipPosition="right">
-        <div
+        <button
+          type="button"
           class="w-[40px] h-[40px] flex justify-center items-center rounded-full overflow-hidden border-[1px] border-gray-200 cursor-pointer"
           (click)="menu.toggle($event)"
         >
@@ -61,12 +62,12 @@
           <img
             src="{{ user()?.imageUrl }}"
             class="object-cover"
-            alt="user image"
+            alt="user"
           />
           }@else {
           <i class="pi pi-user text-[24px] text-gray-300"></i>
           }
-        </div>
+        </button>
         <p-menu #menu [model]="itemsAvatar" [popup]="true" />
       </div>
       } @else {

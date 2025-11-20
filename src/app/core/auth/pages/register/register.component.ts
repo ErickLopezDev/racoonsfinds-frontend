@@ -62,11 +62,9 @@ export class RegisterComponent implements OnInit {
         this.form.get('birthdate')?.setErrors({ invalid: true });
         return;
       }
-    } else {
-      if (selectedDate > minAgeDate) {
-        this.form.get('birthdate')?.setErrors({ invalid: true });
-        return;
-      }
+    } else if (selectedDate > minAgeDate) {
+      this.form.get('birthdate')?.setErrors({ invalid: true });
+      return;
     }
     this.form.get('birthdate')?.setErrors(null);
   }

@@ -35,9 +35,9 @@ export class ApiUtilService {
   protected transformToFormData(obj: Object): FormData {
     const formData = new FormData();
 
-    Object.entries(obj).forEach(([key, value]) => {
+    for (const [key, value] of Object.entries(obj)) {
       formData.append(key, value);
-    });
+    }
 
     return formData;
   }
