@@ -142,7 +142,7 @@ export class HeaderClientComponent implements OnInit {
         icon: 'pi pi-star-fill',
         routerLink: '/dash/wishlist',
       },
-      { label: 'Ayuda', icon: 'pi pi-question-circle' },
+      { label: 'Ayuda', icon: 'pi pi-question-circle', routerLink: '/help' },
     ];
   }
 }
