@@ -10,6 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { ToastStateService } from '../../../../../shared/services/toast.service';
 import { AuthService } from '../../../../../core/auth/config/services/auth.service';
 import { UserStateService } from '../../../../../shared/services/user-state.service';
+import { IChangePasswordRes, IForgetPasswordRes } from '../../../../../core/auth/config/services/auth.model';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -49,7 +50,7 @@ export class UserChangePasswordComponent {
 
   constructor() {
     this.form = this._fb.group({
-      code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      token: ['', [Validators.required]],
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
     });
@@ -73,17 +74,17 @@ export class UserChangePasswordComponent {
     this._authService.forgotPassword({ email: emailValue }).pipe(
       finalize(() => this.sendingCode = false)
     ).subscribe({
-      next: (res) => {
+      next: (res: IForgetPasswordRes) => {
         if (res.success) {
           this.codeSent.set(true);
           this.startCountdown();
-          this._toastService.setToast({ severity: 'success', summary: 'Enviado', detail: 'Código enviado al correo.' });
+          this._toastService.setToast({ severity: 'success', summary: 'Enviado', detail: 'Enviamos un enlace de recuperación a tu correo.' });
         } else {
-          this._toastService.setToast({ severity: 'error', summary: 'Error', detail: res.message || 'No se pudo enviar el código.' });
+          this._toastService.setToast({ severity: 'error', summary: 'Error', detail: res.message || 'No se pudo enviar el enlace.' });
         }
       },
       error: () => {
-        this._toastService.setToast({ severity: 'error', summary: 'Error', detail: 'No se pudo enviar el código.' });
+        this._toastService.setToast({ severity: 'error', summary: 'Error', detail: 'No se pudo enviar el enlace.' });
       }
     });
   }
@@ -101,19 +102,17 @@ export class UserChangePasswordComponent {
       confirmControl?.setErrors(null);
     }
 
-    const body = {
-      code: this.form.value.code,
-      newPassword: this.form.value.newPassword,
-    };
+    const body = { newPassword: this.form.value.newPassword };
+    const token: string = this.form.value.token;
 
     this.resetting = true;
-    this._authService.resetPassword(body).pipe(
+    this._authService.changePassword(body, token).pipe(
       finalize(() => this.resetting = false)
     ).subscribe({
-      next: (res) => {
+      next: (res: IChangePasswordRes) => {
         if (res.success) {
           this._toastService.setToast({ severity: 'success', summary: 'Listo', detail: 'Contraseña actualizada.' });
-          this.form.get('code')?.reset();
+          this.form.get('token')?.reset();
           this.form.get('newPassword')?.reset();
           this.form.get('confirmPassword')?.reset();
           this.codeSent.set(false);

@@ -1,42 +1,26 @@
-<div class="flex relative z-[2] flex-col w-[300px] justify-between" >
+<div class="flex relative z-[2] flex-col w-[300px] justify-between">
     <div class="flex flex-col gap-1 mb-5">
-        <h1 class="text-3xl text-nowrap font-bold drop-shadow-md text-white">Verificar Identidad,</h1>
-        <p class="text-1xl font-medium drop-shadow-md text-white">Ingresa tu email para recibir el código de
-            indetificación en tu correo electrónico</p>
+        <h1 class="text-3xl text-nowrap font-bold drop-shadow-md text-white">Recuperar acceso</h1>
+        <p class="text-1xl font-medium drop-shadow-md text-white">
+            Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña.
+        </p>
     </div>
 
     <div class="flex flex-col gap-7">
-        @if(enviado){
-            <form [formGroup]="codeForm" class="flex w-full items-center flex-col gap-3">
-                <p-inputotp formControlName="code" [length]="6" [integerOnly]="true" size="large" />
-            </form>
-            
-        } @else {
-            <form [formGroup]="form" class="flex w-full flex-col gap-3" >
-                <p-iftalabel>
-                    <input fluid pInputText id="email" formControlName="email" autocomplete="off" />
-                    <label for="email">Email</label>
-                </p-iftalabel>
-            </form>
-        }
+        <form [formGroup]="form" class="flex w-full flex-col gap-3">
+            <p-iftalabel>
+                <input fluid pInputText id="email" formControlName="email" autocomplete="off" />
+                <label for="email">Email</label>
+            </p-iftalabel>
+        </form>
+
         <div class="flex flex-col gap-4 w-full">
-            <button 
-                class="text-white w-full rounded-md h-[50px] backdrop-blur-xl transition-all duration-300"
-                [class]="isCountdownActive ? 'cursor-not-allowed' : 'hover:bg-white/10'"
-                [disabled]="isCountdownActive"
-                (click)="sendCode()">
-                @if(isCountdownActive) {
-                    Reenviar en {{ countdown }}s
-                } @else {
-                    Enviar Código
-                }
-            </button>
+            <p-button label="Enviar enlace" fluid [disabled]="this.form.invalid" [raised]="true" (onClick)="onSubmit()" />
             @if(enviado) {
-                <p-button label="Validar Codigo" fluid [disabled]="this.codeForm.invalid" [raised]="true" (onClick)="onSubmit()" />
+                <p class="text-sm text-white/80 text-center px-2">
+                    Revisa tu bandeja. Recibirás un link para cambiar tu contraseña.
+                </p>
             }
         </div>
-        
-
     </div>
-
 </div>

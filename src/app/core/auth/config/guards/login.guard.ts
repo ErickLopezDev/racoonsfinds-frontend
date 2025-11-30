@@ -8,7 +8,11 @@ export const loginGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const _toastService = inject(ToastStateService)
 
-  if (_userStateService.isAuthVerify()) {
+  const isChangePasswordRoute =
+    route.routeConfig?.path === 'change-password' ||
+    state.url.includes('/auth/change-password');
+
+  if (_userStateService.isAuthVerify() && !isChangePasswordRoute) {
     _toastService.setToast({
       severity: 'info',
       summary: 'Ya has iniciado sesión',

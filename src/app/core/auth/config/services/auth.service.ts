@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { ApiUtilService } from '../../../../shared/utils/api-util.service';
-import { IForgetPasswordReq, IForgetPasswordRes, ILoginReq, ILoginRes, IRegisterReq, IRegisterRes, IResetPasswordReq, IResetPasswordRes, IResendCodeReq, IResendCodeRes, IVerifyReq, IVerifyRes } from './auth.model';
+import { IChangePasswordReq, IChangePasswordRes, IForgetPasswordReq, IForgetPasswordRes, ILoginReq, ILoginRes, IRegisterReq, IRegisterRes, IResendCodeReq, IResendCodeRes, IVerifyReq, IVerifyRes } from './auth.model';
 import { API_AUTH_ROUTES } from './api-auth.routes';
 
 @Injectable({
@@ -81,10 +81,13 @@ export class AuthService extends ApiUtilService {
     );
   }
 
-  public resetPassword(body: IResetPasswordReq): Observable<IResetPasswordRes> {
-    const url = this.buildApiUrl({ endpoint: API_AUTH_ROUTES.resetPassword });
+  public changePassword(body: IChangePasswordReq, token: string): Observable<IChangePasswordRes> {
+    const url = this.buildApiUrl({
+      endpoint: API_AUTH_ROUTES.changePassword,
+      queryParams: { token }
+    });
 
-    return this.http.post<IResetPasswordRes>(url, body).pipe(
+    return this.http.put<IChangePasswordRes>(url, body).pipe(
       map((response) => response),
       catchError((error) => throwError(() => new Error(error)))
     );
