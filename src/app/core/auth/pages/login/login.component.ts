@@ -56,6 +56,9 @@ export class LoginComponent {
             } else if ((response.data.status === 2)) {
               this.userStateService.setToken(response.data.accessToken);
               this.userStateService.setUser(response.data.userId);
+              if (response.data.refreshToken) {
+                this.userStateService.setRefreshToken(response.data.refreshToken);
+              }
               this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Has ingresado', life: 3000 });
               this.router.navigate(['/dash/user']);
             }

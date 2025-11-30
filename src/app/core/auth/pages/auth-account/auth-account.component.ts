@@ -10,7 +10,7 @@ import { AuthService } from '../../config/services/auth.service';
 import { ToastStateService } from '../../../../shared/services/toast.service';
 import { UserStateService } from '../../../../shared/services/user-state.service';
 import { InputOtp } from 'primeng/inputotp';
-import { IVerifyReq } from '../../config/services/auth.model';
+import { IVerifyReq, IVerifyRes } from '../../config/services/auth.model';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -88,10 +88,18 @@ export class AuthAccountComponent implements OnInit {
       };
 
       this.AuthService.verify(body).subscribe({
-        next: (res) => {
+        next: (res: IVerifyRes) => {
           if (res.success) {
             this.toast.setToast({ severity: 'success', summary: 'Exito', detail: 'Codigo verificado', life: 3000 });
-            this.router.navigate(['/auth']);
+            if (res.data.accessToken && res.data.userId) {
+              this.userStateService.setToken(res.data.accessToken);
+              this.userStateService.setUser(res.data.userId);
+            }
+            if (res.data.refreshToken) {
+              this.userStateService.setRefreshToken(res.data.refreshToken);
+            }
+            this.userStateService.setPerfil();
+            this.router.navigate(['/']);
           }
         }
       });

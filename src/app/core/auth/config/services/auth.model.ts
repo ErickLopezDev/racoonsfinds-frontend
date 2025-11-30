@@ -6,16 +6,21 @@ export interface IVerifyReq {
     code: string
 }
 export type IVerifyRes = IApiResponse<IVerifyDto>
-export type IVerifyDto = {}
+export interface IVerifyDto {
+    userId: number,
+    status: number,
+    accessToken: string,
+    refreshToken: string,
+    tokenType: string
+}
 //#endregion
 
-//#region Reset Password
-export interface IResetPasswordReq {
-    code: string,
+//#region Change Password
+export interface IChangePasswordReq {
     newPassword: string
 }
-export type IResetPasswordRes = IApiResponse<IResetPasswordDto>
-export type IResetPasswordDto = {}
+export type IChangePasswordRes = IApiResponse<IChangePasswordDto>
+export type IChangePasswordDto = {}
 //#endregion
 
 //#region resend code

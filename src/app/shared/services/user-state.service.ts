@@ -12,6 +12,7 @@ export class UserStateService {
   private readonly _userService = inject(UserService);
 
   private readonly tokenNameLs = 'accessToken';
+  private readonly refreshTokenNameLs = 'refreshToken';
   private readonly userId = 'userId';
 
   private readonly _token = signal<string>('');
@@ -39,12 +40,16 @@ export class UserStateService {
 
   constructor() {
     const token = localStorage.getItem(this.tokenNameLs);
+    const refreshToken = localStorage.getItem(this.refreshTokenNameLs);
     const userId = localStorage.getItem(this.userId);
     if (userId) {
       this._user.set(+userId);
     }
     if (token) {
       this._token.set(token);
+    }
+    if (refreshToken) {
+      // Placeholder in case refresh token usage is needed later
     }
 
     effect(() => {
@@ -69,8 +74,13 @@ export class UserStateService {
     this._token.set(token);
   }
 
+  setRefreshToken(token: string) {
+    localStorage.setItem(this.refreshTokenNameLs, token);
+  }
+
   logout(): void {
     localStorage.removeItem(this.tokenNameLs);
+    localStorage.removeItem(this.refreshTokenNameLs);
     localStorage.removeItem(this.userId);
     this._token.set('');
     this._user.set(null);
