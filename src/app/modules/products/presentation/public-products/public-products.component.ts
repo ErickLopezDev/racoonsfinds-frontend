@@ -11,10 +11,11 @@ import { UserStateService } from '../../../../shared/services/user-state.service
 import { ToastStateService } from '../../../../shared/services/toast.service';
 import { CartService } from '../../../cart/services/cart.service';
 import { WishlistService } from '../../../wishlist/services/wishlist.service';
+import { ReviewProductsComponent } from '../review-products/review-products/review-products.component';
 
 @Component({
   selector: 'app-public-products',
-  imports: [CardModule, Button, Skeleton],
+  imports: [CardModule, Button, Skeleton, ReviewProductsComponent],
   templateUrl: './public-products.component.html',
   styleUrl: './public-products.component.css',
 })
@@ -44,6 +45,8 @@ export class PublicProductsComponent implements OnInit {
 
   private readonly _productService = inject(ProductService);
   products = signal<IProduct[]>([]);
+  selectedProduct = signal<IProduct | null>(null);
+  showReviews = signal<boolean>(false);
 
   ngOnInit() {
     this._activatedRoute.queryParamMap.subscribe((params) => {
@@ -158,5 +161,14 @@ export class PublicProductsComponent implements OnInit {
 
   selectCategory(categoryId: number) {
     this.categorysearchQuery.set(categoryId);
+  }
+
+  openReviews(product: IProduct) {
+    this.selectedProduct.set(product);
+    this.showReviews.set(true);
+  }
+
+  closeReviews() {
+    this.showReviews.set(false);
   }
 }

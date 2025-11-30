@@ -13,7 +13,11 @@ export interface IProduct {
     categoryName: string,
     userId: number,
     userName: string,
-    imageUrl: string
+    userImage: string,
+    imageUrl: string,
+    averageRating?: number | null,
+    reviewCount?: number | null,
+    hasPermission?: boolean
 }
 
 // Get All

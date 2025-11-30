@@ -41,6 +41,19 @@
                                     <h4 class="font-medium text-xl">{{product.name}}</h4>
                                     <p class="font-medium text-[15px] text-gray-500">{{product.description}}</p>
                                     <p class="font-medium text-[15px] text-gray-500">S/ {{product.price}}</p>
+                                    <div class="flex items-center gap-2 text-[14px] text-gray-500">
+                                        <i class="pi pi-star-fill text-yellow-500 text-[12px]"></i>
+                                        <span class="font-semibold text-gray-700">{{product.averageRating ?? 0}}</span>
+                                        <span>({{product.reviewCount ?? 0}} reseñas)</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-[14px] text-gray-600">
+                                        @if (product.userImage) {
+                                            <img src="{{product.userImage}}" alt="{{product.userName}}" class="w-6 h-6 rounded-full object-cover" />
+                                        } @else {
+                                            <i class="pi pi-user text-gray-500 text-[14px]"></i>
+                                        }
+                                        <span class="font-medium">{{product.userName}}</span>
+                                    </div>
                                     <p class="font-medium text-[15px] text-gray-500">Cantidad: {{product.stock}}</p>
                                 </div>
         
