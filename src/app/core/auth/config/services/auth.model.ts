@@ -11,7 +11,6 @@ export type IVerifyDto = {}
 
 //#region Reset Password
 export interface IResetPasswordReq {
-    userId: number,
     code: string,
     newPassword: string
 }

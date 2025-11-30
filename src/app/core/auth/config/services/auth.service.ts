@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { ApiUtilService } from '../../../../shared/utils/api-util.service';
-import { ILoginReq, ILoginRes, IRegisterReq, IRegisterRes, IResendCodeReq, IResendCodeRes, IVerifyReq, IVerifyRes } from './auth.model';
+import { IForgetPasswordReq, IForgetPasswordRes, ILoginReq, ILoginRes, IRegisterReq, IRegisterRes, IResetPasswordReq, IResetPasswordRes, IResendCodeReq, IResendCodeRes, IVerifyReq, IVerifyRes } from './auth.model';
 import { API_AUTH_ROUTES } from './api-auth.routes';
 
 @Injectable({
@@ -70,6 +70,24 @@ export class AuthService extends ApiUtilService {
           return throwError(() => new Error(error));
         })
       );
+  }
+
+  public forgotPassword(body: IForgetPasswordReq): Observable<IForgetPasswordRes> {
+    const url = this.buildApiUrl({ endpoint: API_AUTH_ROUTES.forgetPassword });
+
+    return this.http.post<IForgetPasswordRes>(url, body).pipe(
+      map((response) => response),
+      catchError((error) => throwError(() => new Error(error)))
+    );
+  }
+
+  public resetPassword(body: IResetPasswordReq): Observable<IResetPasswordRes> {
+    const url = this.buildApiUrl({ endpoint: API_AUTH_ROUTES.resetPassword });
+
+    return this.http.post<IResetPasswordRes>(url, body).pipe(
+      map((response) => response),
+      catchError((error) => throwError(() => new Error(error)))
+    );
   }
 
 }

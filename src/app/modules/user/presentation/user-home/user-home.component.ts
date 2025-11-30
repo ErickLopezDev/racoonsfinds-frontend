@@ -22,6 +22,10 @@ export class UserHomeComponent implements OnInit {
     this._Router.navigate(['/dash/user/edit'])
   }
 
+  redirectToChangePassword() {
+    this._Router.navigate(['/dash/user/change-password'])
+  }
+
   ngOnInit(): void {
     this._userStateService.setPerfil()
   }
