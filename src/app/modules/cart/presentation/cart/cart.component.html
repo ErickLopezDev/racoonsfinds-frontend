@@ -90,5 +90,68 @@
     </div>
 </div>
 
+<p-dialog
+    [(visible)]="checkoutDialogVisible"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '520px' }"
+    [breakpoints]="{ '960px': '95vw' }"
+    header="Datos para el envío"
+    (onHide)="closeCheckoutDialog()">
+    <form [formGroup]="checkoutForm" class="flex flex-col gap-3">
+        <div class="flex flex-col gap-2">
+            <label for="contactName" class="font-medium text-sm">Nombre de contacto</label>
+            <input pInputText id="contactName" formControlName="contactName" placeholder="Nombre de quien recibe" />
+            <p-message *ngIf="checkoutForm.get('contactName')?.invalid && checkoutForm.get('contactName')?.touched" severity="error" text="Requerido"></p-message>
+        </div>
 
-<app-dialog></app-dialog>
+        <div class="flex flex-col gap-2">
+            <label for="address" class="font-medium text-sm">Dirección</label>
+            <input pInputText id="address" formControlName="address" placeholder="Av. Siempre Viva 123" />
+            <p-message *ngIf="checkoutForm.get('address')?.invalid && checkoutForm.get('address')?.touched" severity="error" text="Requerido"></p-message>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="flex flex-col gap-2">
+                <label for="region" class="font-medium text-sm">Región (Departamento)</label>
+                <input pInputText id="region" formControlName="region" placeholder="Región / Departamento" />
+                <p-message *ngIf="checkoutForm.get('region')?.invalid && checkoutForm.get('region')?.touched" severity="error" text="Requerido"></p-message>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="district" class="font-medium text-sm">Distrito</label>
+                <input pInputText id="district" formControlName="district" placeholder="Distrito" />
+                <p-message *ngIf="checkoutForm.get('district')?.invalid && checkoutForm.get('district')?.touched" severity="error" text="Requerido"></p-message>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="province" class="font-medium text-sm">Provincia</label>
+                <input pInputText id="province" formControlName="province" placeholder="Provincia" />
+                <p-message *ngIf="checkoutForm.get('province')?.invalid && checkoutForm.get('province')?.touched" severity="error" text="Requerido"></p-message>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label for="reference" class="font-medium text-sm">Referencia</label>
+            <textarea id="reference" pTextarea formControlName="reference" rows="2" placeholder="Punto de referencia o indicaciones"></textarea>
+            <p-message *ngIf="checkoutForm.get('reference')?.invalid && checkoutForm.get('reference')?.touched" severity="error" text="Requerido"></p-message>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label for="phoneNumber" class="font-medium text-sm">Teléfono</label>
+            <input pInputText id="phoneNumber" formControlName="phoneNumber" placeholder="987654321" maxlength="9" />
+            <p-message *ngIf="checkoutForm.get('phoneNumber')?.invalid && checkoutForm.get('phoneNumber')?.touched" severity="error" text="Debe tener 9 dígitos numéricos"></p-message>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+            <p-button
+                label="Cancelar"
+                severity="secondary"
+                (onClick)="closeCheckoutDialog()"></p-button>
+            <p-button
+                label="Finalizar compra"
+                icon="pi pi-check"
+                [loading]="purchasing"
+                (onClick)="submitPurchase()"></p-button>
+        </div>
+    </form>
+</p-dialog>

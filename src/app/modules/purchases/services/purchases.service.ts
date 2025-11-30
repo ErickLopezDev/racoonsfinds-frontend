@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
 import { ApiUtilService } from "@utils/api-util.service";
 import { Observable } from "rxjs";
-import { IPurcharsesCreateFromCartResponse, IPurcharsesGetMyPurchasesResponse, IPurcharsesGetMySalesResponse } from "../models/purchases.model";
+import { IPurcharsesCreateFromCartResponse, IPurcharsesGetMyPurchasesResponse, IPurcharsesGetMySalesResponse, IPurchaseCreateFromCartDto } from "../models/purchases.model";
 import { PURCHASES_API_ROUTES } from "./purchases-api.routing";
 
 @Injectable({
     providedIn: 'root'
 })
 export class PurchasesService extends ApiUtilService {
-    purchase(): Observable<IPurcharsesCreateFromCartResponse> {
+    purchase(body: IPurchaseCreateFromCartDto): Observable<IPurcharsesCreateFromCartResponse> {
         const url = this.buildApiUrl({ endpoint: PURCHASES_API_ROUTES.create })
-        return this.http.post<IPurcharsesCreateFromCartResponse>(url, undefined);
+        return this.http.post<IPurcharsesCreateFromCartResponse>(url, body);
     }
 
     getMysales(): Observable<IPurcharsesGetMyPurchasesResponse> {

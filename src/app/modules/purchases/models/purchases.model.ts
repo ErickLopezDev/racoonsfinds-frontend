@@ -5,6 +5,13 @@ export interface IPurcharse {
     date: string,
     monto: number,
     description: string,
+    contactName: string,
+    address: string,
+    region: string,
+    district: string,
+    province: string,
+    reference: string,
+    phoneNumber: string,
     userId: number,
     details: IPurchaseDetail[]
 }
@@ -23,6 +30,15 @@ export type IPurcharsesGetMyPurchasesResponse = IApiResponse<IPurcharse[]>;
 
 export type IPurcharsesGetMySalesResponse = IApiResponse<IPurcharse[]>;
 
+export interface IPurchaseCreateFromCartDto {
+    contactName: string,
+    address: string,
+    region: string,
+    district: string,
+    province: string,
+    reference: string,
+    phoneNumber: string,
+}
 
 
 

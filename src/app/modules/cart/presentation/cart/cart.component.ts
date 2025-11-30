@@ -1,36 +1,64 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
 import { Card } from 'primeng/card';
+import { DialogModule } from 'primeng/dialog';
 import { InputNumber } from 'primeng/inputnumber';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { InputTextModule } from 'primeng/inputtext';
+import { TextareaModule } from 'primeng/textarea';
+import { MenuItem } from 'primeng/api';
+import { MessageModule } from 'primeng/message';
+import { finalize } from 'rxjs';
+import { ToastStateService } from '../../../../shared/services/toast.service';
 import { ICart } from '../../models/cart.model';
 import { CartService } from '../../services/cart.service';
-import { ToastStateService } from '../../../../shared/services/toast.service';
-import { DialogComponent } from "@components/dialog/dialog.component";
+import { IPurchaseCreateFromCartDto } from '../../../purchases/models/purchases.model';
 import { PurchasesService } from '../../../purchases/services/purchases.service';
 
 @Component({
   selector: 'app-cart',
-  imports: [Card, Breadcrumb, InputNumber, ButtonModule, FormsModule, CommonModule, DialogComponent],
+  imports: [
+    Card,
+    Breadcrumb,
+    InputNumber,
+    ButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    DialogModule,
+    InputTextModule,
+    TextareaModule,
+    MessageModule
+  ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
-
-  @ViewChild(DialogComponent) dialogComponent!: DialogComponent;
 
   breadCrumb: MenuItem[] = [
     { label: 'Carrito', icon: 'pi pi-shopping-cart' },
   ];
   private readonly _purchaseService = inject(PurchasesService);
   private readonly _cartService = inject(CartService);
-  items: ICart[] = [];
   private readonly _toastService = inject(ToastStateService);
 
-  constructor() {
+  items: ICart[] = [];
+  checkoutDialogVisible = false;
+  checkoutForm: FormGroup;
+  purchasing = false;
+
+  constructor(private readonly _fb: FormBuilder) {
+    this.checkoutForm = this._fb.group({
+      contactName: ['', [Validators.required, Validators.maxLength(255)]],
+      address: ['', [Validators.required, Validators.maxLength(255)]],
+      region: ['', [Validators.required, Validators.maxLength(120)]],
+      district: ['', [Validators.required, Validators.maxLength(120)]],
+      province: ['', [Validators.required, Validators.maxLength(120)]],
+      reference: ['', [Validators.required, Validators.maxLength(255)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{9}$/), Validators.minLength(9), Validators.maxLength(9)]],
+    });
     this.getCart();
   }
 
@@ -51,34 +79,52 @@ export class CartComponent {
   }
 
   buy() {
-    this.dialogComponent.openDialog({
-      tipo: 'success',
-      title: 'Confirmar compra',
-      message: '¿Estás seguro de que deseas realizar la compra de los productos en el carrito?',
-      textAcceptButton: 'Sí, comprar',
-      textCancelButton: 'No, cancelar',
-      onAccept: () => {
-        this._purchaseService.purchase().subscribe({
-          next: (data) => {
-            if (!data.success) {
-              this._toastService.setToast({
-                severity: 'error',
-                summary: 'Error',
-                detail: data.message || 'Error al realizar la compra'
-              })
-              return;
-            }
-            this.items = [];
-            this._toastService.setToast({
-              severity: 'success',
-              summary: 'Éxito',
-              detail: 'Compra realizada correctamente'
-            })
-          }
-        });
+    if (!this.items.length) return;
+    this.checkoutForm.reset();
+    this.checkoutDialogVisible = true;
+  }
 
+  submitPurchase() {
+    if (this.checkoutForm.invalid || this.purchasing) {
+      this.checkoutForm.markAllAsTouched();
+      return;
+    }
+
+    const payload = this.checkoutForm.value as IPurchaseCreateFromCartDto;
+    this.purchasing = true;
+    this._purchaseService.purchase(payload).pipe(
+      finalize(() => this.purchasing = false)
+    ).subscribe({
+      next: (data) => {
+        if (!data.success) {
+          this._toastService.setToast({
+            severity: 'error',
+            summary: 'Error',
+            detail: data.message || 'Error al realizar la compra'
+          })
+          return;
+        }
+        this.items = [];
+        this.checkoutDialogVisible = false;
+        this._toastService.setToast({
+          severity: 'success',
+          summary: 'Éxito',
+          detail: 'Compra realizada correctamente'
+        })
+      },
+      error: () => {
+        this._toastService.setToast({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo completar la compra'
+        })
       }
-    })
+    });
+  }
+
+  closeCheckoutDialog() {
+    this.checkoutDialogVisible = false;
+    this.checkoutForm.reset();
   }
 
   onDelete(item: ICart) {
