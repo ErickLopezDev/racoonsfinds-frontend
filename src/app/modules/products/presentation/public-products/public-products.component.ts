@@ -12,10 +12,11 @@ import { ToastStateService } from '../../../../shared/services/toast.service';
 import { CartService } from '../../../cart/services/cart.service';
 import { WishlistService } from '../../../wishlist/services/wishlist.service';
 import { ReviewProductsComponent } from '../review-products/review-products/review-products.component';
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-public-products',
-  imports: [CardModule, Button, Skeleton, ReviewProductsComponent],
+  imports: [CardModule, Button, Skeleton, ReviewProductsComponent, PaginatorModule],
   templateUrl: './public-products.component.html',
   styleUrl: './public-products.component.css',
 })
@@ -42,6 +43,22 @@ export class PublicProductsComponent implements OnInit {
   page = signal<number>(0);
   size: number = 10;
   count: number = 0;
+  get totalPages(): number {
+    return this.count > 0 ? Math.ceil(this.count / this.size) : 1;
+  }
+
+  get showingCount(): number {
+    return Math.min((this.page() + 1) * this.size, this.count);
+  }
+
+  get startCount(): number {
+    if (this.count === 0) return 0;
+    return this.page() * this.size + 1;
+  }
+
+  get totalRecordsForPager(): number {
+    return this.count > 0 ? this.count : this.size;
+  }
 
   private readonly _productService = inject(ProductService);
   products = signal<IProduct[]>([]);
@@ -70,8 +87,8 @@ export class PublicProductsComponent implements OnInit {
     });
   }
 
-  showMore() {
-    this.page.set(this.page() + 1);
+  onPageChange(event: PaginatorState) {
+    this.page.set(event.page ?? 0);
   }
 
   onAgregarCarrito(product: IProduct) {
@@ -124,7 +141,6 @@ export class PublicProductsComponent implements OnInit {
   }
 
   search() {
-    // Lógica para buscar productos según los valores de namesearchQuery y categorysearchQuery
 
     const query: IProductGetQueryRquest = {
       page: this.page(),
