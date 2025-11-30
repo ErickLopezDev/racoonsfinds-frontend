@@ -162,10 +162,10 @@
           </p-card>
           }
 
-          @if (count > 0) {
+            @if (count > 0) {
             <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-2">
               <div class="text-sm text-gray-600">
-                {{ startCount }} de {{ size }}
+                {{ showingCount }} de {{ size }}
               </div>
               <p-paginator
                 [rows]="size"
