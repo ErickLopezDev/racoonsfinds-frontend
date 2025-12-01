@@ -36,7 +36,7 @@
         <div
           (mouseleave)="toogleMenuNotifications()"
           *ngIf="showMenuNotifications"
-          class="absolute w-[300px] top-[110%] right-0 z-10"
+          class="absolute w-[300px] max-h-[400px] rounded-md bg-white overflow-y-auto top-[110%] right-0 z-10"
         >
           <div
             *ngFor="let notify of notifications()"
@@ -85,6 +85,6 @@
   <section
     class="flex items-center h-full gap-5 flex-[0.4] px-5 border-t-[1px] bg-primary-500 border-t-primary-800"
   >
-    <p-menubar [model]="items" />
+    <p-menubar [model]="items" class="z-[999]"/>
   </section>
 </header>

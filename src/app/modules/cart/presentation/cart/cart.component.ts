@@ -84,6 +84,61 @@ export class CartComponent {
     this.checkoutDialogVisible = true;
   }
 
+  onLoadingCart: boolean = false;
+
+  onSumarCarrito(cart: ICart) {
+    this.onLoadingCart = true;
+    this._cartService.create({ body: { productId: cart.productId, amount: 1 } })
+      .pipe(
+        finalize(() => this.onLoadingCart = false)
+      )
+      .subscribe({
+        next: (data) => {
+          if (!data.success) {
+            this._toastService.setToast({
+              severity: 'error',
+              summary: 'Error',
+              detail: data.message || 'Error al actualizar el carrito'
+            })
+            return;
+          }
+          this._toastService.setToast({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Carrito actualizado correctamente'
+          })
+          cart.amount = cart.amount + 1;
+        }
+      });
+  }
+  onRestarCarrito(cart: ICart) {
+    this.onLoadingCart = true;
+    this._cartService.create({ body: { productId: cart.productId, amount: -1 } })
+      .pipe(
+        finalize(() => this.onLoadingCart = false)
+      )
+      .subscribe({
+        next: (data) => {
+          if (!data.success) {
+            this._toastService.setToast({
+              severity: 'error',
+              summary: 'Error',
+              detail: data.message || 'Error al actualizar el carrito'
+            })
+            return;
+          }
+          this._toastService.setToast({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Carrito actualizado correctamente'
+          })
+          cart.amount = cart.amount - 1 <= 0 ? 1 : cart.amount - 1;
+        }
+      });
+
+
+  }
+
   submitPurchase() {
     if (this.checkoutForm.invalid || this.purchasing) {
       this.checkoutForm.markAllAsTouched();
