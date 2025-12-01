@@ -28,7 +28,7 @@ export class PublicProductsComponent implements OnInit {
   private readonly _wishlistService = inject(WishlistService);
 
   private readonly _userStateService = inject(UserStateService);
-  isAuthenticated = this._userStateService.isAuthenticated();
+  isAuthenticated = this._userStateService.isAuthenticated;
 
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _toastState = inject(ToastStateService);
@@ -92,7 +92,7 @@ export class PublicProductsComponent implements OnInit {
   }
 
   onAgregarCarrito(product: IProduct) {
-    if (this.isAuthenticated) {
+    if (this.isAuthenticated()) {
       this._cartService
         .create({ body: { productId: product.id, amount: 1 } })
         .subscribe({
@@ -116,7 +116,7 @@ export class PublicProductsComponent implements OnInit {
   }
 
   onAgregarWishList(product: IProduct) {
-    if (this.isAuthenticated) {
+    if (this.isAuthenticated()) {
       this._wishlistService
         .create({ body: { productId: product.id } })
         .subscribe({
@@ -169,8 +169,16 @@ export class PublicProductsComponent implements OnInit {
       .pipe(finalize(() => this.loadingProducts.set(false)))
       .subscribe({
         next: (response) => {
-          this.products.set(response.data.content.filter((p) => !p.eliminado));
-          this.count = response.data.totalItems;
+          const visibleProducts = response.data.content.filter(
+            (p) => !p.eliminado
+          );
+
+          this.products.set(visibleProducts);
+
+          const eliminatedOnPage =
+            response.data.content.length - visibleProducts.length;
+          const totalFromApi = response.data.totalItems ?? visibleProducts.length;
+          this.count = Math.max(totalFromApi - eliminatedOnPage, visibleProducts.length);
         },
       });
   }

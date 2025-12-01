@@ -165,7 +165,7 @@
             @if (count > 0) {
             <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-2">
               <div class="text-sm text-gray-600">
-                Mostrando {{ showingCount }} de {{ (page() + 1) * size }}
+                Mostrando {{ showingCount }} de {{ count }}
               </div>
               <p-paginator
                 [rows]="size"
@@ -188,6 +188,6 @@
   [productId]="selectedProduct()?.id ?? null"
   [productName]="selectedProduct()?.name"
   [visible]="showReviews()"
-  [canReview]="selectedProduct()?.hasPermission ?? false"
+  [canReview]="isAuthenticated()"
   (close)="closeReviews()"
 ></app-review-products>

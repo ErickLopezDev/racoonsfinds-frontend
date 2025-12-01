@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, signal } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject, signal } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { Button } from 'primeng/button';
 import { Skeleton } from 'primeng/skeleton';
@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { IReview } from '../../../models/review.model';
 import { ReviewService } from '../../../services/review.service';
 import { finalize } from 'rxjs';
+import { Router } from '@angular/router';
+import { ToastStateService } from '../../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-review-products',
@@ -28,6 +30,9 @@ export class ReviewProductsComponent implements OnChanges {
   newStars: number = 0;
   showForm = signal<boolean>(false);
   permissionNotice = signal<boolean>(false);
+
+  private readonly _router = inject(Router);
+  private readonly _toastState = inject(ToastStateService);
 
   constructor(private readonly _reviewService: ReviewService) {}
 
@@ -58,7 +63,7 @@ export class ReviewProductsComponent implements OnChanges {
       this.permissionNotice.set(false);
       this.showForm.set(true);
     } else {
-      this.permissionNotice.set(true);
+      this.handleAuthRequired();
     }
   }
 
@@ -81,6 +86,13 @@ export class ReviewProductsComponent implements OnChanges {
             this.showForm.set(false);
           }
         },
+        error: (error) => {
+          if (error?.status === 400 || error?.status === 401) {
+            this.handleAuthRequired();
+            return;
+          }
+          this.permissionNotice.set(true);
+        },
       });
   }
 
@@ -100,5 +112,16 @@ export class ReviewProductsComponent implements OnChanges {
     this.permissionNotice.set(false);
     this.newComment = '';
     this.newStars = 0;
+  }
+
+  private handleAuthRequired() {
+    this.permissionNotice.set(true);
+    this._toastState.setToast({
+      severity: 'warn',
+      summary: 'Inicia sesión',
+      detail: 'Para comentar debes iniciar sesión.',
+      life: 3000,
+    });
+    this._router.navigate(['/auth']);
   }
 }
