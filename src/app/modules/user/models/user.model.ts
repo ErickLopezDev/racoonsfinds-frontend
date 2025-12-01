@@ -23,4 +23,6 @@ export interface IUserPutDto {
     imageUrl: string
 }
 
+export type IUserDeleteResponse = IApiResponse<{}>
+
 
