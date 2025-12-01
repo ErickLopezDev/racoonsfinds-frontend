@@ -28,7 +28,7 @@ export class PurchasesHistoryComponent {
 
   visibleCount = 3;
   get visiblePurchases(): IPurcharse[] {
-    return this.purchases.slice(0, this.visibleCount);
+    return this.purchases
   }
   constructor() {
     this.setPurchases();

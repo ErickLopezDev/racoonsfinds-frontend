@@ -59,7 +59,7 @@ export class SalesHistoryComponent {
 
   visibleCount = 3;
   get visibleSales(): IPurcharse[] {
-    return this.sales.slice(0, this.visibleCount);
+    return this.sales
   }
 
   showMore() {
