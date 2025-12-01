@@ -1,0 +1,35 @@
+<p-dialog
+  header="Eliminar cuenta"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="false"
+  [visible]="visible"
+  (onHide)="hide()"
+  styleClass="w-full md:w-[480px]"
+>
+  <div class="flex flex-col gap-4">
+    <p class="text-gray-700">
+      ¿Estás seguro de eliminar tu cuenta? Perderás acceso a tus compras, ventas y preferencias.
+    </p>
+    <p class="text-sm text-gray-500">
+      Si eliminas tu cuenta, no podrás volver a iniciar sesión con este correo.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-2 justify-end">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="hide()"
+        [disabled]="deleting"
+      ></p-button>
+      <p-button
+        label="Eliminar definitivamente"
+        severity="danger"
+        icon="pi pi-trash"
+        (onClick)="confirmDelete()"
+        [loading]="deleting"
+      ></p-button>
+    </div>
+  </div>
+</p-dialog>
