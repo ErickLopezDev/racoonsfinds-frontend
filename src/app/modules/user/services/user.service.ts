@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiUtilService } from '@utils/api-util.service';
 import { Observable } from 'rxjs';
-import { IUserMeResponse, IUserPutBodyReq, IUserPutQueryReq, IUserPutResponse } from '../models/user.model';
+import { IUserDeleteResponse, IUserMeResponse, IUserPutBodyReq, IUserPutQueryReq, IUserPutResponse } from '../models/user.model';
 import { USER_API_ROUTES } from './user-api.routes';
 
 @Injectable({
@@ -23,6 +23,11 @@ export class UserService extends ApiUtilService {
     const body = this.transformToFormData(value.body);
 
     return this.http.put<IUserPutResponse>(url, body);
+  }
+
+  deleteUser(): Observable<IUserDeleteResponse> {
+    const url = this.buildApiUrl({ endpoint: USER_API_ROUTES.delete });
+    return this.http.delete<IUserDeleteResponse>(url);
   }
 
 }
