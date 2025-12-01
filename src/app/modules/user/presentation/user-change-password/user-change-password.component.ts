@@ -7,11 +7,11 @@ import { MenuItem } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
-import { ToastStateService } from '../../../../../shared/services/toast.service';
-import { AuthService } from '../../../../../core/auth/config/services/auth.service';
-import { UserStateService } from '../../../../../shared/services/user-state.service';
-import { IChangePasswordRes, IForgetPasswordRes } from '../../../../../core/auth/config/services/auth.model';
 import { finalize } from 'rxjs';
+import { ToastStateService } from '../../../../shared/services/toast.service';
+import { AuthService } from '../../../../core/auth/config/services/auth.service';
+import { UserStateService } from '../../../../shared/services/user-state.service';
+import { IChangePasswordRes, IForgetPasswordRes } from '../../../../core/auth/config/services/auth.model';
 
 @Component({
   selector: 'app-user-change-password',
