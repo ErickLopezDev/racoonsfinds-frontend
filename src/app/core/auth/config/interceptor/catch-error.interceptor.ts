@@ -21,6 +21,12 @@ export const catchErrorInterceptor: HttpInterceptorFn = (req, next) => {
           break;
 
         case 404:
+
+          if (error.error?.message) {
+            messageService.setToast({ severity: 'error', summary: 'Recurso no encontrado', detail: error.error.message, life: 6000 });
+            break;
+          }
+
           messageService.setToast({ severity: 'error', summary: 'Recurso no encontrado', detail: 'El recurso solicitado no existe o no está disponible', life: 6000 });
           break;
 
