@@ -1,84 +1,88 @@
-<div class="mb-3">
+<div class="w-full h-full">
+  <div class="flex flex-col h-full w-full gap-3">
     <p-card>
-        <p-breadcrumb [model]="breadCrumb" />
+      <p-breadcrumb [model]="breadCrumb" />
     </p-card>
-</div>
 
+    <p-toast></p-toast>
 
-<p-toast></p-toast>
+    <div class="w-full h-[calc(100%-70px)]">
+      <p-card>
+        <div class="h-full w-full overflow-y-auto">
+          <div class="shadow-lg border border-gray-300 rounded-lg">
 
-<p-card>
-  <p-table
-    [value]="visibleSales"
-    dataKey="id"
-    [expandedRowKeys]="expandedRows"
-    (onRowExpand)="onRowExpand($event)"
-    (onRowCollapse)="onRowCollapse($event)"
-  >
-    <ng-template #caption>
-      <div class="flex flex-wrap justify-end gap-2">
-        <p-button label="Expandir todo" icon="pi pi-plus" text (onClick)="expandAll()" />
-        <p-button label="Contraer todo" icon="pi pi-minus" text (onClick)="collapseAll()" />
-      </div>
-    </ng-template>
+            <p-table [value]="visibleSales" dataKey="id" [expandedRowKeys]="expandedRows"
+              (onRowExpand)="onRowExpand($event)" (onRowCollapse)="onRowCollapse($event)">
+              <ng-template #caption>
+                <div class="flex flex-wrap justify-end gap-2">
+                  <p-button label="Expandir todo" icon="pi pi-plus" text (onClick)="expandAll()" />
+                  <p-button label="Contraer todo" icon="pi pi-minus" text (onClick)="collapseAll()" />
+                </div>
+              </ng-template>
 
-    <ng-template #header>
-      <tr>
-        <th scope="col" style="width: 5rem"></th>
-        <th scope="col">Fecha</th>
-        <th scope="col">Descripción</th>
-        <th scope="col" class="text-right">Total</th>
-      </tr>
-    </ng-template>
-
-    <ng-template #body let-sale let-expanded="expanded">
-      <tr>
-        <td>
-          <p-button type="button" pRipple [pRowToggler]="sale" [text]="true" severity="secondary" [rounded]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
-        </td>
-        <td>{{ sale.date }}</td>
-        <td>{{ sale.description }}</td>
-        <td class="text-right">{{ sale.monto | currency: 'S/.' }}</td>
-      </tr>
-    </ng-template>
-
-    <ng-template #expandedrow let-sale>
-      <tr>
-        <td colspan="4">
-          <div class="p-4">
-            <h5>Detalles</h5>
-            <p-table [value]="sale.details" dataKey="id">
               <ng-template #header>
                 <tr>
-                  <th scope="col">Producto</th>
-                  <th scope="col" class="text-right">Cantidad</th>
-                  <th scope="col" class="text-right">Precio</th>
-                  <th scope="col" class="text-right">Subtotal</th>
+                  <th scope="col" style="width: 5rem"></th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col" class="text-right">Total</th>
                 </tr>
               </ng-template>
-              <ng-template #body let-d>
+
+              <ng-template #body let-sale let-expanded="expanded">
                 <tr>
-                  <td>{{ d.productName }}</td>
-                  <td class="text-right">{{ d.amount }}</td>
-                  <td class="text-right">{{ d.monto | currency: 'S/.' }}</td>
-                  <td class="text-right">{{ (d.monto * d.amount) | currency: 'S/.' }}</td>
+                  <td>
+                    <p-button type="button" pRipple [pRowToggler]="sale" [text]="true" severity="secondary"
+                      [rounded]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+                  </td>
+                  <td>{{ sale.date }}</td>
+                  <td class="text-right">{{ sale.monto | currency: 'S/.' }}</td>
                 </tr>
               </ng-template>
+
+              <ng-template #expandedrow let-sale>
+                <tr>
+                  <td colspan="4">
+                    <div class="flex mb-1 justify-start">
+                      <h5 class="font-bold bg-gray-100 rounded-md p-2 px-5 w-auto">Detalles</h5>
+                    </div>
+                    <div class="p-1 shadow-lg border border-gray-300 rounded-lg">
+                      <p-table [value]="sale.details" dataKey="id">
+                        <ng-template #header>
+                          <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col" class="text-right">Cantidad</th>
+                            <th scope="col" class="text-right">Precio</th>
+                            <th scope="col" class="text-right">Subtotal</th>
+                          </tr>
+                        </ng-template>
+                        <ng-template #body let-d>
+                          <tr>
+                            <td>{{ d.productName }}</td>
+                            <td class="text-right">{{ d.amount }}</td>
+                            <td class="text-right">{{ d.monto | currency: 'S/.' }}</td>
+                            <td class="text-right">{{ (d.monto * d.amount) | currency: 'S/.' }}</td>
+                          </tr>
+                        </ng-template>
+                        <ng-template #emptymessage>
+                          <tr>
+                            <td colspan="4">Sin detalles.</td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+
               <ng-template #emptymessage>
                 <tr>
-                  <td colspan="4">Sin detalles.</td>
+                  <td colspan="4">Sin ventas.</td>
                 </tr>
               </ng-template>
             </p-table>
           </div>
-        </td>
-      </tr>
-    </ng-template>
-
-    <ng-template #emptymessage>
-      <tr>
-        <td colspan="4">Sin ventas.</td>
-      </tr>
-    </ng-template>
-  </p-table>
-</p-card>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>

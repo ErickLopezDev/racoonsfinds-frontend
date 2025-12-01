@@ -12,7 +12,7 @@
       </p-card>
     </div>
 
-    <div class="w-full h-full">
+    <div class="w-full h-[calc(100%-64px)]">
       <p-card>
         <div class="h-full w-full overflow-y-auto">
           <div class="shadow-lg border border-gray-300 rounded-lg">
@@ -35,7 +35,6 @@
                 <tr>
                   <th scope="col" style="width: 5rem"></th>
                   <th scope="col">Fecha</th>
-                  <th scope="col">Descripciónn</th>
                   <th scope="col" class="text-right">Total</th>
                 </tr>
               </ng-template>
@@ -46,7 +45,6 @@
                     <p-button type="button" [pRowToggler]="purchase" [text]="true" severity="secondary" [rounded]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
                   </td>
                   <td>{{ purchase.date }}</td>
-                  <td>{{ purchase.description }}</td>
                   <td class="text-right">{{ purchase.monto | currency: 'S/.' }}</td>
                 </tr>
               </ng-template>
@@ -54,9 +52,11 @@
               <ng-template #expandedrow let-purchase>
                 <tr>
                   <td colspan="4">
-                    <div class="p-4">
-                      <h5 class="font-bold">Detalles</h5>
-                      <p-table [value]="purchase.details" dataKey="id">
+                    <div class="flex mb-1 justify-start">
+                      <h5 class="font-bold bg-gray-100 rounded-md p-2 px-5 w-auto">Detalles</h5>
+                    </div>
+                    <div class="p-1 shadow-lg border border-gray-300 rounded-lg">
+                      <p-table [value]="purchase.details" class="" dataKey="id">
                         <ng-template #header>
                           <tr>
                             <th scope="col">Producto</th>
