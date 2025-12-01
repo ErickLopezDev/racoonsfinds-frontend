@@ -16,7 +16,7 @@ import { loginGuard } from './core/auth/config/guards/login.guard';
 import { HelpComponent } from './modules/help/presentation/help/help.component';
 
 export const routes: Routes = [
-    { path: 'auth', component: AuthLayoutComponent, children: AUTH_ROUTES, canActivateChild: [loginGuard] },
+    { path: 'auth', component: AuthLayoutComponent, children: AUTH_ROUTES },
     {
         path: '', component: ClientLayoutComponent, children: [
             {

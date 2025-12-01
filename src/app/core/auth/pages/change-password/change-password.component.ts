@@ -38,6 +38,7 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit(): void {
     this.token = this._route.snapshot.queryParamMap.get('token') || '';
     if (!this.token) {
+      this.form.disable();
       this._toast.setToast({
         severity: 'warn',
         summary: 'Enlace inválido',
