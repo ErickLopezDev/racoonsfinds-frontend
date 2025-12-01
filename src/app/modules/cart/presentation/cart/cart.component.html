@@ -29,17 +29,21 @@
                             <div class="flex-1">
                                 <h4 class="font-medium text-xl">{{ item.productName }}</h4>
                                 <p class="font-medium text-[15px] text-gray-500">S/ {{ item.productPrice | number:'1.2-2' }}</p>
-                                <p class="font-medium text-[15px] text-gray-500">Cantidad: {{ item.amount }}</p>
+                                <p class="font-medium text-[15px] text-gray-500">Cantidad: {{ item.stock }}</p>
                             </div>
 
                             <div class="flex flex-col w-[135px] justify-between">
-                                <p-inputnumber [(ngModel)]="item.amount" [showButtons]="true" buttonLayout="horizontal" class="text-center"
+                                <p-inputnumber [(ngModel)]="item.amount" [readonly]="true" [showButtons]="true" buttonLayout="horizontal" class="text-center"
                                     [min]="1" [max]="999" [inputId]="'horizontal-' + item.id" spinnerMode="horizontal" fluid>
                                     <ng-template #incrementbuttonicon>
-                                        <span class="pi pi-plus"></span>
+                                        <button [disabled]="onLoadingCart" class="disabled:cursor-not-allowed" (click)="onSumarCarrito(item)">
+                                            <span class="pi pi-plus"></span>
+                                        </button>
                                     </ng-template>
                                     <ng-template #decrementbuttonicon>
-                                        <span class="pi pi-minus"></span>
+                                        <button [disabled]="onLoadingCart" class="disabled:cursor-not-allowed" (click)="onRestarCarrito(item)">
+                                            <span class="pi pi-minus"></span>
+                                        </button>
                                     </ng-template>
                                 </p-inputnumber>
 

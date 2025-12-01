@@ -8,6 +8,7 @@ export interface ICart{
     productName: string,
     productImage: string,
     productPrice: number,
+    stock: number,
     amount: number
 }
 
