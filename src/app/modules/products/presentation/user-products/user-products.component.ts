@@ -20,6 +20,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastStateService } from '../../../../shared/services/toast.service';
+import { ReviewProductsComponent } from "../review-products/review-products/review-products.component";
+import { UserStateService } from '../../../../shared/services/user-state.service';
 
 @Component({
   selector: 'app-user-products',
@@ -33,6 +35,7 @@ import { ToastStateService } from '../../../../shared/services/toast.service';
     Button,
     DialogComponent,
     ReactiveFormsModule,
+    ReviewProductsComponent
   ],
   templateUrl: './user-products.component.html',
   styleUrl: './user-products.component.css',
@@ -53,6 +56,11 @@ export class UserProductsComponent implements OnInit {
   first: number = 0;
   items: MenuItem[] = [{ label: 'Publicaciones', icon: 'pi pi-bookmark' }];
   rows: number = 12;
+  selectedProduct = signal<IProduct | null>(null);
+  showReviews = signal<boolean>(false);
+
+  private readonly _userStateService = inject(UserStateService);
+  isAuthenticated = this._userStateService.isAuthenticated;
 
   form: FormGroup = this._formBuilder.group({
     categoryId: [null, [Validators.required]],
@@ -106,6 +114,15 @@ export class UserProductsComponent implements OnInit {
 
   onVender() {
     this._Route.navigate(['/dash/products/sell']);
+  }
+
+  closeReviews() {
+    this.showReviews.set(false);
+  }
+
+    openReviews(product: IProduct) {
+    this.selectedProduct.set(product);
+    this.showReviews.set(true);
   }
 
   onUpdateProduct(id: number) {

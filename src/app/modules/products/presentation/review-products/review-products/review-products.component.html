@@ -17,16 +17,18 @@
 
     <div class="flex justify-between items-center">
       <span class="text-sm font-semibold text-gray-700">Reseñas</span>
-      <p-button
-        label="Escribir reseña"
-        icon="pi pi-pencil"
-        [outlined]="true"
-        size="small"
-        (onClick)="startReview()"
-      ></p-button>
+      @if(showEditPreview){
+        <p-button
+          label="Escribir reseña"
+          icon="pi pi-pencil"
+          [outlined]="true"
+          size="small"
+          (onClick)="startReview()"
+        ></p-button>
+      }
     </div>
 
-    @if (showForm() && canReview) {
+    @if (showForm() && canReview && showEditPreview) {
       <div class="flex flex-col gap-2">
         <label class="text-sm font-semibold text-gray-700">Califica y comenta</label>
         <p-rating [(ngModel)]="newStars"></p-rating>

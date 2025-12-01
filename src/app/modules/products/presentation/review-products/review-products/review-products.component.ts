@@ -21,6 +21,7 @@ export class ReviewProductsComponent implements OnChanges {
   @Input() productName: string | undefined;
   @Input() visible: boolean = false;
   @Input() canReview: boolean = false;
+  @Input() showEditPreview: boolean = true;
   @Output() close = new EventEmitter<void>();
 
   reviews = signal<IReview[]>([]);

@@ -6,22 +6,16 @@
                 <form [formGroup]="form" class="w-full h-full flex items-center gap-5">
                     <p-breadcrumb [model]="items" />
 
-                    <input type="text" formControlName="search" pInputText placeholder="Buscar por nombre" class="flex-1" />
+                    <input type="text" formControlName="search" pInputText placeholder="Buscar por nombre"
+                        class="flex-1" />
 
-                    <p-select [options]="categories()" formControlName="categoryId" optionValue="id" optionLabel="name" placeholder="Categoria" class="w-[170px]" />
+                    <p-select [options]="categories()" formControlName="categoryId" optionValue="id" optionLabel="name"
+                        placeholder="Categoria" class="w-[170px]" />
 
                     <div class="flex gap-2">
-                        <p-button
-                            label="Buscar"
-                            icon="pi pi-search"
-                            (onClick)="getProducts()"
-                            (keydown.enter)="getProducts()"
-                            class="p-button-outlined"></p-button>
-                        <p-button
-                            label="Vender"
-                            severity="success"
-                            (onClick)="onVender()"
-                            (keydown.enter)="onVender()"
+                        <p-button label="Buscar" icon="pi pi-search" (onClick)="getProducts()"
+                            (keydown.enter)="getProducts()" class="p-button-outlined"></p-button>
+                        <p-button label="Vender" severity="success" (onClick)="onVender()" (keydown.enter)="onVender()"
                             class="p-button-outlined"></p-button>
                     </div>
 
@@ -30,59 +24,59 @@
         </div>
 
         <div class="flex-1 w-full overflow-y-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full pb-1 gap-3">
                 @for (product of products(); track $index) {
-                    <div class="flex-1 h-[140px]">
-                        <p-card>
-                            <div class="flex w-full gap-3 h-[100px]">
-                                <img src="{{product.image ? product.image : 'assets/image-not-found.svg'}}" class="w-[160px] h-full" alt="{{product.name}}" />
-        
-                                <div class="flex-1">
-                                    <h4 class="font-medium text-xl">{{product.name}}</h4>
-                                    <p class="font-medium text-[15px] text-gray-500">{{product.description}}</p>
-                                    <p class="font-medium text-[15px] text-gray-500">S/ {{product.price}}</p>
-                                    <div class="flex items-center gap-2 text-[14px] text-gray-500">
-                                        <i class="pi pi-star-fill text-yellow-500 text-[12px]"></i>
-                                        <span class="font-semibold text-gray-700">{{product.averageRating ?? 0}}</span>
-                                        <span>({{product.reviewCount ?? 0}} reseñas)</span>
-                                    </div>
-                                    <div class="flex items-center gap-2 text-[14px] text-gray-600">
-                                        @if (product.userImage) {
-                                            <img src="{{product.userImage}}" alt="{{product.userName}}" class="w-6 h-6 rounded-full object-cover" />
-                                        } @else {
-                                            <i class="pi pi-user text-gray-500 text-[14px]"></i>
-                                        }
-                                        <span class="font-medium">{{product.userName}}</span>
-                                    </div>
-                                    <p class="font-medium text-[15px] text-gray-500">Cantidad: {{product.stock}}</p>
+                <div class="flex-1 h-[150px]">
+                    <p-card>
+                        <div class="flex w-full gap-3 h-[100px]">
+                            <img src="{{product.image ? product.image : 'assets/image-not-found.svg'}}"
+                                class="w-[160px] h-full" alt="{{product.name}}" />
+
+                            <div class="flex-1">
+                                <h4 class="font-medium text-xl line-clamp-1">{{product.name}}</h4>
+                                <p class="font-medium text-[15px] text-gray-500">S/ {{product.price}}</p>
+                                <div class="flex items-center gap-2 text-[14px] text-gray-500">
+                                    <i class="pi pi-star-fill text-yellow-500 text-[12px]"></i>
+                                    <span class="font-semibold text-gray-700">{{product.averageRating ?? 0}}</span>
+                                    <span>({{product.reviewCount ?? 0}} reseñas)</span>
                                 </div>
-        
-                                <div class="flex flex-col justify-between">
-                                    <p-button
-                                        (click)="onUpdateProduct(product.id)"
-                                        (keydown.enter)="onUpdateProduct(product.id)"
-                                        icon="pi pi-pencil"></p-button>
-                                    <p-button
-                                        (click)="openDeleteDialog(product)"
-                                        (keydown.enter)="openDeleteDialog(product)"
-                                        severity="danger"
-                                        icon="pi pi-trash"></p-button>
-                                </div>
-        
+                                <p class="font-medium text-[15px] text-gray-500">Cantidad: {{product.stock}}</p>
                             </div>
-                        </p-card>
-                    </div>
+
+                            <div class="flex flex-col h-full gap-1 justify-between">
+                                <p-button size="small" (click)="onUpdateProduct(product.id)"
+                                    (keydown.enter)="onUpdateProduct(product.id)" icon="pi pi-pencil"></p-button>
+                                <p-button size="small" (click)="openDeleteDialog(product)"
+                                    (keydown.enter)="openDeleteDialog(product)" severity="danger"
+                                    icon="pi pi-trash"></p-button>
+                                <p-button size="small" [outlined]="true" severity="secondary"
+                                    (click)="openReviews(product)" (keydown.enter)="openReviews(product)"
+                                    icon="pi pi-comments"></p-button>
+                            </div>
+
+                        </div>
+                    </p-card>
+                </div>
                 }
-            </div>            
+            </div>
         </div>
 
         <div class="w-full flex justify-end">
-            <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="products().length"
-                [showCurrentPageReport]="true" [showPageLinks]="false" [showJumpToPageDropdown]="false"
-                currentPageReportTemplate="Mostrando {last} de {totalRecords}" />
+            <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
+                [totalRecords]="products().length" [showCurrentPageReport]="true" [showPageLinks]="false"
+                [showJumpToPageDropdown]="false" currentPageReportTemplate="Mostrando {last} de {totalRecords}" />
         </div>
     </div>
 
 </div>
 
 <app-dialog></app-dialog>
+
+<app-review-products
+  [productId]="selectedProduct()?.id ?? null"
+  [productName]="selectedProduct()?.name"
+  [visible]="showReviews()"
+  [canReview]="false"
+  [showEditPreview]="false"
+  (close)="closeReviews()"
+></app-review-products>
