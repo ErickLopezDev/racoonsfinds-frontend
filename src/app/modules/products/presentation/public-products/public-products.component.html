@@ -136,7 +136,7 @@
                     icon="pi pi-comments"
                   ></p-button>
                   <p-button
-                    [label]="isOwnProduct(product) ? 'Es tu producto' : 'A?adir al carrito'"
+                    [label]="isOwnProduct(product) ? 'Es tu producto' : 'Añadir al carrito'"
                     (click)="onAgregarCarrito(product)"
                     (keydown.enter)="onAgregarCarrito(product)"
                     [disabled]="isOwnProduct(product)"
