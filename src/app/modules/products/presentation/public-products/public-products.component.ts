@@ -1,8 +1,8 @@
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { CategoryStateService } from '../../../../shared/services/category.service';
-import { Button } from 'primeng/button';
-import { Skeleton } from 'primeng/skeleton';
+import { ButtonModule } from 'primeng/button';
+import { SkeletonModule } from 'primeng/skeleton';
 import { ActivatedRoute } from '@angular/router';
 import { IProduct, IProductGetQueryRquest } from '../../models/products.model';
 import { ProductService } from '../../services/product.service';
@@ -16,7 +16,7 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-public-products',
-  imports: [CardModule, Button, Skeleton, ReviewProductsComponent, PaginatorModule],
+  imports: [CardModule, ButtonModule, SkeletonModule, ReviewProductsComponent, PaginatorModule],
   templateUrl: './public-products.component.html',
   styleUrl: './public-products.component.css',
 })
@@ -29,6 +29,7 @@ export class PublicProductsComponent implements OnInit {
 
   private readonly _userStateService = inject(UserStateService);
   isAuthenticated = this._userStateService.isAuthenticated;
+  currentUserId = this._userStateService.user;
 
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _toastState = inject(ToastStateService);
@@ -92,6 +93,15 @@ export class PublicProductsComponent implements OnInit {
   }
 
   onAgregarCarrito(product: IProduct) {
+    if (this.isOwnProduct(product)) {
+      this._toastState.setToast({
+        severity: 'warn',
+        summary: 'No permitido',
+        detail: 'No puedes comprar tu propio producto.',
+      });
+      return;
+    }
+
     if (this.isAuthenticated()) {
       this._cartService
         .create({ body: { productId: product.id, amount: 1 } })
@@ -194,5 +204,11 @@ export class PublicProductsComponent implements OnInit {
 
   closeReviews() {
     this.showReviews.set(false);
+  }
+
+  isOwnProduct(product: IProduct): boolean {
+    const userId = this.currentUserId();
+    if (userId === null || userId === undefined) return false;
+    return product.userId === userId;
   }
 }

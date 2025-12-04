@@ -41,8 +41,19 @@
                                         </fieldset>
         
                                         <p-iftalabel>
-                                            <p-inputnumber fluid formControlName="price_input" inputId="price_input" prefix="S/."
-                                                locale="en-US" />
+                                            <p-inputnumber
+                                                fluid
+                                            formControlName="price_input"
+                                            inputId="price_input"
+                                            prefix="S/ "
+                                            mode="decimal"
+                                            locale="es-ES"
+                                            [min]="1"
+                                            [max]="50000"
+                                            [step]="0.1"
+                                            [minFractionDigits]="0"
+                                            [maxFractionDigits]="2"
+                                            [useGrouping]="false" />
                                             <label for="price_input">Precio</label>
                                         </p-iftalabel>
         
@@ -78,7 +89,7 @@
                                         <input style="display: none;" class="form-control" accept="image/*" #imageUserUploader
                                             type="file" multiple (change)="uploadimage($event)">
                                         <p class="bg-yellow-100 border-l-[6px] px-3 py-2 border-l-yellow-300">
-                                            Sube como minimouna imagen y como maximo cuatro imagenes
+                                            Sube como mínimo una imagen y como máximo cuatro imagenes.
                                         </p>
         
                                         <p-button

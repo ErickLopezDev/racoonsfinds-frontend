@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject, signal } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
-import { Button } from 'primeng/button';
-import { Skeleton } from 'primeng/skeleton';
+import { ButtonModule } from 'primeng/button';
+import { SkeletonModule } from 'primeng/skeleton';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { IReview } from '../../../models/review.model';
@@ -12,7 +12,7 @@ import { ToastStateService } from '../../../../../shared/services/toast.service'
 
 @Component({
   selector: 'app-review-products',
-  imports: [DialogModule, Button, Skeleton, RatingModule, FormsModule],
+  imports: [DialogModule, ButtonModule, SkeletonModule, RatingModule, FormsModule],
   templateUrl: './review-products.component.html',
   styleUrl: './review-products.component.css'
 })

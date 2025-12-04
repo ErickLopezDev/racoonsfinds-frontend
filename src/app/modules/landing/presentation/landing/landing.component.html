@@ -30,6 +30,86 @@
   </div>
 </section>
 
+<!-- Featured Products Section -->
+<section class="py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+      <div>
+        <p class="text-sm uppercase tracking-[0.2em] text-blue-600 font-semibold mb-2">Descubre</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Productos</h2>
+        <p class="text-gray-600 max-w-2xl">Mira lo ultimo publicado por la comunidad.</p>
+      </div>
+      <a routerLink="/products" class="inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+        Ver todos los productos
+        <i class="pi pi-arrow-right ml-2 text-sm"></i>
+      </a>
+    </div>
+
+    @if (loadingFeatured()) {
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        @for (item of skeletonCards; track $index) {
+        <div class="bg-white rounded-2xl shadow-md p-5 animate-pulse border border-gray-100">
+          <div class="h-44 bg-gray-200 rounded-xl mb-4"></div>
+          <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+          <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+        </div>
+        }
+      </div>
+    } @else {
+      @if (featuredProducts().length === 0) {
+        <div class="bg-white border border-dashed border-gray-200 rounded-2xl p-10 text-center text-gray-600 shadow-sm">
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Aun no hay productos listos</h3>
+          <p>Cuando se publiquen apareceran aqui mismo.</p>
+          <a routerLink="/dash/products/sell" class="inline-flex items-center justify-center mt-4 text-blue-600 font-semibold hover:text-blue-700">
+            Publica el primero
+            <i class="pi pi-arrow-up-right ml-2 text-sm"></i>
+          </a>
+        </div>
+      } @else {
+        <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          @for (product of featuredProducts(); track product.id) {
+          <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 hover:-translate-y-2 transition transform duration-200">
+            <div class="relative">
+              <img
+                [src]="product.image || product.imageUrl || 'assets/image-not-found.svg'"
+                [alt]="product.name"
+                class="w-full h-48 object-cover"
+              />
+              <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-blue-700 font-semibold shadow">
+                S/ {{ product.price }}
+              </div>
+            </div>
+            <div class="p-5 flex flex-col gap-3">
+              <div class="flex flex-wrap gap-2 text-xs">
+                <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-full font-semibold">{{ product.categoryName || 'Categoria' }}</span>
+                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full font-semibold">Stock: {{ product.stock }}</span>
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800 line-clamp-1">{{ product.name }}</h3>
+              <p class="text-gray-600 text-sm line-clamp-2">{{ product.description }}</p>
+              <div class="flex items-center justify-between text-sm text-gray-500">
+                <div class="flex items-center gap-2">
+                  @if (product.userImage) {
+                  <img [src]="product.userImage" [alt]="product.userName" class="w-8 h-8 rounded-full object-cover">
+                  } @else {
+              <span class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-semibold">{{ product.userName ? product.userName.charAt(0) : 'U' }}</span>
+                  }
+                  <span class="font-semibold text-gray-700">{{ product.userName }}</span>
+                </div>
+                <div class="flex items-center gap-1 text-yellow-500">
+                  <i class="pi pi-star-fill text-sm"></i>
+                  <span class="text-gray-800 font-semibold">{{ product.averageRating ?? 0 }}</span>
+                  <span class="text-gray-500">({{ product.reviewCount ?? 0 }})</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      }
+    }
+  </div>
+</section>
+
 <!-- Features Section -->
 <section class="py-20 bg-white">
   <div class="container mx-auto px-4">

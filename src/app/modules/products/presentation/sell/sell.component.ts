@@ -49,7 +49,7 @@ export class SellComponent implements OnInit {
   updateUpload: boolean = true
   form: FormGroup = this._formBuilder.group({
     name: ['', [Validators.required, Validators.maxLength(100)]],
-    price_input: ['', [Validators.required, Validators.min(1)]],
+    price_input: ['', [Validators.required, Validators.min(1), Validators.max(50000)]],
     quantity: ['', [Validators.required, Validators.min(1)]],
     description: ['', [Validators.required, Validators.maxLength(500)]],
     category: ['', [Validators.required]],
